@@ -1,6 +1,6 @@
-workspace "RenderPlayground"
+workspace "OpenGLRenderer"
 	architecture "x64"
-	startproject "RenderPlayground"
+	startproject "OpenGLRenderer"
 	configurations
 	{
 		"Debug",
@@ -10,26 +10,26 @@ workspace "RenderPlayground"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
-IncludeDir["GLFW"] = "RenderPlayground/vendor/GLFW/include"
-IncludeDir["GLM"] = "RenderPlayground/vendor/glm"
-IncludeDir["STB"] = "RenderPlayground/vendor/stb"
-IncludeDir["VULKAN"] = "RenderPlayground/vendor/Vulkan/Include"
-IncludeDir["TOL"] = "RenderPlayground/vendor/tinyobjloader"
-IncludeDir["Glad"] = "RenderPlayground/vendor/Glad/include"
+IncludeDir["GLFW"] = "OpenGLRenderer/vendor/GLFW/include"
+IncludeDir["GLM"] = "OpenGLRenderer/vendor/glm"
+IncludeDir["STB"] = "OpenGLRenderer/vendor/stb"
+IncludeDir["VULKAN"] = "OpenGLRenderer/vendor/Vulkan/Include"
+IncludeDir["TOL"] = "OpenGLRenderer/vendor/tinyobjloader"
+IncludeDir["Glad"] = "OpenGLRenderer/vendor/Glad/include"
 
 group "Dependencies"
-	include "RenderPlayground/vendor/GLFW"
-	include "RenderPlayground/vendor/Glad"
+	include "OpenGLRenderer/vendor/GLFW"
+	include "OpenGLRenderer/vendor/Glad"
 
 group ""
-project "RenderPlayground"
-	location "RenderPlayground"
+project "OpenGLRenderer"
+	location "OpenGLRenderer"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
 	pchheader "pch.h"
-	pchsource "RenderPlayground/src/pch.cpp"
+	pchsource "OpenGLRenderer/src/pch.cpp"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -51,11 +51,10 @@ project "RenderPlayground"
 	}
 	libdirs  
 	{ 
-		"RenderPlayground/vendor/Vulkan/Lib"
+		"OpenGLRenderer/vendor/Vulkan/Lib"
 	}
 	links
 	{
-		"vulkan-1.lib",
 		"Glad",
 		"GLFW",
 		"opengl32.lib",
