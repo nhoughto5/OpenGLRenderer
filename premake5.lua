@@ -10,15 +10,16 @@ workspace "RenderPlayground"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
-IncludeDir["GLFW"] = "RenderPlayground/ExternalResources/GLFW/include"
-IncludeDir["GLM"] = "RenderPlayground/ExternalResources/glm"
-IncludeDir["STB"] = "RenderPlayground/ExternalResources/stb"
-IncludeDir["VULKAN"] = "RenderPlayground/ExternalResources/Vulkan/Include"
-IncludeDir["TOL"] = "RenderPlayground/ExternalResources/tinyobjloader"
-IncludeDir["Glad"] = "RenderPlayground/ExternalResources/Glad/include"
+IncludeDir["GLFW"] = "RenderPlayground/vendor/GLFW/include"
+IncludeDir["GLM"] = "RenderPlayground/vendor/glm"
+IncludeDir["STB"] = "RenderPlayground/vendor/stb"
+IncludeDir["VULKAN"] = "RenderPlayground/vendor/Vulkan/Include"
+IncludeDir["TOL"] = "RenderPlayground/vendor/tinyobjloader"
+IncludeDir["Glad"] = "RenderPlayground/vendor/Glad/include"
 
 group "Dependencies"
-	include "RenderPlayground/ExternalResources/Glad"
+	include "RenderPlayground/vendor/GLFW"
+	include "RenderPlayground/vendor/Glad"
 
 group ""
 project "RenderPlayground"
@@ -50,14 +51,13 @@ project "RenderPlayground"
 	}
 	libdirs  
 	{ 
-		"RenderPlayground/ExternalResources/Vulkan/Lib",
-		"RenderPlayground/ExternalResources/GLFW/lib-vc2015"
+		"RenderPlayground/vendor/Vulkan/Lib"
 	}
 	links
 	{
 		"vulkan-1.lib",
 		"Glad",
-		"glfw3.lib",
+		"GLFW",
 		"opengl32.lib",
 	}
 

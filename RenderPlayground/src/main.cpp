@@ -1,22 +1,17 @@
 #include "pch.h"
-#include <glad/glad.h>
-#include <glfw3.h>
-#include <glm/glm.hpp>
+#include "Renderer.h"
 
 int main(void)
 {
-	const int HEIGHT = 600;
-	const int WIDTH = 800;
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
+	Renderer app;
+
+	try {
+		app.run();
 	}
-	glfwMakeContextCurrent(window);
-	glViewport(0, 0, WIDTH, HEIGHT);
-	while (true);
+	catch (const std::runtime_error& e) {
+		std::cerr << e.what() << std::endl;
+		return EXIT_FAILURE;
+	}
+
+	return 0;
 }
