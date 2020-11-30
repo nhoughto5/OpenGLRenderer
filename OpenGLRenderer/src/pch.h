@@ -12,6 +12,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <functional>
+#include <string>
+#include <fstream>
+#include <sstream>
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H
