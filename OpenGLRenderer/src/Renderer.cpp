@@ -1,44 +1,30 @@
 #include "pch.h"
 #include "Renderer.h"
 
-Renderer::Renderer()
+void Renderer::Init(uint32_t width, uint32_t height)
 {
-}
-
-
-Renderer::~Renderer()
-{
-
-}
-
-void Renderer::run()
-{
-	const int HEIGHT = 768;
-	const int WIDTH = 1024;
+	s_Width = width;
+	s_Height = height;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	m_Window = glfwCreateWindow(WIDTH, HEIGHT, "EA Render Playground", NULL, NULL);
-	if (m_Window == nullptr)
+	Renderer::s_Window = glfwCreateWindow(s_Width, s_Height, "OpenGL Playground", NULL, NULL);
+	if (Renderer::s_Window == nullptr)
 	{
 		Shutdown();
 		throw std::runtime_error("Failed to create GLFW window");
 	}
-	glfwMakeContextCurrent(m_Window);
+	glfwMakeContextCurrent(Renderer::s_Window);
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	assert(status, "Failed to load glad");
 	SetVSync(true);
-
-	while (m_Running) {
-		glClearColor((float)196/256, (float)196/256, (float)196/256, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
-		OnUpdate();
-	}
 }
 
-void Renderer::OnUpdate()
+void Renderer::Update()
 {
+	glClearColor((float)196 / 256, (float)196 / 256, (float)196 / 256, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glfwPollEvents();
-	glfwSwapBuffers(m_Window);
+	glfwSwapBuffers(Renderer::s_Window);
 }
 
 void Renderer::SetVSync(bool enabled)
@@ -48,15 +34,18 @@ void Renderer::SetVSync(bool enabled)
 	else
 		glfwSwapInterval(0);
 
-	m_Data.VSync = enabled;
+	s_Data.VSync = enabled;
 }
 
-bool Renderer::IsVSync() const
+bool Renderer::IsVSync()
 {
-	return m_Data.VSync;
+	return s_Data.VSync;
 }
 
 void Renderer::Shutdown()
 {
-	glfwDestroyWindow(m_Window);
+	glfwDestroyWindow(s_Window);
+}
+
+void Renderer::SetScreenSize(uint32_t width, uint32_t height) {
 }

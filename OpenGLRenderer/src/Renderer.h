@@ -5,17 +5,16 @@
 class Renderer
 {
 public:
-	Renderer();
-	~Renderer();
 
-	void run();
-	void OnUpdate();
-	void SetVSync(bool enabled);
-	bool IsVSync() const;
-	void Shutdown();
+	static void Init(uint32_t width, uint32_t height);
+	static void Update();
+	static void SetVSync(bool enabled);
+	static bool IsVSync();
+	static void Shutdown();
+	static void SetScreenSize(uint32_t width, uint32_t height);
 
 private:
-
+	static inline uint32_t s_Width, s_Height;
 	struct WindowData
 	{
 		std::string Title;
@@ -23,8 +22,8 @@ private:
 		bool VSync;
 	};
 
-	WindowData m_Data;
-	GLFWwindow* m_Window;
-	bool m_Running{ true };
+	static inline WindowData s_Data;
+	static inline GLFWwindow* s_Window;
+	static inline bool s_Running{ false };
 };
 

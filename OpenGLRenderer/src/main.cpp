@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "Renderer.h"
+#include "Application.h"
 
 int main(void)
 {
-	Renderer app;
+	Application app;
 
 	try {
-		app.run();
+		app.Run();
 	}
 	catch (const std::runtime_error& e) {
 		std::cerr << e.what() << std::endl;

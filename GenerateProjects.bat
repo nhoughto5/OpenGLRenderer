@@ -1,2 +1,2 @@
-call OpenGLRenderer\vendor\premake\premake5.exe vs2017
+call OpenGLRenderer\vendor\premake\premake5.exe vs2019
 PAUSE
