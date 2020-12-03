@@ -15,6 +15,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "core/Core.h"
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H

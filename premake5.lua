@@ -34,6 +34,12 @@ project "OpenGLRenderer"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+		"OGLR_ENABLE_ASSERTS"
+	}
+	
 	files
 	{
 		"%{prj.name}/src/**.h",

@@ -17,6 +17,9 @@ void Renderer::Init(uint32_t width, uint32_t height)
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	assert(status, "Failed to load glad");
 	SetVSync(true);
+
+	Shader test("/shaders/triangle.glsl");
+	test.Bind();
 }
 
 void Renderer::Update()
