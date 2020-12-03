@@ -6,3 +6,6 @@
 	path = OpenGLRenderer/vendor/glm
 	url = https://github.com/g-truc/glm
 	ignore = dirty
+[submodule "OpenGLRenderer/vendor/spdlog"]
+	path = OpenGLRenderer/vendor/spdlog
+	url = https://github.com/gabime/spdlog
