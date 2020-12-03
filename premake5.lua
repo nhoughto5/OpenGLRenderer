@@ -53,7 +53,8 @@ project "OpenGLRenderer"
 		"%{IncludeDir.STB}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.VULKAN}",
-		"%{IncludeDir.TOL}"
+		"%{IncludeDir.TOL}",
+		"%{prj.name}/vendor/spdlog/include",
 	}
 	libdirs  
 	{ 
