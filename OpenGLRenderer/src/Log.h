@@ -2,6 +2,7 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 class Log {
+public:
     static void Init();
 
     inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
