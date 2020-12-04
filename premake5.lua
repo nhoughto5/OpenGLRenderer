@@ -36,8 +36,7 @@ project "OpenGLRenderer"
 	
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS",
-		"OGLR_ENABLE_ASSERTS"
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 	
 	files
