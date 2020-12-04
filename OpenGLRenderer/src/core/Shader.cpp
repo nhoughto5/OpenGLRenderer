@@ -8,7 +8,7 @@ static GLenum ShaderTypeFromString(const std::string& type) {
 	if (type == "vertex") return GL_VERTEX_SHADER;
 	if (type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
 
-	OGLR_CORE_ASSERT(false, "Unkown Shader type");
+	//OGLR_CORE_ASSERT(false, "Unkown Shader type");
 	return 0;
 }
 
@@ -38,7 +38,7 @@ Shader::~Shader() {
 
 void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {
 	GLint program = glCreateProgram();
-	OGLR_CORE_ASSERT(shaderSources.size() <= 2, "Only support two shaders");
+	/*OGLR_CORE_ASSERT*/(shaderSources.size() <= 2, "Only support two shaders");
 	std::array<GLenum, 2> glShaderIds;
 	int glShaderId = 0;
 	for (auto&& [type, source] : shaderSources) {
@@ -62,8 +62,8 @@ void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {
 			glDeleteShader(shader);
 
 			// Use the infoLog as you see fit.
-			OGLR_CORE_ERROR("{0}", infoLog.data());
-			OGLR_CORE_ASSERT(false, "Shader Compilation Failure!");
+			//OGLR_CORE_ERROR("{0}", infoLog.data());
+			//OGLR_CORE_ASSERT(false, "Shader Compilation Failure!");
 
 			// In this simple program, we'll just leave
 			return;
@@ -95,8 +95,8 @@ void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {
 		}
 
 		// Use the infoLog as you see fit.
-		OGLR_CORE_ERROR("{0}", infoLog.data());
-		OGLR_CORE_ASSERT(false, "Shader Link Failure!");
+		//OGLR_CORE_ERROR("{0}", infoLog.data());
+		//OGLR_CORE_ASSERT(false, "Shader Link Failure!");
 
 		// In this simple program, we'll just leave
 		return;
@@ -118,10 +118,10 @@ std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& so
 
 	while (pos != std::string::npos) {
 		size_t eol = source.find_first_of("\r\n", pos);
-		OGLR_CORE_ASSERT(eol != std::string::npos, "Syntax Error");
+		//OGLR_CORE_ASSERT(eol != std::string::npos, "Syntax Error");
 		size_t begin = pos + typeTokenLength + 1;
 		std::string type = source.substr(begin, eol - begin);
-		OGLR_CORE_ASSERT(ShaderTypeFromString(type), "Invalid Shader type");
+		/*OGLR_CORE_ASSERT*/(ShaderTypeFromString(type), "Invalid Shader type");
 
 		size_t nextLinePos = source.find_first_not_of("\r\n", eol);
 		pos = source.find(typeToken, nextLinePos);
@@ -143,7 +143,7 @@ std::string Shader::ReadFile(const std::string& filePath) {
 		in.close();
 	}
 	else {
-		OGLR_CORE_ERROR("Could not open file {0}", filePath);
+		//OGLR_CORE_ERROR("Could not open file {0}", filePath);
 	}
 
 	return result;

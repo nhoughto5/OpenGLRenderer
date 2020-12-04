@@ -1,6 +1,7 @@
 #pragma once
 #include "GLFW/glfw3.h"
 #include <glad/glad.h>
+#include "glm/glm.hpp"
 
 class Shader {
 public:
@@ -24,5 +25,6 @@ private:
 
     uint32_t m_ProgramId;
     std::string m_VertexCode, m_FragmentCode;
+    std::string m_Name;
 };
 
