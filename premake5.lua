@@ -35,7 +35,8 @@ project "OpenGLRenderer"
 	
 	postbuildcommands 
 	{
-	  "copy shaders\\*.glsl $(TargetDir)",
+	  "if not exist $(TargetDir)shaders mkdir $(TargetDir)shaders",
+	  "copy shaders\\*.glsl $(TargetDir)shaders",
 	  "{echo} bin/%{outputdir}/%{prj.name}"
 	}
 	
