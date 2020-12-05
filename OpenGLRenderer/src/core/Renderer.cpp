@@ -20,8 +20,8 @@ void Renderer::Init(uint32_t width, uint32_t height)
 	spdlog::info("Welcome to spdlog!");
 	OGLR_CORE_INFO("WTF");
 
-	//Shader test("/shaders/triangle.glsl");
-	//test.Bind();
+	Shader test("C:\\Users\\nhoug\\Documents\\OpenGLRenderer\\OpenGLRenderer\\shaders\\triangle.glsl");
+	test.Bind();
 }
 
 void Renderer::Update()

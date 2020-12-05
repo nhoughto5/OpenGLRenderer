@@ -30,9 +30,14 @@ project "OpenGLRenderer"
 	staticruntime "on"
 	pchheader "pch.h"
 	pchsource "OpenGLRenderer/src/pch.cpp"
-	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	
+	postbuildcommands 
+	{
+	  "copy test.txt $(TargetDir)test2.txt",
+	  "{echo} bin/%{outputdir}/%{prj.name}"
+	}
 	
 	defines
 	{
