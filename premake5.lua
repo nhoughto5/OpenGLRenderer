@@ -35,7 +35,7 @@ project "OpenGLRenderer"
 	
 	postbuildcommands 
 	{
-	  "copy test.txt $(TargetDir)test2.txt",
+	  "copy shaders/**.glsl $(TargetDir)test2.txt",
 	  "{echo} bin/%{outputdir}/%{prj.name}"
 	}
 	
