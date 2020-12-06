@@ -35,6 +35,11 @@ project "OpenGLRenderer"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
+	prebuildcommands 
+	{
+		"RD /S /Q \"$(TargetDir)assets\\\""
+	}
+	
 	postbuildcommands 
 	{
 	  "XCOPY \"$(SolutionDir)$(ProjectName)\\assets\" \"$(TargetDir)\\assets\\\" /S"

@@ -2,7 +2,7 @@
 #include "Model.h"
 
 Model::Model() 
-    : shader("shaders/triangle.glsl")
+    : shader("assets/shaders/triangle.glsl")
 {
     float vertices[] = {
     -0.5f, -0.5f, 0.0f,
