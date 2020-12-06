@@ -1,28 +1,86 @@
 #include "pch.h"
 #include "Model.h"
+#include <tiny_obj_loader.h>
 
 Model::Model(std::string name) :
     m_Name(name)
 {
-    float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
-    };
+    const std::string MODEL_PATH = "assets/models/triangle.obj";
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+    std::string warn, err;
+
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) {
+        throw std::runtime_error(warn + err);
+    }
+    std::unordered_map<Vertex, uint32_t> uniqueVertices = {};
+
+    for (const auto& shape : shapes) {
+        for (const auto& index : shape.mesh.indices) {
+            Vertex vertex = {};
+
+            vertex.pos = {
+                attrib.vertices[3 * index.vertex_index + 0],
+                attrib.vertices[3 * index.vertex_index + 1],
+                attrib.vertices[3 * index.vertex_index + 2]
+            };
+
+            if (attrib.texcoords.size() > 0)
+            {
+                vertex.texCoord = {
+                    attrib.texcoords[2 * index.texcoord_index + 0],
+                    attrib.texcoords[2 * index.texcoord_index + 1],
+                };
+
+                vertex.texCoord = {
+                    attrib.texcoords[2 * index.texcoord_index + 0],
+                    1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+                };
+            }
+
+            if (uniqueVertices.count(vertex) == 0) {
+                uniqueVertices[vertex] = static_cast<uint32_t>(m_Vertices.size());
+                m_Vertices.push_back(vertex);
+            }
+
+            m_Indices.push_back(uniqueVertices[vertex]);
+        }
+    }
+
+    glGenVertexArrays(1, &m_VAO);
+    glBindVertexArray(m_VAO);
 
     unsigned int VBO;
     glGenBuffers(1, &VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(m_Vertices[0]) * m_Vertices.size(), m_Vertices.data(), GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    auto data = m_Vertices.data();
+
+    //unsigned int EBO;
+    //glGenBuffers(1, &EBO);
+
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_Indices[0]) * m_Indices.size(), m_Indices.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 }
 
 void Model::Update()
 {
+    m_Material->Enable();
+    glBindVertexArray(m_VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    m_Material->Disable();
 }
 
 void Model::SetMaterial(std::shared_ptr<Material> mat)

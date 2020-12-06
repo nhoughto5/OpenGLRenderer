@@ -1,7 +1,5 @@
 #pragma once
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+
 #include "core/Shader.h"
 #include "core/Model.h"
 #include <core\Scene.h>
