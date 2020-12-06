@@ -39,13 +39,14 @@ project "OpenGLRenderer"
 	{
 	  "if not exist $(TargetDir)shaders mkdir $(TargetDir)shaders",
 	  "copy shaders\\*.glsl $(TargetDir)shaders",
-	  "if not exist $(TargetDir)shaders mkdir $(TargetDir)scenes",
-	  "copy scenes\\*.xml $(TargetDir)scene",
+	  "if not exist $(TargetDir)scenes mkdir $(TargetDir)scenes",
+	  "copy scenes\\*.xml $(TargetDir)scenes",
 	}
 	
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		"OGLR_ENABLE_ASSERTS"
 	}
 	
 	files

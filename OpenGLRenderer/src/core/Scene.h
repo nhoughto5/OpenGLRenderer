@@ -1,6 +1,7 @@
 #pragma once
 #include <core\Model.h>
 #include <pugixml.hpp>
+#include "Constants.h"
 
 class Scene
 {
