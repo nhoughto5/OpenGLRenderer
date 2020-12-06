@@ -12,16 +12,20 @@ static GLenum ShaderTypeFromString(const std::string& type) {
 	return 0;
 }
 
-Shader::Shader(const std::string& filePath) {
-	std::string source = ReadFile(filePath);
-	auto shaderSources = PreProcess(source);
-	Compile(shaderSources);
+Shader::Shader()
+{
+}
 
-	auto lastSlash = filePath.find_last_of("/\\");
-	lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-	auto lastDot = filePath.rfind('.');
-	auto count = lastDot == std::string::npos ? filePath.size() - lastSlash : lastDot - lastSlash;
-	m_Name = filePath.substr(lastSlash, count);
+Shader::Shader(const std::string& filePath) {
+    std::string source = ReadFile(SHADER_FOLDER + filePath);
+    auto shaderSources = PreProcess(source);
+    Compile(shaderSources);
+
+    auto lastSlash = filePath.find_last_of("/\\");
+    lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+    auto lastDot = filePath.rfind('.');
+    auto count = lastDot == std::string::npos ? filePath.size() - lastSlash : lastDot - lastSlash;
+    m_Name = filePath.substr(lastSlash, count);
 }
 
 Shader::Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) {
@@ -34,6 +38,14 @@ Shader::Shader(const std::string& name, const std::string& vertexSrc, const std:
 
 Shader::~Shader() {
 	glDeleteProgram(m_ProgramId);
+}
+
+void Shader::SetShaderFileName(std::string fileName)
+{
+    std::string source = ReadFile(SHADER_FOLDER + fileName);
+    auto shaderSources = PreProcess(source);
+    Compile(shaderSources);
+	m_Name = fileName;
 }
 
 void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {

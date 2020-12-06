@@ -1,13 +1,15 @@
 #pragma once
 
-#include "core\Shader.h"
+#include "core\Material.h"
 
 class Model
 {
 public:
-    Model();
+    Model(std::string name);
     void Update();
+    void SetMaterial(std::shared_ptr<Material> mat);
 private:
-    Shader shader;
+    std::shared_ptr<Material> m_Material;
+    std::string m_Name;
 };
 

@@ -1,3 +1,7 @@
 <scene sceneName="triangleScene">
-  <model shader="triangle" />
+  <model name="triangle">
+    <material>
+      <shader>triangle.glsl</shader>
+    </material>
+  </model>
 </scene>

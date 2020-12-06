@@ -16,10 +16,37 @@ Scene::Scene(std::string scenePath)
         {
             std::string name = child.name();
 
+            // Add a new model
             if (name.compare(MODEL_ATTRIBUTE_NAME) == 0)
             {
-                std::string attrName = child.attribute(SHADER_NAME.c_str()).value();
+                loadModel(child);
             }
+        }
+    }
+}
+
+void Scene::loadModel(pugi::xml_node modelNode)
+{
+    std::shared_ptr<Model> m(new Model(modelNode.name()));
+
+    auto matData = modelNode.child("material");
+    for (pugi::xml_node child1 = modelNode.first_child(); child1; child1 = child1.next_sibling())
+    {
+        std::string child1Name = child1.name();
+        if (child1Name.compare(MATERIAL_ATTRIBUTE_NAME) == 0)
+        {
+            std::shared_ptr<Material> mat(new Material());
+
+            for (pugi::xml_node child2 = child1.first_child(); child2; child2 = child2.next_sibling())
+            {
+                //std::string shader = modelNode.attribute(SHADER_NAME.c_str()).value();
+                std::string child2Name = child2.name();
+                if (child2Name.compare(SHADER_NAME) == 0)
+                {
+                    mat->SetShader(child2.first_child().value());
+                }
+            }
+            m->SetMaterial(mat);
         }
     }
 }
@@ -51,3 +78,5 @@ void Scene::Update()
         model->Update();
     }
 }
+
+

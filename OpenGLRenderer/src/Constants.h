@@ -4,6 +4,7 @@
 // XML parse IDs
 const std::string MODEL_ATTRIBUTE_NAME = "model";
 const std::string MODEL_NAME = "modelName";
+const std::string MATERIAL_ATTRIBUTE_NAME = "material";
 const std::string SCENE_NAME = "sceneName";
 const std::string SHADER_NAME = "shader";
 

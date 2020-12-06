@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Model.h"
 
-Model::Model() 
-    : shader(SHADER_FOLDER + "triangle.glsl")
+Model::Model(std::string name) :
+    m_Name(name)
 {
     float vertices[] = {
     -0.5f, -0.5f, 0.0f,
@@ -18,11 +18,14 @@ Model::Model()
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    shader.Bind();
 }
 
 void Model::Update()
 {
     glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void Model::SetMaterial(std::shared_ptr<Material> mat)
+{
+    m_Material = mat;
 }

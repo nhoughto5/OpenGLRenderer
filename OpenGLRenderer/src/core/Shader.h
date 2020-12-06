@@ -5,9 +5,12 @@
 
 class Shader {
 public:
+    Shader();
     Shader(const std::string& filePath);
     Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
     ~Shader();
+
+    void SetShaderFileName(std::string fileName);
     void Bind() const;
     void Unbind() const;
     void UploadUniformInt(const std::string& name, int value);
@@ -24,7 +27,6 @@ private:
     std::string ReadFile(const std::string& filePath);
 
     uint32_t m_ProgramId;
-    std::string m_VertexCode, m_FragmentCode;
-    std::string m_Name;
+    std::string m_VertexCode, m_FragmentCode, m_Name;
 };
 

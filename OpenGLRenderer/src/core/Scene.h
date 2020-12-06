@@ -13,6 +13,9 @@ public:
     bool IsActive();
     void Update();
 private:
+    void loadModel(pugi::xml_node modelNode);
+
+
     bool m_Active{ false };
     std::vector<Model*> m_Models;
 };
