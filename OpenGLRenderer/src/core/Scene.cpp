@@ -15,7 +15,8 @@ Scene::Scene(std::string scenePath)
 
             if (name.compare(MODEL_ATTRIBUTE_NAME) == 0)
             {
-                std::cout << "Model name is: " << child.attribute(MODEL_NAME.c_str()).value() << std::endl;
+                std::string attrName = child.attribute(MODEL_NAME.c_str()).value();
+                std::cout << "Model name is: " << attrName << std::endl;
             }
         }
     }
