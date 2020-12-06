@@ -16,10 +16,12 @@ IncludeDir["STB"] = "OpenGLRenderer/vendor/stb"
 IncludeDir["VULKAN"] = "OpenGLRenderer/vendor/Vulkan/Include"
 IncludeDir["TOL"] = "OpenGLRenderer/vendor/tinyobjloader"
 IncludeDir["Glad"] = "OpenGLRenderer/vendor/Glad/include"
+IncludeDir["PugIXml"] = "OpenGLRenderer/vendor/pugixml/src"
 
 group "Dependencies"
 	include "OpenGLRenderer/vendor/GLFW"
 	include "OpenGLRenderer/vendor/Glad"
+	include "OpenGLRenderer/vendor/pugixml"
 
 group ""
 project "OpenGLRenderer"
@@ -37,7 +39,8 @@ project "OpenGLRenderer"
 	{
 	  "if not exist $(TargetDir)shaders mkdir $(TargetDir)shaders",
 	  "copy shaders\\*.glsl $(TargetDir)shaders",
-	  "{echo} bin/%{outputdir}/%{prj.name}"
+	  "if not exist $(TargetDir)shaders mkdir $(TargetDir)scenes",
+	  "copy scenes\\*.xml $(TargetDir)scene",
 	}
 	
 	defines
@@ -48,7 +51,8 @@ project "OpenGLRenderer"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/src/**.hpp",
 	}
 	includedirs
 	{
@@ -60,6 +64,7 @@ project "OpenGLRenderer"
 		"%{IncludeDir.VULKAN}",
 		"%{IncludeDir.TOL}",
 		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.PugIXml}"
 	}
 	libdirs  
 	{ 
@@ -70,6 +75,7 @@ project "OpenGLRenderer"
 		"Glad",
 		"GLFW",
 		"opengl32.lib",
+		"pugixml"
 	}
 
 	filter "system:windows"

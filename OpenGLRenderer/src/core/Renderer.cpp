@@ -28,7 +28,7 @@ void Renderer::Init(uint32_t width, uint32_t height)
 
     /*std::vector<Scene*> Renderer::s_Scenes;*/
 
-    Scene* testScene = new Scene();
+    Scene* testScene = new Scene("scenes/triangle.xml");
     testScene->AddModel(new Model());
     testScene->Activate();
     s_Scenes.push_back(testScene);

@@ -9,3 +9,6 @@
 [submodule "OpenGLRenderer/vendor/spdlog"]
 	path = OpenGLRenderer/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "OpenGLRenderer/vendor/pugixml"]
+	path = OpenGLRenderer/vendor/pugixml
+	url = https://github.com/zeux/pugixml

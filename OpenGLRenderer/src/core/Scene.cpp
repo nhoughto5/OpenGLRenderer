@@ -1,6 +1,13 @@
 #include "pch.h"
 #include "Scene.h"
 
+Scene::Scene(std::string scenePath)
+{
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(scenePath.c_str());
+    OGLR_ASSERT(result, "FAILED TO READ SCENE");
+}
+
 void Scene::AddModel(Model* m)
 {
     m_Models.push_back(m);

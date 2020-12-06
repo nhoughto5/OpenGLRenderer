@@ -1,8 +1,11 @@
 #pragma once
 #include <core\Model.h>
+#include <pugixml.hpp>
+
 class Scene
 {
 public:
+    Scene(std::string scenePath);
     void AddModel(Model* m);
     void Activate();
     void Deactivate();
