@@ -39,7 +39,6 @@ void Scene::loadModel(pugi::xml_node modelNode)
 
             for (pugi::xml_node child2 = child1.first_child(); child2; child2 = child2.next_sibling())
             {
-                //std::string shader = modelNode.attribute(SHADER_NAME.c_str()).value();
                 std::string child2Name = child2.name();
                 if (child2Name.compare(SHADER_NAME) == 0)
                 {
@@ -49,9 +48,11 @@ void Scene::loadModel(pugi::xml_node modelNode)
             m->SetMaterial(mat);
         }
     }
+
+    AddModel(m);
 }
 
-void Scene::AddModel(Model* m)
+void Scene::AddModel(std::shared_ptr<Model> m)
 {
     m_Models.push_back(m);
 }
@@ -73,7 +74,7 @@ bool Scene::IsActive()
 
 void Scene::Update()
 {
-    for (Model* model : m_Models)
+    for (std::shared_ptr<Model> model : m_Models)
     {
         model->Update();
     }

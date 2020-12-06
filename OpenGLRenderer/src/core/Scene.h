@@ -7,7 +7,7 @@ class Scene
 {
 public:
     Scene(std::string scenePath);
-    void AddModel(Model* m);
+    void AddModel(std::shared_ptr<Model> m);
     void Activate();
     void Deactivate();
     bool IsActive();
@@ -17,6 +17,6 @@ private:
 
 
     bool m_Active{ false };
-    std::vector<Model*> m_Models;
+    std::vector<std::shared_ptr<Model>> m_Models;
 };
 
