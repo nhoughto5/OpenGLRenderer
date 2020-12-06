@@ -26,8 +26,6 @@ void Renderer::Init(uint32_t width, uint32_t height)
         glViewport(0, 0, width, height);
     });
 
-    /*std::vector<Scene*> Renderer::s_Scenes;*/
-
     Scene* testScene = new Scene("scenes/triangle.xml");
     testScene->AddModel(new Model());
     testScene->Activate();
