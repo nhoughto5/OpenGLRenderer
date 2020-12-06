@@ -35,6 +35,7 @@
 #include <fstream>
 #include "core/util/Vertex.h"
 
+
 #include "spdlog/spdlog.h"
 #include "Constants.h"
 #include "core/Core.h"

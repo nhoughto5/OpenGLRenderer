@@ -1,10 +1,17 @@
 #type vertex
 #version 330 core
 
-layout(location=0) in vec3 a_Position;
-		
+layout (location = 0) in vec3 a_Position;
+layout (location = 1) in vec3 aNormal;
+layout (location = 2) in vec2 aTexCoord;
+
+out vec3 outNormal;
+out vec2 TexCoord;
+
 void main() {
 	gl_Position = vec4(a_Position, 1.0);
+	outNormal = aNormal;
+	TexCoord = aTexCoord;
 }
 
 #type fragment
@@ -12,6 +19,12 @@ void main() {
 
 out vec4 color;
 
+in vec3 outNormal;
+in vec2 TexCoord;
+
+uniform sampler2D ourTexture;
+
 void main() {
-	color = vec4(1.0f, 0.2f, 0.5f, 1.0f);
+	//color = vec4(outNormal.x, outNormal.y, 0.0f, 1.0f);
+	color = texture(ourTexture, TexCoord);
 }
