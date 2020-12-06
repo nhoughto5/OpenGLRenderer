@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Model.h"
 #include <tiny_obj_loader.h>
-#include <stb_image.h>
 Model::Model(std::string name) :
     m_Name(name)
 {
@@ -72,29 +71,6 @@ Model::Model(std::string name) :
 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
     glEnableVertexAttribArray(2);
-
-    int width, height, nrChannels;
-    unsigned char* texData = stbi_load("assets/textures/wall.jpg", &width, &height, &nrChannels, 0);
-
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    if (texData)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texData);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        OGLR_CORE_ERROR("Failed to load texture");
-    }
-
-    stbi_image_free(texData);
 }
 
 void Model::Update()

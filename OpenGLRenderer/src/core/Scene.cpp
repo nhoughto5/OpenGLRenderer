@@ -44,7 +44,12 @@ void Scene::loadModel(pugi::xml_node modelNode)
                 {
                     mat->SetShader(child2.first_child().value());
                 }
+                else if (child2Name.compare(TEXTURE_NAME) == 0)
+                {
+                    mat->AddTexture(child2.first_child().value());
+                }
             }
+
             m->SetMaterial(mat);
         }
     }

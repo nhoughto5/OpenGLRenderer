@@ -2,6 +2,7 @@
   <model name="triangle">
     <material>
       <shader>triangle.glsl</shader>
+      <texture>wall.jpg</texture>
     </material>
   </model>
 </scene>
