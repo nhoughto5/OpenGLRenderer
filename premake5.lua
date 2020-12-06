@@ -37,10 +37,7 @@ project "OpenGLRenderer"
 	
 	postbuildcommands 
 	{
-	  "if not exist $(TargetDir)shaders mkdir $(TargetDir)shaders",
-	  "copy shaders\\*.glsl $(TargetDir)shaders",
-	  "if not exist $(TargetDir)scenes mkdir $(TargetDir)scenes",
-	  "copy scenes\\*.xml $(TargetDir)scenes",
+	  "XCOPY \"$(SolutionDir)$(ProjectName)\\assets\" \"$(TargetDir)\\assets\\\" /S"
 	}
 	
 	defines
