@@ -18,6 +18,7 @@
 #include "core/Core.h"
 #include "Log.h"
 #include "spdlog/spdlog.h"
+#include "Constants.h"
 // TODO: add headers that you want to pre-compile here
 
 #endif //PCH_H

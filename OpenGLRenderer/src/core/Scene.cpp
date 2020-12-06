@@ -18,8 +18,7 @@ Scene::Scene(std::string scenePath)
 
             if (name.compare(MODEL_ATTRIBUTE_NAME) == 0)
             {
-                std::string attrName = child.attribute(MODEL_NAME.c_str()).value();
-                OGLR_CORE_INFO("Model Name is: {0}", attrName);
+                std::string attrName = child.attribute(SHADER_NAME.c_str()).value();
             }
         }
     }
