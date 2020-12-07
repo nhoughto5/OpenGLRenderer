@@ -19,3 +19,8 @@ glm::mat4 Camera::GetProjectionMatrix()
     return m_Projection;
 }
 
+void Camera::OnEvent(Event& e)
+{
+    OGLR_INFO("Camera Recieved Event: {0}", e.GetName());
+}
+

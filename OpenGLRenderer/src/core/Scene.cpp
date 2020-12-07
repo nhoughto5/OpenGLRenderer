@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Application.h"
 #include "Scene.h"
 
 Scene::Scene(std::string scenePath)
@@ -23,6 +24,8 @@ Scene::Scene(std::string scenePath)
             }
         }
     }
+
+    Application::Get().Subscribe(m_Camera);
 }
 
 void Scene::loadModel(pugi::xml_node modelNode)

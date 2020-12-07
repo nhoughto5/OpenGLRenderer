@@ -22,6 +22,7 @@
 #include <functional>
 #include <cstdlib>
 #include <vector>
+#include <array>
 #include <algorithm>
 #include <cstring>
 #include <sstream>

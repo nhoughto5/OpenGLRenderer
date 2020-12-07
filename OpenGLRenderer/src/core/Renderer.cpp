@@ -18,7 +18,10 @@ void Renderer::Update()
     glClearColor((float)196 / 256, (float)196 / 256, (float)196 / 256, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_Scene->Update();
+    if (m_Scene)
+    {
+        m_Scene->Update();
+    }
 }
 
 void Renderer::SetCurrentScene(std::shared_ptr<Scene> scene)

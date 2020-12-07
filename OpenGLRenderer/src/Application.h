@@ -2,7 +2,6 @@
 #include "core/Renderer.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
-#include "LayerStack.h"
 
 class Application {
 public:
@@ -10,6 +9,7 @@ public:
     ~Application();
 
     inline static Application& Get() { return *s_Instance; }
+    void Subscribe(IListener& listener);
     void Run();
 private:
     using EventCallbackFn = std::function<void(Event&)>;
@@ -33,8 +33,8 @@ private:
     std::vector<std::shared_ptr<Scene>> m_Scenes;
     bool m_Running{ false };
     uint32_t m_Width, m_Height;
-    LayerStack m_LayerStack;
     bool m_Minimized = false;
     static Application* s_Instance;
+    std::vector<IListener> m_Listeners;
 };
 

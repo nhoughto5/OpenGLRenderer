@@ -137,6 +137,11 @@ Application::~Application()
     glfwTerminate();
 }
 
+void Application::Subscribe(IListener& listener)
+{
+    m_Listeners.push_back(listener);
+}
+
 void Application::Run() {
     Log::Init();
 
@@ -159,8 +164,8 @@ void Application::OnEvent(Event& e)
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
     dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
-    for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); ) {
-        (*--it)->OnEvent(e);
+    for (auto it = m_Listeners.end(); it != m_Listeners.begin(); ) {
+        (*--it).OnEvent(e);
         if (e.Handled) break;
     }
 }
