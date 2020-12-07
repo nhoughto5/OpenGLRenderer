@@ -8,6 +8,7 @@
 class Scene
 {
 public:
+    Scene() = default;
     Scene(std::string scenePath);
     void AddModel(std::shared_ptr<Model> m);
     void Activate();

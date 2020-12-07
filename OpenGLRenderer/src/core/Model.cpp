@@ -81,7 +81,6 @@ void Model::Update(glm::mat4 cameraView, glm::mat4 cameraProj)
     m_Material->Enable();
     UpdateTransform();
     m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
-    //m_Material->UpdateTransform(glm::mat4(1.0));
     glBindVertexArray(m_VAO);
     glDrawElements(GL_TRIANGLES, m_Vertices.size(), GL_UNSIGNED_INT, 0);
     m_Material->Disable();
