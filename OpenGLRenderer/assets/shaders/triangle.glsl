@@ -8,8 +8,10 @@ layout (location = 2) in vec2 aTexCoord;
 out vec3 outNormal;
 out vec2 TexCoord;
 
+uniform mat4 uTransform;
+
 void main() {
-	gl_Position = vec4(a_Position, 1.0);
+	gl_Position = uTransform * vec4(a_Position, 1.0);
 	outNormal = aNormal;
 	TexCoord = aTexCoord;
 }

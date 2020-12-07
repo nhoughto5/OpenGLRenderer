@@ -33,3 +33,8 @@ void Material::AddTexture(std::string fileName)
 {
     m_Textures.push_back(std::make_shared<Texture>(fileName, m_Textures.size()));
 }
+
+void Material::UpdateTransform(glm::mat4 trans)
+{
+    m_Shader.UploadUniformMat4("uTransform", trans);
+}

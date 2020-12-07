@@ -1,6 +1,8 @@
 #pragma once
-#include <core\Model.h>
+
 #include <pugixml.hpp>
+#include "core/Model.h"
+#include "core/Camera.h"
 #include "Constants.h"
 
 class Scene
@@ -14,7 +16,7 @@ public:
     void Update();
 private:
     void loadModel(pugi::xml_node modelNode);
-
+    Camera m_Camera;
 
     bool m_Active{ false };
     std::vector<std::shared_ptr<Model>> m_Models;

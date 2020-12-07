@@ -2,7 +2,10 @@
 #include "Model.h"
 #include <tiny_obj_loader.h>
 Model::Model(std::string name) :
-    m_Name(name)
+    m_Name(name),
+    m_Position(0.0f),
+    m_Scale(1.0f),
+    m_Transform(1.0)
 {
     const std::string MODEL_PATH = "assets/models/triangle.obj";
     tinyobj::attrib_t attrib;
@@ -73,16 +76,26 @@ Model::Model(std::string name) :
     glEnableVertexAttribArray(2);
 }
 
-void Model::Update()
+void Model::Update(glm::mat4 cameraView, glm::mat4 cameraProj)
 {
-    glBindTexture(GL_TEXTURE_2D, texture);
     m_Material->Enable();
+    UpdateTransform();
+    m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
+    //m_Material->UpdateTransform(glm::mat4(1.0));
     glBindVertexArray(m_VAO);
     glDrawElements(GL_TRIANGLES, m_Vertices.size(), GL_UNSIGNED_INT, 0);
     m_Material->Disable();
 }
 
+
 void Model::SetMaterial(std::shared_ptr<Material> mat)
 {
     m_Material = mat;
+}
+
+void Model::UpdateTransform()
+{
+    m_Transform = glm::mat4(1.0);
+    m_Transform = glm::rotate(m_Transform, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
+    //m_Transform = glm::scale(m_Transform, glm::vec3(0.5, 0.5, 0.5));
 }

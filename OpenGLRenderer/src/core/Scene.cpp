@@ -81,7 +81,7 @@ void Scene::Update()
 {
     for (std::shared_ptr<Model> model : m_Models)
     {
-        model->Update();
+        model->Update(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
 }
 
