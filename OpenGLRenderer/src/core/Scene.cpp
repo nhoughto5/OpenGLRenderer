@@ -25,7 +25,7 @@ Scene::Scene(std::string scenePath)
         }
     }
 
-    Application::Get().Subscribe(m_Camera);
+    Application::Get().Subscribe(&m_Camera);
 }
 
 void Scene::loadModel(pugi::xml_node modelNode)

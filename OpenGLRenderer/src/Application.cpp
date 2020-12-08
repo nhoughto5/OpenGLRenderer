@@ -5,13 +5,11 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 Application* Application::s_Instance = nullptr;
 
 Application::Application() :
     m_Width(1024),
-    m_Height(768)
-{
+    m_Height(768) {
     OGLR_CORE_ASSERT(!s_Instance, "Multiple application instances");
     s_Instance = this;
 
@@ -19,13 +17,12 @@ Application::Application() :
     m_Data.Width = m_Width;
     m_Data.Height = m_Height;
     m_Data.VSync = false;
-    m_Data.EventCallback = BIND_EVENT_FN(Application::OnEvent);
+    m_Data.EventCallback = NEATO_BIND_EVENT_FN(Application::OnEvent);
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     m_Window = glfwCreateWindow(m_Width, m_Height, "OpenGL Playground", NULL, NULL);
-    if (m_Window == nullptr)
-    {
+    if (m_Window == nullptr) {
         throw std::runtime_error("Failed to create GLFW window");
     }
 
@@ -52,27 +49,23 @@ Application::Application() :
         data.EventCallback(event);
     });
 
-    glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
-    {
+    glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
         auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
         KeyTypedEvent event((int)keycode);
         data.EventCallback(event);
     });
 
-    glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
-    {
+    glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
         WindowCloseEvent event;
         data.EventCallback(event);
     });
 
-    glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-    {
+    glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-        switch (action)
-        {
+        switch (action) {
             case GLFW_PRESS:
             {
                 KeyPressedEvent event(key, 0);
@@ -94,11 +87,9 @@ Application::Application() :
         }
     });
 
-    glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
-    {
+    glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-        switch (action)
-        {
+        switch (action) {
             case GLFW_PRESS:
             {
                 MouseButtonPressedEvent event(button);
@@ -114,16 +105,14 @@ Application::Application() :
         }
     });
 
-    glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
-    {
+    glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
         MouseScrolledEvent event((float)xOffset, (float)yOffset);
         data.EventCallback(event);
     });
 
-    glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
-    {
+    glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos) {
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
         MouseMovedEvent event((float)xPos, (float)yPos);
@@ -131,14 +120,12 @@ Application::Application() :
     });
 }
 
-Application::~Application()
-{
+Application::~Application() {
     glfwDestroyWindow(m_Window);
     glfwTerminate();
 }
 
-void Application::Subscribe(IListener& listener)
-{
+void Application::Subscribe(IListener* listener) {
     m_Listeners.push_back(listener);
 }
 
@@ -153,19 +140,26 @@ void Application::Run() {
     m_Running = true;
     m_Renderer.SetCurrentScene(testScene);
     while (m_Running) {
-        m_Renderer.Update();
-        glfwSwapBuffers(m_Window);
-        glfwPollEvents();
+        float time = (float)glfwGetTime();
+        TimeStep timestep = time - m_LastFrameTime;
+        m_LastFrameTime = time;
+        if (!m_Minimized) {
+            glfwSwapBuffers(m_Window);
+            glfwPollEvents();
+            for (auto it = m_Listeners.end(); it != m_Listeners.begin(); ) {
+                (*--it)->OnUpdate(timestep);
+            }
+        }
+
     }
 }
 
-void Application::OnEvent(Event& e)
-{
+void Application::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
-    dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
+    dispatcher.Dispatch<WindowCloseEvent>(NEATO_BIND_EVENT_FN(Application::OnWindowClose));
+    dispatcher.Dispatch<WindowResizeEvent>(NEATO_BIND_EVENT_FN(Application::OnWindowResize));
     for (auto it = m_Listeners.end(); it != m_Listeners.begin(); ) {
-        (*--it).OnEvent(e);
+        (*--it)->OnEvent(e);
         if (e.Handled) break;
     }
 }
@@ -186,13 +180,11 @@ bool Application::OnWindowResize(WindowResizeEvent& e) {
     return false;
 }
 
-bool Application::IsVSync()
-{
+bool Application::IsVSync() {
     return m_Data.VSync;
 }
 
-void Application::SetVSync(bool enabled)
-{
+void Application::SetVSync(bool enabled) {
     if (enabled)
         glfwSwapInterval(1);
     else

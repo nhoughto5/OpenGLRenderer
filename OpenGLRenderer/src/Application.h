@@ -9,7 +9,7 @@ public:
     ~Application();
 
     inline static Application& Get() { return *s_Instance; }
-    void Subscribe(IListener& listener);
+    void Subscribe(IListener* listener);
     void Run();
 private:
     using EventCallbackFn = std::function<void(Event&)>;
@@ -30,11 +30,12 @@ private:
     GLFWwindow* m_Window;
     WindowData m_Data;
     Renderer m_Renderer;
+    float m_LastFrameTime = 0.0f;
     std::vector<std::shared_ptr<Scene>> m_Scenes;
     bool m_Running{ false };
     uint32_t m_Width, m_Height;
     bool m_Minimized = false;
     static Application* s_Instance;
-    std::vector<IListener> m_Listeners;
+    std::vector<IListener*> m_Listeners;
 };
 
