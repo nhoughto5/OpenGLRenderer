@@ -14,6 +14,7 @@ static GLenum ShaderTypeFromString(const std::string& type) {
 
 Shader::Shader()
 {
+	OGLR_CORE_INFO("CREATING SHADER");
 }
 
 Shader::Shader(const std::string& filePath) {

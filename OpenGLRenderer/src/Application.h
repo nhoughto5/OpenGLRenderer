@@ -11,6 +11,8 @@ public:
     inline static Application& Get() { return *s_Instance; }
     void Subscribe(IListener* listener);
     void Run();
+    uint32_t GetWidth() { return m_Width; }
+    uint32_t GetHeight() { return m_Height; }
 private:
     using EventCallbackFn = std::function<void(Event&)>;
     void OnEvent(Event& e);
@@ -22,7 +24,7 @@ private:
     struct WindowData
     {
         std::string Title;
-        unsigned int Width, Height;
+        uint32_t Width, Height;
         bool VSync;
         EventCallbackFn EventCallback;
     };

@@ -3,6 +3,8 @@
 
 class Vertex {
 public:
+    Vertex() = default;
+    Vertex(glm::vec3 p);
     glm::vec3 pos;
     glm::vec3 normal;
     glm::vec2 texCoord;

@@ -8,9 +8,13 @@ const std::string MATERIAL_ATTRIBUTE_NAME = "material";
 const std::string SCENE_NAME = "sceneName";
 const std::string SHADER_NAME = "shader";
 const std::string TEXTURE_NAME = "texture";
+const std::string GRID_NAME = "grid";
 
 // Directory Structure
 const std::string ASSET_FOLDER = "assets/";
 const std::string SHADER_FOLDER = ASSET_FOLDER + "shaders/";
 const std::string SCENE_FOLDER = ASSET_FOLDER + "scenes/";
 const std::string TEXTURE_FOLDER = ASSET_FOLDER + "textures/";
+
+// Attributes
+const std::string ATTR_SIZE = "size";

@@ -1,11 +1,16 @@
 #include "pch.h"
 #include "Camera.h"
+#include "Application.h"
 
 Camera::Camera() :
+	m_CameraPosition(0.0f, 0.0f, -2.0f),
     m_View(1.0),
     m_Projection(1.0) {
-    m_View = glm::translate(m_View, glm::vec3(0.0f, 0.0f, -2.0f));
-    m_Projection = glm::perspective(glm::radians(45.0f), 1024.0f / 768.0f, 0.1f, 100.0f);
+    m_View = glm::translate(m_View, m_CameraPosition);
+	auto app = Application::Get();
+	
+    m_Projection = glm::perspective(glm::radians(45.0f), (float)app.GetWidth() / app.GetHeight(), 0.1f, 100.0f);
+	//m_Projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f)
 }
 
 glm::mat4 Camera::GetViewMatrix() {
@@ -24,8 +29,12 @@ void Camera::OnEvent(Event& e) {
 void Camera::OnUpdate(TimeStep dt) {
 	m_DeltaTime = dt;
 
-	m_View = glm::translate(m_View, m_CameraPosition);
-	m_Projection = glm::perspective(glm::radians(45.0f), 1024.0f / 768.0f, 0.1f, 100.0f);
+	//m_View = glm::translate(m_View, m_CameraPosition);
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0, 0, 1));
+
+	//m_View = glm::inverse(transform);
+	m_View = transform;
+	//m_Projection = glm::perspective(glm::radians(45.0f), 1024.0f / 768.0f, 0.1f, 100.0f);
 }
 
 bool Camera::ProcessKeyEvent(KeyPressedEvent& e) {

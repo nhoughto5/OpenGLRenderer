@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Model.h"
 #include <tiny_obj_loader.h>
+
+Model::Model() {
+}
+
 Model::Model(std::string name) :
     m_Name(name),
     m_Position(0.0f),
@@ -16,6 +20,7 @@ Model::Model(std::string name) :
     if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) {
         throw std::runtime_error(warn + err);
     }
+    
     std::unordered_map<Vertex, uint32_t> uniqueVertices = {};
 
     for (const auto& shape : shapes) {
@@ -51,6 +56,26 @@ Model::Model(std::string name) :
         }
     }
 
+    Upload();
+}
+
+void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj)
+{
+    m_Material->Enable();
+    UpdateTransform();
+    m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
+    glBindVertexArray(m_VAO);
+    glDrawElements(GL_TRIANGLES, m_Vertices.size(), GL_UNSIGNED_INT, 0);
+    m_Material->Disable();
+}
+
+
+void Model::SetMaterial(std::shared_ptr<Material> mat)
+{
+    m_Material = mat;
+}
+
+void Model::Upload() {
     glGenVertexArrays(1, &m_VAO);
     glBindVertexArray(m_VAO);
 
@@ -74,22 +99,6 @@ Model::Model(std::string name) :
 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
     glEnableVertexAttribArray(2);
-}
-
-void Model::Update(glm::mat4 cameraView, glm::mat4 cameraProj)
-{
-    m_Material->Enable();
-    UpdateTransform();
-    m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
-    glBindVertexArray(m_VAO);
-    glDrawElements(GL_TRIANGLES, m_Vertices.size(), GL_UNSIGNED_INT, 0);
-    m_Material->Disable();
-}
-
-
-void Model::SetMaterial(std::shared_ptr<Material> mat)
-{
-    m_Material = mat;
 }
 
 void Model::UpdateTransform()

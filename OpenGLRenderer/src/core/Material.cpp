@@ -3,7 +3,7 @@
 
 Material::Material()
 {
-
+    OGLR_CORE_INFO("CREATING MATERIAL");
 }
 
 void Material::SetShader(std::string fileName)
