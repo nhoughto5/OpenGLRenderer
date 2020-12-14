@@ -1,6 +1,9 @@
 #pragma once
 #include "pch.h"
 
+const uint32_t INIT_WIDTH = 1024;
+const uint32_t INIT_HEIGHT = 768;
+
 // XML parse IDs
 const std::string MODEL_ATTRIBUTE_NAME = "model";
 const std::string MODEL_NAME = "modelName";

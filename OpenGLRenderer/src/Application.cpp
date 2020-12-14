@@ -8,8 +8,8 @@
 Application* Application::s_Instance = nullptr;
 
 Application::Application() :
-    m_Width(1024),
-    m_Height(768) {
+    m_Width(INIT_WIDTH),
+    m_Height(INIT_HEIGHT) {
     OGLR_CORE_ASSERT(!s_Instance, "Multiple application instances");
     s_Instance = this;
 
