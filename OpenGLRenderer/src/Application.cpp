@@ -21,7 +21,7 @@ Application::Application() :
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    m_Window = glfwCreateWindow(m_Width, m_Height, "OpenGL Playground", NULL, NULL);
+    m_Window = glfwCreateWindow(m_Width, m_Height, m_Data.Title.c_str(), NULL, NULL);
     if (m_Window == nullptr) {
         throw std::runtime_error("Failed to create GLFW window");
     }
