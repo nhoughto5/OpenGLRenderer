@@ -5,6 +5,8 @@
 Camera::Camera() :
 	m_CameraPosition(0.0f, 2.0f, 0.0f),
     m_View(1.0),
+    m_CameraFront(0.0f, -1.0f, 0.0f),
+    firstMouse(true),
     m_Projection(1.0) {
 	
 	m_Projection = glm::perspective(glm::radians(45.0f), (float)INIT_WIDTH / INIT_HEIGHT, 0.1f, 100.0f);
@@ -27,7 +29,7 @@ void Camera::OnEvent(Event& e) {
 void Camera::OnUpdate(TimeStep dt) {
 	m_DeltaTime = dt;
 
-    m_CameraFront = glm::vec3(0.0f, -1.0f, 0.0f);
+    //m_CameraFront = glm::vec3(0.0f, -1.0f, 0.0f);
 	glm::vec3 cameraUp = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, cameraUp);
 
@@ -69,7 +71,7 @@ bool Camera::OnMouseEvent(MouseMovedEvent& e) {
     lastScreenX = e.GetX();
     lastScreenY = e.GetY();
 
-    float sensitivity = 0.1f;
+    float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
@@ -87,7 +89,5 @@ bool Camera::OnMouseEvent(MouseMovedEvent& e) {
     direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
     m_CameraFront = glm::normalize(direction);
     
-
-
 	return false;
 }

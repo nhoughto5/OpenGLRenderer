@@ -23,7 +23,7 @@ private:
     float m_CameraTranslationSpeed = 5.0f, m_CameraRotationSpeed = 180.0f;
     TimeStep m_DeltaTime;
     glm::vec3 m_CameraFront;
-    bool firstMouse = true;
+    bool firstMouse;
     float lastScreenX = 0.0f, lastScreenY = 0.0f, m_Pitch = 0.0f, m_Yaw = 0.0f;
 };
 
