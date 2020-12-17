@@ -3,12 +3,12 @@
 #include "Application.h"
 
 Camera::Camera() :
-	m_CameraPosition(0.0f, 2.0f, 0.0f),
+	m_CameraPosition(0.0f, 0.0f, 2.0f),
     m_View(1.0),
-    m_CameraFront(0.0f, -1.0f, 0.0f),
+    m_CameraFront(0.0, 0.0, -1.0),
     firstMouse(true),
     m_Projection(1.0) {
-	
+    //m_CameraFront = glm::normalize(m_CameraPosition - glm::vec3(0,0,0));
 	m_Projection = glm::perspective(glm::radians(45.0f), (float)INIT_WIDTH / INIT_HEIGHT, 0.1f, 100.0f);
 }
 
@@ -23,17 +23,17 @@ glm::mat4 Camera::GetProjectionMatrix() {
 void Camera::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<KeyPressedEvent>(NEATO_BIND_EVENT_FN(Camera::ProcessKeyEvent));
-    dispatcher.Dispatch<MouseMovedEvent>(NEATO_BIND_EVENT_FN(Camera::OnMouseEvent));
+    //dispatcher.Dispatch<MouseMovedEvent>(NEATO_BIND_EVENT_FN(Camera::OnMouseEvent));
 }
 
 void Camera::OnUpdate(TimeStep dt) {
 	m_DeltaTime = dt;
 
     //m_CameraFront = glm::vec3(0.0f, -1.0f, 0.0f);
-	glm::vec3 cameraUp = glm::vec3(0.0f, 0.0f, 1.0f);
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, cameraUp);
 
-    OGLR_CORE_INFO("Pos: {0}, {1}, {2}   LookAt: {3}, {4}, {5}", m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z, m_CameraFront.x, m_CameraFront.y, m_CameraFront.z);
+    //OGLR_CORE_INFO("Pos: {0}, {1}, {2}   LookAt: {3}, {4}, {5}", m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z, m_CameraFront.x, m_CameraFront.y, m_CameraFront.z);
 }
 
 bool Camera::ProcessKeyEvent(KeyPressedEvent& e) {

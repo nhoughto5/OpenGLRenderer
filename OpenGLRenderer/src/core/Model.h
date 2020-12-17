@@ -16,7 +16,6 @@ protected:
     std::vector<uint32_t> m_Indices;
 
     void Upload();
-private:
     void UpdateTransform();
 
     unsigned int m_VAO;

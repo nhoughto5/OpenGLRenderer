@@ -4,10 +4,11 @@
 class Vertex {
 public:
     Vertex() = default;
-    Vertex(glm::vec3 p);
+    Vertex(glm::vec3 p, int i);
     glm::vec3 pos;
     glm::vec3 normal;
     glm::vec2 texCoord;
+    int id;
 
     bool operator==(const Vertex& other) const;
 };
