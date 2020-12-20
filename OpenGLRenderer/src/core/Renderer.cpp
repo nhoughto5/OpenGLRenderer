@@ -16,7 +16,7 @@ void Renderer::Init(uint32_t width, uint32_t height)
 }
 
 void Renderer::OnUpdate(TimeStep ts) {
-    glClearColor((float)196 / 256, (float)196 / 256, (float)196 / 256, 1);
+    glClearColor((float)222 / 256, (float)235 / 256, (float)255 / 256, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (m_Scene) {

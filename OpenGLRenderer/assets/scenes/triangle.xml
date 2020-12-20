@@ -5,5 +5,5 @@
       <texture>wall.jpg</texture>
     </material>
   </model>
-  <grid size="2"></grid>
+  <grid size="30"></grid>
 </scene>
