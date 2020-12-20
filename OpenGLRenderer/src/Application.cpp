@@ -17,7 +17,7 @@ Application::Application() :
     m_Data.Width = m_Width;
     m_Data.Height = m_Height;
     m_Data.VSync = false;
-    m_Data.EventCallback = NEATO_BIND_EVENT_FN(Application::OnEvent);
+    m_Data.EventCallback = OGLR_BIND_EVENT_FN(Application::OnEvent);
 
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -156,8 +156,8 @@ void Application::Run() {
 
 void Application::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<WindowCloseEvent>(NEATO_BIND_EVENT_FN(Application::OnWindowClose));
-    dispatcher.Dispatch<WindowResizeEvent>(NEATO_BIND_EVENT_FN(Application::OnWindowResize));
+    dispatcher.Dispatch<WindowCloseEvent>(OGLR_BIND_EVENT_FN(Application::OnWindowClose));
+    dispatcher.Dispatch<WindowResizeEvent>(OGLR_BIND_EVENT_FN(Application::OnWindowResize));
     for (auto it = m_Listeners.end(); it != m_Listeners.begin(); ) {
         (*--it)->OnEvent(e);
         if (e.Handled) break;

@@ -25,8 +25,8 @@ glm::mat4 Camera::GetProjectionMatrix() {
 
 void Camera::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<KeyPressedEvent>(NEATO_BIND_EVENT_FN(Camera::ProcessKeyEvent));
-    dispatcher.Dispatch<MouseMovedEvent>(NEATO_BIND_EVENT_FN(Camera::OnMouseEvent));
+    dispatcher.Dispatch<KeyPressedEvent>(OGLR_BIND_EVENT_FN(Camera::ProcessKeyEvent));
+    dispatcher.Dispatch<MouseMovedEvent>(OGLR_BIND_EVENT_FN(Camera::OnMouseEvent));
 }
 
 void Camera::OnUpdate(TimeStep dt) {
