@@ -3,16 +3,15 @@
 #include "Application.h"
 
 Camera::Camera() :
-	m_CameraPosition(0.0f, 1.0f, 2.0f),
+    m_CameraPosition(0.0f, 1.0f, 2.0f),
     m_View(1.0),
     m_CameraFront(0.0, 0.0, -1.0),
     firstMouse(true),
     m_Projection(1.0),
     m_CameraUp(0.0f, 1.0f, 0.0f),
     lastScreenX((float)INIT_WIDTH / 2),
-    lastScreenY((float)INIT_HEIGHT / 2)
-{
-	m_Projection = glm::perspective(glm::radians(45.0f), (float)INIT_WIDTH / INIT_HEIGHT, 0.1f, 100.0f);
+    lastScreenY((float)INIT_HEIGHT / 2) {
+    m_Projection = glm::perspective(glm::radians(45.0f), (float)INIT_WIDTH / INIT_HEIGHT, 0.1f, 100.0f);
 }
 
 glm::mat4 Camera::GetViewMatrix() {
@@ -27,33 +26,34 @@ void Camera::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<KeyPressedEvent>(OGLR_BIND_EVENT_FN(Camera::ProcessKeyEvent));
     dispatcher.Dispatch<MouseMovedEvent>(OGLR_BIND_EVENT_FN(Camera::OnMouseEvent));
+    dispatcher.Dispatch<WindowResizeEvent>(OGLR_BIND_EVENT_FN(Camera::OnWindowResized));
 }
 
 void Camera::OnUpdate(TimeStep dt) {
-	m_DeltaTime = dt;
+    m_DeltaTime = dt;
 
-	m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
+    m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
 }
 
 bool Camera::ProcessKeyEvent(KeyPressedEvent& e) {
-	if (e.GetKeyCode() == GLFW_KEY_A) {
+    if (e.GetKeyCode() == GLFW_KEY_A) {
         m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraTranslationSpeed;
-	}
-	else if (e.GetKeyCode() == GLFW_KEY_D) {
+    }
+    else if (e.GetKeyCode() == GLFW_KEY_D) {
         m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraTranslationSpeed;
-	}
+    }
 
-	if (e.GetKeyCode() == GLFW_KEY_W) {
+    if (e.GetKeyCode() == GLFW_KEY_W) {
         m_CameraPosition += m_CameraTranslationSpeed * m_CameraFront;
-	}
-	else if (e.GetKeyCode() == GLFW_KEY_S) {
+    }
+    else if (e.GetKeyCode() == GLFW_KEY_S) {
 
         m_CameraPosition -= m_CameraTranslationSpeed * m_CameraFront;
-	}
+    }
 
     //OGLR_CORE_INFO("m_CameraPosition: {0}, {1}, {2}", m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z);
 
-	return true;
+    return true;
 }
 
 bool Camera::OnMouseEvent(MouseMovedEvent& e) {
@@ -86,6 +86,12 @@ bool Camera::OnMouseEvent(MouseMovedEvent& e) {
     direction.y = sin(glm::radians(m_Pitch));
     direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
     m_CameraFront = glm::normalize(direction);
-    
-	return false;
+
+    return false;
+}
+
+bool Camera::OnWindowResized(WindowResizeEvent& e) {
+    m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
+    m_Projection = glm::perspective(glm::radians(45.0f), m_AspectRatio, 0.1f, 100.0f);
+    return false;
 }
