@@ -5,7 +5,7 @@
 Camera::Camera() :
     m_CameraPosition(0.0f, 1.0f, 2.0f),
     m_View(1.0),
-    m_CameraFront(0.0, 0.0, -1.0),
+    m_CameraFront(0.0f, 0.0f, -1.0f),
     firstMouse(true),
     m_Projection(1.0),
     m_CameraUp(0.0f, 1.0f, 0.0f),

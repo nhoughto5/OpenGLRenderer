@@ -104,6 +104,4 @@ void Model::Upload() {
 void Model::UpdateTransform()
 {
     m_Transform = glm::mat4(1.0);
-    m_Transform = glm::rotate(m_Transform, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
-    //m_Transform = glm::scale(m_Transform, glm::vec3(0.5, 0.5, 0.5));
 }

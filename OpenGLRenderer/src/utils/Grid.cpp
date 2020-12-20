@@ -10,9 +10,9 @@ Grid::Grid(size_t size) {
     for (uint32_t i = 0; i < numVert; ++i) {
         std::string str;
         for (uint32_t j = 0; j < numVert; ++j) {
-            Vertex m = Vertex(glm::vec3(gridSize * i, gridSize * j, 0), id);
+            Vertex m = Vertex(glm::vec3(gridSize * i, 0, -gridSize * j), id);
             m_Vertices.push_back(m);
-            str += std::to_string(id) + ": " + " " + std::to_string(m.pos.x) + "," + std::to_string(m.pos.y) + "  ";
+            str += std::to_string(id) + ": " + " " + std::to_string(m.pos.x) + "," + std::to_string(m.pos.z) + "  ";
             id++;
         }
         OGLR_CORE_INFO(str);
