@@ -21,3 +21,7 @@ const std::string TEXTURE_FOLDER = ASSET_FOLDER + "textures/";
 
 // Attributes
 const std::string ATTR_SIZE = "size";
+
+// Camera
+const uint32_t MOUSE_BUTTON_0 = 0;
+const uint32_t MOUSE_BUTTON_1 = 1;
