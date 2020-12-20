@@ -39,12 +39,18 @@ void Scene::loadGrid(pugi::xml_node node) {
 void Scene::loadModel(pugi::xml_node modelNode) {
     std::shared_ptr<Model> m(new Model(modelNode.name()));
 
+    for (auto attr = modelNode.attributes_begin(); attr != modelNode.attributes_end(); attr++) {
+        std::string name = attr->name();
+        if (name.compare(MESH_ATTRIBUTE_NAME) == 0) {
+            m->SetMesh(attr->value());
+        }
+    }
+
     auto matData = modelNode.child("material");
     for (pugi::xml_node child1 = modelNode.first_child(); child1; child1 = child1.next_sibling()) {
         std::string child1Name = child1.name();
         if (child1Name.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
             std::shared_ptr<Material> mat(new Material());
-
             for (pugi::xml_node child2 = child1.first_child(); child2; child2 = child2.next_sibling()) {
                 std::string child2Name = child2.name();
                 if (child2Name.compare(SHADER_NAME) == 0) {

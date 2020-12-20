@@ -2,7 +2,11 @@
 #include "Model.h"
 #include <tiny_obj_loader.h>
 
-Model::Model() {
+Model::Model() :
+    m_Position(0.0f),
+    m_Scale(1.0f),
+    m_Transform(1.0)
+{
 }
 
 Model::Model(std::string name) :
@@ -11,16 +15,19 @@ Model::Model(std::string name) :
     m_Scale(1.0f),
     m_Transform(1.0)
 {
-    const std::string MODEL_PATH = "assets/models/triangle.obj";
+}
+
+void Model::SetMesh(std::string meshName)
+{
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
     std::string warn, err;
 
-    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) {
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, (MODEL_FOLDER + meshName).c_str())) {
         throw std::runtime_error(warn + err);
     }
-    
+
     std::unordered_map<Vertex, uint32_t> uniqueVertices = {};
 
     for (const auto& shape : shapes) {

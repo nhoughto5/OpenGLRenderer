@@ -1,5 +1,5 @@
 <scene sceneName="triangleScene">
-  <model name="triangle">
+  <model name="triangle" mesh="triangle.obj">
     <material>
       <shader>triangle.glsl</shader>
       <texture>wall.jpg</texture>

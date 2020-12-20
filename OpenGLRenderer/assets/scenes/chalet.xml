@@ -1,0 +1,9 @@
+<scene sceneName="chaletScene">
+  <model name="chalet" mesh="chalet.obj">
+    <material>
+      <shader>triangle.glsl</shader>
+      <texture>chalet.jpg</texture>
+    </material>
+  </model>
+  <grid size="30"></grid>
+</scene>
