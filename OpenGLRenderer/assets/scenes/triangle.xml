@@ -1,5 +1,10 @@
 <scene sceneName="triangleScene">
   <model name="triangle" mesh="triangle.obj">
+    <transform>
+      <position x="0" y="0" z="0"></position>
+      <rotation x="0" y="0" z="0"></rotation>
+      <scale x="1" y="1" z="1"></scale>
+    </transform>
     <material>
       <shader>triangle.glsl</shader>
       <texture>farm.png</texture>

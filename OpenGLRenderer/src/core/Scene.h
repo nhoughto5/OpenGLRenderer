@@ -5,6 +5,7 @@
 #include "core/Camera.h"
 #include "Constants.h"
 #include "utils/Grid.h"
+#include "core/util/Transform.h"
 
 class Scene
 {
@@ -19,9 +20,12 @@ public:
     void Update();
 private:
     void loadModel(pugi::xml_node modelNode);
-
+    std::shared_ptr<Transform> ReadTransform(pugi::xml_node transData);
+    std::shared_ptr<Material> ReadMaterial(pugi::xml_node matData);
+    glm::vec3 ReadVector(pugi::xml_node matData);
     bool m_Active{ false };
     std::vector<std::shared_ptr<Model>> m_Models;
     Camera m_Camera;
+    bool m_Loaded{false};
 };
 

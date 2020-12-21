@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core\Material.h"
-
+#include "core/util/Transform.h"
 class Model
 {
 public:
@@ -10,6 +10,7 @@ public:
     virtual void Render(glm::mat4 cameraView, glm::mat4 cameraProj);
     void SetMaterial(std::shared_ptr<Material> mat);
     void SetMesh(std::string meshName);
+    void SetTransform(std::shared_ptr<Transform> t);
 protected:
     std::shared_ptr<Material> m_Material;
     std::string m_Name;
@@ -21,8 +22,8 @@ protected:
 
     unsigned int m_VAO;
 
-    glm::vec3 m_Position, m_Scale;
-    glm::mat4 m_Transform;
+    std::shared_ptr<Transform> m_Transform;
+    glm::mat4 m_TransformMatrix;
     size_t m_NumVerts;
 };
 

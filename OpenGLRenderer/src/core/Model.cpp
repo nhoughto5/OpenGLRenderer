@@ -3,16 +3,14 @@
 #include <tiny_obj_loader.h>
 
 Model::Model() :
-    m_Position(0.0f),
-    m_Scale(1.0f),
-    m_Transform(1.0) {
+    m_TransformMatrix(1.0) {
+    m_Transform = std::make_shared<Transform>();
 }
 
 Model::Model(std::string name) :
     m_Name(name),
-    m_Position(0.0f),
-    m_Scale(1.0f),
-    m_Transform(1.0) {
+    m_TransformMatrix(1.0) {
+    m_Transform = std::make_shared<Transform>();
 }
 
 void Model::SetMesh(std::string meshName) {
@@ -67,10 +65,14 @@ void Model::SetMesh(std::string meshName) {
     m_Vertices.clear();
 }
 
+void Model::SetTransform(std::shared_ptr<Transform> t) {
+    m_Transform = t;
+}
+
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     m_Material->Enable();
     UpdateTransform();
-    m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
+    m_Material->UpdateTransform(cameraProj * cameraView * m_TransformMatrix);
     glBindVertexArray(m_VAO);
     glDrawElements(GL_TRIANGLES, m_NumVerts, GL_UNSIGNED_INT, 0);
     m_Material->Disable();
@@ -108,5 +110,7 @@ void Model::Upload() {
 }
 
 void Model::UpdateTransform() {
-    m_Transform = glm::mat4(1.0);
+    m_TransformMatrix = glm::mat4(1.0);
+    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Transform->Position);
+    m_TransformMatrix = glm::scale(m_TransformMatrix * m_Transform->GetRotationMatrix(), m_Transform->Scale);
 }

@@ -33,7 +33,7 @@ void Grid::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     m_Material->Enable();
     UpdateTransform();
-    m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
+    m_Material->UpdateTransform(cameraProj * cameraView * m_TransformMatrix);
     glBindVertexArray(m_VAO);
     glDrawElements(GL_QUADS, m_Indices.size(), GL_UNSIGNED_INT, 0);
     m_Material->Disable();

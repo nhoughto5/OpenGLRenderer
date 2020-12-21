@@ -27,3 +27,13 @@ const std::string ATTR_SIZE = "size";
 // Camera
 const uint32_t MOUSE_BUTTON_0 = 0;
 const uint32_t MOUSE_BUTTON_1 = 1;
+
+// Model
+const std::string TRANSFORM = "transform";
+const std::string TRANSFORM_POS = "position";
+const std::string TRANSFORM_ROT = "rotation";
+const std::string TRANSFORM_SCALE = "scale";
+const std::string VECTOR_X = "x";
+const std::string VECTOR_Y = "y";
+const std::string VECTOR_Z = "z";
+const std::string VECTOR_W = "w";

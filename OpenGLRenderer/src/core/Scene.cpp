@@ -25,6 +25,7 @@ Scene::Scene(std::string scenePath) {
     }
 
     Application::Get().Subscribe(&m_Camera);
+    m_Loaded = true;
 }
 
 void Scene::loadGrid(pugi::xml_node node) {
@@ -46,26 +47,67 @@ void Scene::loadModel(pugi::xml_node modelNode) {
         }
     }
 
-    auto matData = modelNode.child("material");
-    for (pugi::xml_node child1 = modelNode.first_child(); child1; child1 = child1.next_sibling()) {
-        std::string child1Name = child1.name();
-        if (child1Name.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
-            std::shared_ptr<Material> mat(new Material());
-            for (pugi::xml_node child2 = child1.first_child(); child2; child2 = child2.next_sibling()) {
-                std::string child2Name = child2.name();
-                if (child2Name.compare(SHADER_NAME) == 0) {
-                    mat->SetShader(child2.first_child().value());
-                }
-                else if (child2Name.compare(TEXTURE_NAME) == 0) {
-                    mat->AddTexture(child2.first_child().value());
-                }
-            }
-
-            m->SetMaterial(mat);
+    for (const auto& child : modelNode.children()) {
+        std::string childName = child.name();
+        if (childName.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
+            m->SetMaterial(ReadMaterial(child));
+        }
+        else if (childName.compare(TRANSFORM) == 0) {
+            m->SetTransform(ReadTransform(child));
         }
     }
 
     AddModel(m);
+}
+
+std::shared_ptr<Transform> Scene::ReadTransform(pugi::xml_node transData) {
+    std::shared_ptr<Transform> transform(new Transform());
+    for (const auto& child : transData.children()) {
+        std::string childName = child.name();
+        if (childName.compare(TRANSFORM_POS) == 0) {
+            transform->Position = ReadVector(child);
+        }
+        else if (childName.compare(TRANSFORM_ROT) == 0) {
+            transform->Rotation = ReadVector(child);
+        }
+        else if (childName.compare(TRANSFORM_SCALE) == 0) {
+            transform->Scale = ReadVector(child);
+        }
+    }
+    return transform;
+}
+
+std::shared_ptr<Material> Scene::ReadMaterial(pugi::xml_node matData) {
+    std::shared_ptr<Material> mat(new Material());
+    for (const auto& child : matData.children()) {
+        std::string child2Name = child.name();
+        if (child2Name.compare(SHADER_NAME) == 0) {
+            mat->SetShader(child.first_child().value());
+        }
+        else if (child2Name.compare(TEXTURE_NAME) == 0) {
+            mat->AddTexture(child.first_child().value());
+        }
+    }
+
+    return mat;
+}
+
+glm::vec3 Scene::ReadVector(pugi::xml_node matData) {
+    glm::vec3 ret;
+
+    for (auto attr = matData.attributes_begin(); attr != matData.attributes_end(); attr++) {
+        std::string name = attr->name();
+        if (name.compare(VECTOR_X) == 0) {
+            ret.x = std::stof(attr->value());
+        }
+        else if (name.compare(VECTOR_Y) == 0) {
+            ret.y = std::stof(attr->value());
+        }
+        else if (name.compare(VECTOR_Z) == 0) {
+            ret.z = std::stof(attr->value());
+        }
+    }
+    return ret;
 }
 
 void Scene::AddModel(std::shared_ptr<Model> m) {
@@ -85,6 +127,7 @@ bool Scene::IsActive() {
 }
 
 void Scene::Update() {
+    if (!m_Loaded) return;
     for (std::shared_ptr<Model> model : m_Models) {
         model->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
