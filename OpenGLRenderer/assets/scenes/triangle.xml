@@ -2,7 +2,7 @@
   <model name="triangle" mesh="triangle.obj">
     <material>
       <shader>triangle.glsl</shader>
-      <texture>wall.jpg</texture>
+      <texture>farm.png</texture>
     </material>
   </model>
   <grid size="30"></grid>

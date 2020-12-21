@@ -23,5 +23,6 @@ protected:
 
     glm::vec3 m_Position, m_Scale;
     glm::mat4 m_Transform;
+    size_t m_NumVerts;
 };
 

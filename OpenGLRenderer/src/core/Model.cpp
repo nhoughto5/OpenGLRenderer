@@ -5,20 +5,17 @@
 Model::Model() :
     m_Position(0.0f),
     m_Scale(1.0f),
-    m_Transform(1.0)
-{
+    m_Transform(1.0) {
 }
 
 Model::Model(std::string name) :
     m_Name(name),
     m_Position(0.0f),
     m_Scale(1.0f),
-    m_Transform(1.0)
-{
+    m_Transform(1.0) {
 }
 
-void Model::SetMesh(std::string meshName)
-{
+void Model::SetMesh(std::string meshName) {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
@@ -33,24 +30,24 @@ void Model::SetMesh(std::string meshName)
     for (const auto& shape : shapes) {
         for (const auto& index : shape.mesh.indices) {
             Vertex vertex = {};
-
             vertex.pos = {
                 attrib.vertices[3 * index.vertex_index + 0],
                 attrib.vertices[3 * index.vertex_index + 1],
                 attrib.vertices[3 * index.vertex_index + 2]
             };
 
-            vertex.normal = {
-                attrib.normals[3 * index.normal_index + 0],
-                attrib.normals[3 * index.normal_index + 1],
-                attrib.normals[3 * index.normal_index + 2]
-            };
+            if (index.normal_index > 0) {
+                vertex.normal = {
+                    attrib.normals[3 * index.normal_index + 0],
+                    attrib.normals[3 * index.normal_index + 1],
+                    attrib.normals[3 * index.normal_index + 2]
+                };
+            }
 
-            if (attrib.texcoords.size() > 0)
-            {
+            if (attrib.texcoords.size() > 0) {
                 vertex.texCoord = {
                     attrib.texcoords[2 * index.texcoord_index + 0],
-                    attrib.texcoords[2 * index.texcoord_index + 1],
+                    1.0f - attrib.texcoords[2 * index.texcoord_index + 1],
                 };
             }
 
@@ -63,22 +60,24 @@ void Model::SetMesh(std::string meshName)
         }
     }
 
+    m_NumVerts = m_Indices.size();
+
     Upload();
+    m_Indices.clear();
+    m_Vertices.clear();
 }
 
-void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj)
-{
+void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     m_Material->Enable();
     UpdateTransform();
     m_Material->UpdateTransform(cameraProj * cameraView * m_Transform);
     glBindVertexArray(m_VAO);
-    glDrawElements(GL_TRIANGLES, m_Vertices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, m_NumVerts, GL_UNSIGNED_INT, 0);
     m_Material->Disable();
 }
 
 
-void Model::SetMaterial(std::shared_ptr<Material> mat)
-{
+void Model::SetMaterial(std::shared_ptr<Material> mat) {
     m_Material = mat;
 }
 
@@ -108,7 +107,6 @@ void Model::Upload() {
     glEnableVertexAttribArray(2);
 }
 
-void Model::UpdateTransform()
-{
+void Model::UpdateTransform() {
     m_Transform = glm::mat4(1.0);
 }
