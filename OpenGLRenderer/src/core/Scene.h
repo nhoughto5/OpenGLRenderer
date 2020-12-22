@@ -20,6 +20,7 @@ public:
     void Update();
 private:
     void loadModel(pugi::xml_node modelNode);
+    void loadLight(pugi::xml_node node);
     std::shared_ptr<Transform> ReadTransform(pugi::xml_node transData);
     std::shared_ptr<Material> ReadMaterial(pugi::xml_node matData);
     glm::vec3 ReadVector(pugi::xml_node matData);

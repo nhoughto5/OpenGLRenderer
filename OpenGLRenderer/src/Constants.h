@@ -37,3 +37,11 @@ const std::string VECTOR_X = "x";
 const std::string VECTOR_Y = "y";
 const std::string VECTOR_Z = "z";
 const std::string VECTOR_W = "w";
+
+// Light
+const std::string LIGHT = "light";
+const std::string AMBIENT = "ambient";
+const std::string VECTOR_R = "r";
+const std::string VECTOR_G = "g";
+const std::string VECTOR_B = "b";
+const std::string VECTOR_A = "a";

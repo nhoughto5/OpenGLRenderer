@@ -14,12 +14,14 @@ Scene::Scene(std::string scenePath) {
         for (pugi::xml_node child = scene.first_child(); child; child = child.next_sibling()) {
             std::string name = child.name();
 
-            // Add a new model
             if (name.compare(MODEL_ATTRIBUTE_NAME) == 0) {
                 loadModel(child);
             }
             else if (name.compare(GRID_NAME) == 0) {
                 loadGrid(child);
+            }
+            else if (name.compare(AMBIENT)) {
+                loadLight(child);
             }
         }
     }
@@ -58,6 +60,16 @@ void Scene::loadModel(pugi::xml_node modelNode) {
     }
 
     AddModel(m);
+}
+
+void Scene::loadLight(pugi::xml_node node) {
+    for (const auto& child : node.children()) {
+        std::string childName = child.name();
+        if (childName.compare(AMBIENT) == 0) {
+
+        }
+    }
+}
 }
 
 std::shared_ptr<Transform> Scene::ReadTransform(pugi::xml_node transData) {

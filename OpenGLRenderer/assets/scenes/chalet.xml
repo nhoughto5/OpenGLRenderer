@@ -11,4 +11,7 @@
     </material>
   </model>
   <grid size="30"></grid>
+  <light>
+    <ambient strength="0.5" r="1.0" g="1.0" b="1.0"></ambient>
+  </light>
 </scene>
