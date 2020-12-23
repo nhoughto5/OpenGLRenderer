@@ -6,7 +6,7 @@
       <scale x="1" y="1" z="1"></scale>
     </transform>
     <material>
-      <shader>triangle.glsl</shader>
+      <shader>chalet.glsl</shader>
       <texture>chalet.jpg</texture>
     </material>
   </model>

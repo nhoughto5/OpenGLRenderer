@@ -2,7 +2,9 @@
 #include "Renderer.h"
 #include "Application.h"
 
-Renderer::Renderer()
+Renderer::Renderer() :
+    m_Width(INIT_WIDTH),
+    m_Height(INIT_HEIGHT)
 {
 }
 
@@ -10,6 +12,7 @@ void Renderer::Init(uint32_t width, uint32_t height)
 {
     m_Width = width;
     m_Height = height;
+    InitServices();
     Application::Get().Subscribe(this);
 
     glEnable(GL_DEPTH_TEST);
@@ -35,4 +38,8 @@ void Renderer::SetCurrentScene(std::shared_ptr<Scene> scene)
 void Renderer::OnWindowResize(uint32_t width, uint32_t height)
 {
     glViewport(0, 0, width, height);
+}
+
+void Renderer::InitServices() {
+    LightService::GetInstance();
 }

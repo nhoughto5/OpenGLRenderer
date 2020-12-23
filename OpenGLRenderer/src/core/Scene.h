@@ -5,7 +5,9 @@
 #include "core/Camera.h"
 #include "Constants.h"
 #include "utils/Grid.h"
+#include "core/light/AmbientLight.h"
 #include "core/util/Transform.h"
+#include "core/light/LightService.h"
 
 class Scene
 {
@@ -24,9 +26,11 @@ private:
     std::shared_ptr<Transform> ReadTransform(pugi::xml_node transData);
     std::shared_ptr<Material> ReadMaterial(pugi::xml_node matData);
     glm::vec3 ReadVector(pugi::xml_node matData);
+    std::string ReadAttributeByName(pugi::xml_node node, std::string attrName);
     bool m_Active{ false };
     std::vector<std::shared_ptr<Model>> m_Models;
     Camera m_Camera;
+    LightService* m_LightService;
     bool m_Loaded{false};
 };
 

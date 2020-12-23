@@ -121,6 +121,7 @@ void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {
 	}
 
 	m_ProgramId = program;
+	m_IsLoaded = true;
 }
 
 std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source) {
@@ -203,5 +204,9 @@ void Shader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
 void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) {
 	GLint location = glGetUniformLocation(m_ProgramId, name.c_str());
 	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+bool Shader::isLoaded() {
+	return m_IsLoaded;
 }
 

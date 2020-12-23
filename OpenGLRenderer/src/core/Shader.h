@@ -21,6 +21,7 @@ public:
     void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
     void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
+    bool isLoaded();
 private:
     std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source);
     void Compile(std::unordered_map<GLenum, std::string>& shaderSources);
@@ -28,5 +29,6 @@ private:
 
     uint32_t m_ProgramId;
     std::string m_VertexCode, m_FragmentCode, m_Name;
+    bool m_IsLoaded{ false };
 };
 

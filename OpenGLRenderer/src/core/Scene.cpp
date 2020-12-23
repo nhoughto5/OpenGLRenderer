@@ -6,7 +6,7 @@ Scene::Scene(std::string scenePath) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(scenePath.c_str());
     OGLR_ASSERT(result.status == 0, "FAILED TO READ SCENE");
-
+    m_LightService = LightService::GetInstance();
     for (pugi::xml_node scene : doc.children("scene")) {
         OGLR_CORE_INFO("============================");
         OGLR_CORE_INFO("LOADING SCENE: {0}", scene.attribute(SCENE_NAME.c_str()).value());
@@ -20,7 +20,7 @@ Scene::Scene(std::string scenePath) {
             else if (name.compare(GRID_NAME) == 0) {
                 loadGrid(child);
             }
-            else if (name.compare(AMBIENT)) {
+            else if (name.compare(LIGHT) == 0) {
                 loadLight(child);
             }
         }
@@ -66,10 +66,9 @@ void Scene::loadLight(pugi::xml_node node) {
     for (const auto& child : node.children()) {
         std::string childName = child.name();
         if (childName.compare(AMBIENT) == 0) {
-
+            m_LightService->SetAmbientLight(ReadVector(child), std::stof(ReadAttributeByName(child, "strength")));
         }
     }
-}
 }
 
 std::shared_ptr<Transform> Scene::ReadTransform(pugi::xml_node transData) {
@@ -109,17 +108,28 @@ glm::vec3 Scene::ReadVector(pugi::xml_node matData) {
 
     for (auto attr = matData.attributes_begin(); attr != matData.attributes_end(); attr++) {
         std::string name = attr->name();
-        if (name.compare(VECTOR_X) == 0) {
+        if (name.compare(VECTOR_X) == 0 || name.compare(VECTOR_R) == 0) {
             ret.x = std::stof(attr->value());
         }
-        else if (name.compare(VECTOR_Y) == 0) {
+        else if (name.compare(VECTOR_Y) == 0 || name.compare(VECTOR_G) == 0) {
             ret.y = std::stof(attr->value());
         }
-        else if (name.compare(VECTOR_Z) == 0) {
+        else if (name.compare(VECTOR_Z) == 0 || name.compare(VECTOR_B) == 0) {
             ret.z = std::stof(attr->value());
         }
     }
     return ret;
+}
+
+std::string Scene::ReadAttributeByName(pugi::xml_node node, std::string attrName) {
+    for (auto attr = node.attributes_begin(); attr != node.attributes_end(); attr++) {
+        std::string name = attr->name();
+        if (name.compare(attrName) == 0) {
+            return attr->value();
+        }
+    }
+
+    return "";
 }
 
 void Scene::AddModel(std::shared_ptr<Model> m) {
