@@ -132,7 +132,7 @@ void Application::Subscribe(IListener* listener) {
 void Application::Run() {
     Log::Init();
 
-    std::shared_ptr<Scene> testScene(new Scene(SCENE_FOLDER + "chalet.xml"));
+    std::shared_ptr<Scene> testScene(new Scene(SCENE_FOLDER + "cottage.xml"));
     testScene->Activate();
     m_Scenes.push_back(testScene);
 

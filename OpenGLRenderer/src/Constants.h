@@ -20,6 +20,7 @@ const std::string SHADER_FOLDER = ASSET_FOLDER + "shaders/";
 const std::string SCENE_FOLDER = ASSET_FOLDER + "scenes/";
 const std::string TEXTURE_FOLDER = ASSET_FOLDER + "textures/";
 const std::string MODEL_FOLDER = ASSET_FOLDER + "models/";
+const std::string MATERIAL_FOLDER = ASSET_FOLDER + "materials/";
 
 // Attributes
 const std::string ATTR_SIZE = "size";

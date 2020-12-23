@@ -28,6 +28,5 @@ in vec2 TexCoord;
 uniform sampler2D targetTexture;
 
 void main() {
-	//color = vec4(uAmbientLight, 1.0) * texture(targetTexture, TexCoord);
-	color = vec4(0.7, 0.2, 0.1, 1.0);
+	color = vec4(uAmbientLight, 1.0) * texture(targetTexture, TexCoord);
 }
