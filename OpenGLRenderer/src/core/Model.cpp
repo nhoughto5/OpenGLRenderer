@@ -19,7 +19,7 @@ void Model::SetMesh(std::string meshName) {
     std::vector<tinyobj::material_t> materials;
     std::string warn, err;
 
-    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, (MODEL_FOLDER + meshName).c_str())) {
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, (MODEL_FOLDER + meshName).c_str(), MODEL_FOLDER.c_str())) {
         throw std::runtime_error(warn + err);
     }
 
@@ -42,7 +42,7 @@ void Model::SetMesh(std::string meshName) {
                 };
             }
 
-            if (attrib.texcoords.size() > 0) {
+            if (attrib.texcoords.size() > 0 && index.texcoord_index >= 0) {
                 vertex.texCoord = {
                     attrib.texcoords[2 * index.texcoord_index + 0],
                     1.0f - attrib.texcoords[2 * index.texcoord_index + 1],

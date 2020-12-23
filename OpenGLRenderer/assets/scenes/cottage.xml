@@ -1,0 +1,17 @@
+<scene sceneName="cottageScene">
+  <model name="cottage" mesh="cottage_obj.obj">
+    <transform>
+      <position x="0" y="0" z="0"></position>
+      <rotation x="0" y="0" z="0"></rotation>
+      <scale x="0.2" y="0.2" z="0.2"></scale>
+    </transform>
+    <material>
+      <shader>cottage.glsl</shader>
+      <!--<texture>chalet.jpg</texture>-->
+    </material>
+  </model>
+  <grid size="30"></grid>
+  <!--<light>
+    <ambient strength="0.9" r="1.0" g="1.0" b="1.0"></ambient>
+  </light>-->
+</scene>
