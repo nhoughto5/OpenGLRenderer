@@ -4,9 +4,9 @@
 
 Texture::Texture(std::string fileName, uint32_t textureUnit)
 {
-    m_FileName = fileName;
+    m_FileName = ASSET_FOLDER + fileName;
     m_TextureUnit = GL_TEXTURE0 + textureUnit;
-    unsigned char* texData = stbi_load((TEXTURE_FOLDER + fileName).c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
+    unsigned char* texData = stbi_load(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
 
     glActiveTexture(m_TextureUnit);
     glGenTextures(1, &m_TextureId);
@@ -25,6 +25,7 @@ Texture::Texture(std::string fileName, uint32_t textureUnit)
     else
     {
         OGLR_CORE_ERROR("Failed to load texture");
+        throw std::runtime_error("Failed to load texture: "+ m_FileName);
     }
 
     stbi_image_free(texData);

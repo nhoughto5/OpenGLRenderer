@@ -2,4 +2,4 @@
 # Material Count: 1
 
 newmtl triangle_material
-map_Kd farm.png
+map_Kd triangle/farm.png

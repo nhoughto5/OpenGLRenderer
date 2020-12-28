@@ -6,12 +6,13 @@ Shape::Shape()
 {
 }
 
-Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader = "default.glsl")
+Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::shared_ptr<MaterialData> matData)
 {
     SetData(v, i, shader);
+    m_Material.SetMaterialData(matData);
 }
 
-void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader = "default.glsl")
+void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader)
 {
     m_Material.SetShader(shader.c_str());
     m_Vertices = v;

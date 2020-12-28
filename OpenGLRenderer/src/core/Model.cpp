@@ -65,18 +65,30 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
             }
 
             indices.push_back(uniqueVertices[vertex]);
-            //m_Shapes.push_back(std::make_shared<Shape>());
         }
 
-        //if (shape.mesh.material_ids.size() > 0)
-        //{
-        //    m_Shapes.push_back(std::make_shared<Shape>(shape, attrib, &materials[shape.mesh.material_ids[0]]));
-        //}
-        //else
-        //{
-        //    m_Shapes.push_back(std::make_shared<Shape>(shape, attrib, nullptr));
-        //}
-        std::shared_ptr<Shape> s(new Shape(verts, indices, "triangle.glsl"));
+        auto mat = materials[shape.mesh.material_ids[0]];
+        std::shared_ptr<MaterialData> matData(new MaterialData());
+        matData->ambient_texname = mat.ambient_texname;
+        matData->diffuse_texname = mat.diffuse_texname;
+        matData->specular_texname = mat.specular_texname;
+        matData->specular_highlight_texname = mat.specular_highlight_texname;
+        matData->bump_texname = mat.bump_texname;
+        matData->displacement_texname = mat.displacement_texname;
+        matData->alpha_texname = mat.alpha_texname;
+        matData->reflection_texname = mat.reflection_texname;
+
+        matData->ambient = float3ToGLM(mat.ambient);
+        matData->diffuse = float3ToGLM(mat.diffuse);
+        matData->specular = float3ToGLM(mat.specular);
+        matData->transmittance = float3ToGLM(mat.transmittance);
+        matData->emission = float3ToGLM(mat.emission);
+
+        matData->shininess = mat.shininess;
+        matData->ior = mat.ior;
+        matData->dissolve = mat.dissolve;
+        matData->illum = mat.illum;
+        std::shared_ptr<Shape> s(new Shape(verts, indices, "triangle.glsl", matData));
         m_Shapes.push_back(s);
     }
 }
@@ -94,6 +106,10 @@ void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
 
 void Model::UpdateTransform() {
     m_TransformMatrix = glm::mat4(1.0);
-    //m_TransformMatrix = glm::translate(m_TransformMatrix, m_Transform->Position);
-    //m_TransformMatrix = glm::scale(m_TransformMatrix * m_Transform->GetRotationMatrix(), m_Transform->Scale);
+    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Transform->Position);
+    m_TransformMatrix = glm::scale(m_TransformMatrix * m_Transform->GetRotationMatrix(), m_Transform->Scale);
+}
+
+glm::vec3 Model::float3ToGLM(float* realt) {
+    return glm::vec3(realt[0], realt[1], realt[2]);
 }

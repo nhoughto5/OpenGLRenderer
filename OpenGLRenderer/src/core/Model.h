@@ -1,6 +1,7 @@
 #pragma once
 #include "util/Transform.h"
 #include "Shape.h"
+#include "util/MaterialData.h"
 
 class Model
 {
@@ -18,5 +19,7 @@ protected:
 
     std::shared_ptr<Transform> m_Transform;
     glm::mat4 m_TransformMatrix;
+private:
+    glm::vec3 float3ToGLM(float* realt);
 };
 

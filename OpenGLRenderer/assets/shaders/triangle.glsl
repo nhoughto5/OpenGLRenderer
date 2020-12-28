@@ -8,10 +8,13 @@ layout (location = 2) in vec2 aTexCoord;
 out vec3 outNormal;
 out vec2 TexCoord;
 
-uniform mat4 uTransform;
+uniform mat4 u_Projection;
+uniform mat4 u_View;
+uniform mat4 u_Model;
 
 void main() {
-	gl_Position = uTransform * vec4(a_Position, 1.0);
+	vec4 worldPosition = u_Model * vec4(a_Position,1.0);
+	gl_Position = u_Projection * u_View * worldPosition;
 	outNormal = aNormal;
 	TexCoord = aTexCoord;
 }
@@ -24,8 +27,8 @@ out vec4 color;
 in vec3 outNormal;
 in vec2 TexCoord;
 
-uniform sampler2D targetTexture;
+uniform sampler2D t_Diffuse;
 
 void main() {
-	color = texture(targetTexture, TexCoord);
+	color = texture(t_Diffuse, TexCoord);
 }

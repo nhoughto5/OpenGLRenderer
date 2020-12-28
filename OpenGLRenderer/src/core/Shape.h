@@ -1,13 +1,13 @@
 #pragma once
 #include "Material.h"
+#include "util/MaterialData.h"
 
 class Shape
 {
 public:
     Shape();
-    Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader);
+    Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::shared_ptr<MaterialData> matData);
     void SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader);
-    //void SetShader(std::string fileName);
     void Draw(GLenum mode, glm::mat4& model, glm::mat4& view, glm::mat4& proj);
 private:
     void Upload();

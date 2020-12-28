@@ -28,8 +28,8 @@ void Material::Disable() {
     }
 }
 
-void Material::AddTexture(std::string fileName) {
-    m_Textures.push_back(std::make_shared<Texture>(fileName, m_Textures.size()));
+void Material::AddTexture(std::string fileName, std::string typeName) {
+    m_Textures.push_back(std::make_shared<Texture>(fileName, glGetUniformLocation(m_Shader.ShaderId(), typeName.c_str())));
 }
 
 void Material::UpdateTransform(glm::mat4& model, glm::mat4& view, glm::mat4& proj) {
@@ -43,4 +43,8 @@ void Material::UploadUniforms() {
         auto ambient = m_LightService->GetAmbientLight();
         m_Shader.UploadUniformFloat3("uAmbientLight", ambient.strength * ambient.color);
     }
+}
+
+void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
+    AddTexture(matData->diffuse_texname, "t_Diffuse");
 }

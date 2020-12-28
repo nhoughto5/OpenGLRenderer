@@ -20,7 +20,7 @@ public:
     void UploadUniformFloat4(const std::string& name, const glm::vec4& values);
     void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
     void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
-
+    uint32_t ShaderId() { return m_ProgramId; }
     bool isLoaded();
 private:
     std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source);
