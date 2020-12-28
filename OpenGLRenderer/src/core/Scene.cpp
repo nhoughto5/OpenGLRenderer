@@ -41,18 +41,25 @@ void Scene::loadGrid(pugi::xml_node node) {
 
 void Scene::loadModel(pugi::xml_node modelNode) {
     std::shared_ptr<Model> m(new Model(modelNode.name()));
-
+    bool hasMTLFile = false;
+    std::string meshPath = "";
     for (auto attr = modelNode.attributes_begin(); attr != modelNode.attributes_end(); attr++) {
         std::string name = attr->name();
         if (name.compare(MESH_ATTRIBUTE_NAME) == 0) {
-            m->SetMesh(attr->value());
+            meshPath = attr->value();
+        }
+        else if (name.compare(MATERIAL_ATTRIBUTE_NAME) == 0)
+        {
+            hasMTLFile = true;
         }
     }
 
+    m->SetMesh(meshPath, hasMTLFile);
+
     for (const auto& child : modelNode.children()) {
         std::string childName = child.name();
-        if (childName.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
-            m->SetMaterial(ReadMaterial(child));
+        if (childName.compare(MATERIAL_ATTRIBUTE_NAME) == 0 && !hasMTLFile) {
+            //m->SetMaterial(ReadMaterial(child));
         }
         else if (childName.compare(TRANSFORM) == 0) {
             m->SetTransform(ReadTransform(child));
@@ -88,20 +95,20 @@ std::shared_ptr<Transform> Scene::ReadTransform(pugi::xml_node transData) {
     return transform;
 }
 
-std::shared_ptr<Material> Scene::ReadMaterial(pugi::xml_node matData) {
-    std::shared_ptr<Material> mat(new Material());
-    for (const auto& child : matData.children()) {
-        std::string child2Name = child.name();
-        if (child2Name.compare(SHADER_NAME) == 0) {
-            mat->SetShader(child.first_child().value());
-        }
-        else if (child2Name.compare(TEXTURE_NAME) == 0) {
-            mat->AddTexture(child.first_child().value());
-        }
-    }
-
-    return mat;
-}
+//std::shared_ptr<Material> Scene::ReadMaterial(pugi::xml_node matData) {
+//    std::shared_ptr<Material> mat(new Material());
+//    for (const auto& child : matData.children()) {
+//        std::string child2Name = child.name();
+//        if (child2Name.compare(SHADER_NAME) == 0) {
+//            mat->SetShader(child.first_child().value());
+//        }
+//        else if (child2Name.compare(TEXTURE_NAME) == 0) {
+//            mat->AddTexture(child.first_child().value());
+//        }
+//    }
+//
+//    return mat;
+//}
 
 glm::vec3 Scene::ReadVector(pugi::xml_node matData) {
     glm::vec3 ret;

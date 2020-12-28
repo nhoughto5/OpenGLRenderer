@@ -11,7 +11,7 @@ public:
     void Enable();
     void Disable();
     void AddTexture(std::string src);
-    void UpdateTransform(glm::mat4 trans);
+    void UpdateTransform(glm::mat4& model, glm::mat4& view, glm::mat4& proj);
     void UploadUniforms();
 private:
     Shader m_Shader;

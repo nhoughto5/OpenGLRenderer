@@ -1,14 +1,10 @@
 <scene sceneName="cottageScene">
-  <model name="cottage" mesh="cottage_obj.obj">
+  <model name="cottage" mesh="cottage/cottage_obj.obj" material="cottage/">
     <transform>
       <position x="0" y="0" z="0"></position>
       <rotation x="0" y="0" z="0"></rotation>
       <scale x="0.02" y="0.02" z="0.02"></scale>
     </transform>
-    <material>
-      <shader>cottage.glsl</shader>
-      <texture>cottage_diffuse.png</texture>
-    </material>
   </model>
   <grid size="30"></grid>
   <light>

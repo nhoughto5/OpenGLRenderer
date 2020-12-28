@@ -24,7 +24,7 @@ private:
     void loadModel(pugi::xml_node modelNode);
     void loadLight(pugi::xml_node node);
     std::shared_ptr<Transform> ReadTransform(pugi::xml_node transData);
-    std::shared_ptr<Material> ReadMaterial(pugi::xml_node matData);
+    //std::shared_ptr<Material> ReadMaterial(pugi::xml_node matData);
     glm::vec3 ReadVector(pugi::xml_node matData);
     std::string ReadAttributeByName(pugi::xml_node node, std::string attrName);
     bool m_Active{ false };

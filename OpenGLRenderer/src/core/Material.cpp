@@ -32,8 +32,10 @@ void Material::AddTexture(std::string fileName) {
     m_Textures.push_back(std::make_shared<Texture>(fileName, m_Textures.size()));
 }
 
-void Material::UpdateTransform(glm::mat4 trans) {
-    m_Shader.UploadUniformMat4("uTransform", trans);
+void Material::UpdateTransform(glm::mat4& model, glm::mat4& view, glm::mat4& proj) {
+    m_Shader.UploadUniformMat4("u_Projection", proj);
+    m_Shader.UploadUniformMat4("u_View", view);
+    m_Shader.UploadUniformMat4("u_Model", model);
 }
 
 void Material::UploadUniforms() {
