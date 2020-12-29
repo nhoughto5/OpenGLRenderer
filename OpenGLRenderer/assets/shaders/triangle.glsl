@@ -27,9 +27,19 @@ out vec4 color;
 in vec3 outNormal;
 in vec2 TexCoord;
 
+uniform sampler2D t_Ambient;
 uniform sampler2D t_Diffuse;
 
 void main() {
 	//color = vec4(TexCoord.x, TexCoord.y, 0.0, 1.0);
-	color = texture(t_Diffuse, TexCoord);
+	if (TexCoord.x > 0.50)
+	{
+		color = vec4(TexCoord.x, TexCoord.y, 0.0, 1.0);
+		//color = texture(t_Ambient, TexCoord);
+	}
+	else
+	{
+		//color = vec4(TexCoord.x, TexCoord.y, 0.0, 1.0);
+		color = texture(t_Diffuse, TexCoord);
+	}
 }

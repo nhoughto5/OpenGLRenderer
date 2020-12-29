@@ -3,3 +3,4 @@
 
 newmtl triangle_material
 map_Kd triangle/farm.png
+map_Ka triangle/wall.jpg
