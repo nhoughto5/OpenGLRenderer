@@ -2,12 +2,12 @@
 #include "Texture.h"
 #include <stb_image.h>
 
-Texture::Texture(std::string fileName, uint32_t textureUnit)
+Texture::Texture(std::string fileName, uint32_t programId, uint16_t shaderId)
 {
     m_FileName = ASSET_FOLDER + fileName;
-    m_TextureUnit = GL_TEXTURE0 + textureUnit;
+    m_TextureUnit = GL_TEXTURE0;// +shaderId;
     unsigned char* texData = stbi_load(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
-
+    glUniform1i(programId, shaderId);
     glActiveTexture(m_TextureUnit);
     glGenTextures(1, &m_TextureId);
     glBindTexture(GL_TEXTURE_2D, m_TextureId);

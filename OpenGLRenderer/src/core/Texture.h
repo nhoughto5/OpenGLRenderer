@@ -2,7 +2,7 @@
 class Texture
 {
 public:
-    Texture(std::string fileName, uint32_t textureUnit);
+    Texture(std::string fileName, uint32_t programId, uint16_t shaderId);
 
     void Enable();
     void Disable();
