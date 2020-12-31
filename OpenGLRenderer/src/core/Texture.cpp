@@ -35,6 +35,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
 
     stbi_image_free(texData);
     Disable();
+    glUseProgram(0);
 }
 
 void Texture::Enable()
