@@ -95,21 +95,6 @@ std::shared_ptr<Transform> Scene::ReadTransform(pugi::xml_node transData) {
     return transform;
 }
 
-//std::shared_ptr<Material> Scene::ReadMaterial(pugi::xml_node matData) {
-//    std::shared_ptr<Material> mat(new Material());
-//    for (const auto& child : matData.children()) {
-//        std::string child2Name = child.name();
-//        if (child2Name.compare(SHADER_NAME) == 0) {
-//            mat->SetShader(child.first_child().value());
-//        }
-//        else if (child2Name.compare(TEXTURE_NAME) == 0) {
-//            mat->AddTexture(child.first_child().value());
-//        }
-//    }
-//
-//    return mat;
-//}
-
 glm::vec3 Scene::ReadVector(pugi::xml_node matData) {
     glm::vec3 ret;
 
@@ -148,7 +133,7 @@ void Scene::Activate() {
 }
 
 void Scene::Deactivate() {
-    m_Active = true;
+    m_Active = false;
 }
 
 bool Scene::IsActive() {

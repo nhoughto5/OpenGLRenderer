@@ -29,8 +29,7 @@ void Material::Disable() {
 }
 
 void Material::AddTexture(std::string fileName, std::string typeName) {
-    //m_Textures.push_back(std::make_shared<Texture>(fileName, m_Shader.ShaderId(), glGetUniformLocation(m_Shader.ShaderId(), typeName.c_str())));
-    m_Textures.push_back(std::make_shared<Texture>(fileName, m_Shader.ShaderId(), typeName));
+    m_Textures.push_back(std::make_shared<Texture>(fileName, m_Shader.ShaderId(), typeName, m_Textures.size()));
 }
 
 void Material::UpdateTransform(glm::mat4& model, glm::mat4& view, glm::mat4& proj) {
@@ -47,6 +46,6 @@ void Material::UploadUniforms() {
 }
 
 void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
-    AddTexture(matData->diffuse_texname, "t_Diffuse");
-    AddTexture(matData->ambient_texname, "t_Ambient");
+    AddTexture(matData->ambient_texname, "t_Ambient"); // Wall
+    AddTexture(matData->diffuse_texname, "t_Diffuse"); // Farm
 }

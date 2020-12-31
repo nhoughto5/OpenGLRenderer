@@ -2,15 +2,15 @@
 class Texture
 {
 public:
-    Texture(std::string fileName, uint32_t programId, std::string uniformId);
+    Texture(std::string fileName, uint32_t programId, std::string uniformId, uint16_t unitId);
 
     void Enable();
     void Disable();
 private:
-    uint32_t m_TextureId, m_TextureUnit;
+    uint32_t m_ProgramId;
     std::string m_FileName;
     int m_Width, m_Height, m_NrChannels;
-    uint32_t m_ProgramId;
-    uint16_t m_UniformId;
+    GLenum m_TextureUnit{ GL_TEXTURE0 };
+    GLuint m_TextureId{ 0 };
 };
 
