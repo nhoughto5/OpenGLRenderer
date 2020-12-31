@@ -46,6 +46,6 @@ void Material::UploadUniforms() {
 }
 
 void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
-    AddTexture(matData->ambient_texname, "t_Ambient"); // Wall
     AddTexture(matData->diffuse_texname, "t_Diffuse"); // Farm
+    AddTexture(matData->ambient_texname, "t_Ambient"); // Wall
 }

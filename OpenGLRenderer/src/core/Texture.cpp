@@ -8,6 +8,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
     unsigned char* texData = stbi_load(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
 
     m_ProgramId = programId;
+    glUseProgram(m_ProgramId);
     
     glUniform1i(glGetUniformLocation(programId, uniformId.c_str()), unitId);
     glGenTextures(1, &m_TextureId);
