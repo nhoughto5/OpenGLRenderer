@@ -40,7 +40,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
 
 void Texture::Enable()
 {
-    glActiveTexture(m_TextureUnit); // activate the texture unit first before binding texture
+    glActiveTexture(m_TextureUnit); 
     glBindTexture(GL_TEXTURE_2D, m_TextureId);
 }
 

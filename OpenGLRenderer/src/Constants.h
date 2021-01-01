@@ -4,10 +4,13 @@
 const uint32_t INIT_WIDTH = 1024;
 const uint32_t INIT_HEIGHT = 768;
 
+
+
 // XML parse IDs
 const std::string MODEL_ATTRIBUTE_NAME = "model";
 const std::string MODEL_NAME = "modelName";
 const std::string MATERIAL_ATTRIBUTE_NAME = "material";
+const std::string SCENE = "scene";
 const std::string SCENE_NAME = "sceneName";
 const std::string SHADER_NAME = "shader";
 const std::string TEXTURE_NAME = "texture";
@@ -21,6 +24,9 @@ const std::string SCENE_FOLDER = ASSET_FOLDER + "scenes/";
 const std::string TEXTURE_FOLDER = ASSET_FOLDER + "textures/";
 const std::string MODEL_FOLDER = ASSET_FOLDER + "models/";
 const std::string MATERIAL_FOLDER = ASSET_FOLDER + "materials/";
+
+// Master Config
+const std::string MASTER_CONFIG = ASSET_FOLDER + "masterconfig.xml";
 
 // Attributes
 const std::string ATTR_SIZE = "size";

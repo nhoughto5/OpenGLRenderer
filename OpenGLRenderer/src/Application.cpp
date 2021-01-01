@@ -32,7 +32,7 @@ Application::Application() :
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     assert(status, "Failed to load glad");
     SetVSync(true);
-    spdlog::info("Welcome to spdlog!");
+    spdlog::info("Welcome to OGLR!");
 
     glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);
@@ -132,9 +132,21 @@ void Application::Subscribe(IListener* listener) {
 void Application::Run() {
     Log::Init();
 
-    std::shared_ptr<Scene> testScene(new Scene(SCENE_FOLDER + "triangle.xml"));
-    testScene->Activate();
-    m_Scenes.push_back(testScene);
+    pugi::xml_document config;
+    pugi::xml_parse_result result = config.load_file(MASTER_CONFIG.c_str());
+    OGLR_ASSERT(result.status == 0, "FAILED TO MASTER CONFIG");
+
+    std::shared_ptr<Scene> testScene;
+    for (const auto& app : config.children()) {
+        for (const auto& child : app.children()) {
+            std::string childName = child.name();
+            if (childName.compare(SCENE) == 0) {
+                testScene = std::make_shared<Scene>(SCENE_FOLDER + child.first_child().value());
+                testScene->Activate();
+                m_Scenes.push_back(testScene);
+            }
+        }
+    }
 
     m_Renderer.Init(m_Width, m_Height);
     m_Running = true;

@@ -48,8 +48,7 @@ void Scene::loadModel(pugi::xml_node modelNode) {
         if (name.compare(MESH_ATTRIBUTE_NAME) == 0) {
             meshPath = attr->value();
         }
-        else if (name.compare(MATERIAL_ATTRIBUTE_NAME) == 0)
-        {
+        else if (name.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
             hasMTLFile = true;
         }
     }
@@ -58,10 +57,7 @@ void Scene::loadModel(pugi::xml_node modelNode) {
 
     for (const auto& child : modelNode.children()) {
         std::string childName = child.name();
-        if (childName.compare(MATERIAL_ATTRIBUTE_NAME) == 0 && !hasMTLFile) {
-            //m->SetMaterial(ReadMaterial(child));
-        }
-        else if (childName.compare(TRANSFORM) == 0) {
+        if (childName.compare(TRANSFORM) == 0) {
             m->SetTransform(ReadTransform(child));
         }
     }
