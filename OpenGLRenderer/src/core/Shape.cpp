@@ -2,18 +2,18 @@
 #include "Shape.h"
 
 
-Shape::Shape()
-{
+Shape::Shape() {
 }
 
-Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::shared_ptr<MaterialData> matData)
-{
+Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::shared_ptr<MaterialData> matData) {
     SetData(v, i, shader);
-    m_Material.SetMaterialData(matData);
+
+    if (matData != nullptr) {
+        m_Material.SetMaterialData(matData);
+    }
 }
 
-void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader)
-{
+void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader) {
     m_Material.SetShader(shader.c_str());
     m_Vertices = v;
     m_Indices = i;
@@ -22,8 +22,7 @@ void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::strin
     Upload();
 }
 
-void Shape::Draw(GLenum mode, glm::mat4& model, glm::mat4& view, glm::mat4& proj)
-{
+void Shape::Draw(GLenum mode, glm::mat4& model, glm::mat4& view, glm::mat4& proj) {
     m_Material.Enable();
     m_Material.UpdateTransform(model, view, proj);
     glBindVertexArray(m_VAO);
@@ -31,8 +30,7 @@ void Shape::Draw(GLenum mode, glm::mat4& model, glm::mat4& view, glm::mat4& proj
     m_Material.Disable();
 }
 
-void Shape::Upload()
-{
+void Shape::Upload() {
     glGenVertexArrays(1, &m_VAO);
     glBindVertexArray(m_VAO);
 

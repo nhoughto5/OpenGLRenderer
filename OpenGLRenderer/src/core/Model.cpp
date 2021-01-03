@@ -23,8 +23,7 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
 
     std::string directory;
     const size_t last_slash_idx = meshPath.rfind('/');
-    if (std::string::npos != last_slash_idx)
-    {
+    if (std::string::npos != last_slash_idx) {
         directory = meshPath.substr(0, last_slash_idx) + "/";
     }
 
@@ -67,29 +66,36 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
             indices.push_back(uniqueVertices[vertex]);
         }
 
-        auto mat = materials[shape.mesh.material_ids[0]];
-        std::shared_ptr<MaterialData> matData(new MaterialData());
-        matData->ambient_texname = mat.ambient_texname;
-        matData->diffuse_texname = mat.diffuse_texname;
-        matData->specular_texname = mat.specular_texname;
-        matData->specular_highlight_texname = mat.specular_highlight_texname;
-        matData->bump_texname = mat.bump_texname;
-        matData->displacement_texname = mat.displacement_texname;
-        matData->alpha_texname = mat.alpha_texname;
-        matData->reflection_texname = mat.reflection_texname;
+        if (materials.size() > 0) {
+            tinyobj::material_t mat = materials[shape.mesh.material_ids[0]];
+            std::shared_ptr<MaterialData> matData(new MaterialData());
+            matData->ambient_texname = mat.ambient_texname;
+            matData->diffuse_texname = mat.diffuse_texname;
+            matData->specular_texname = mat.specular_texname;
+            matData->specular_highlight_texname = mat.specular_highlight_texname;
+            matData->bump_texname = mat.bump_texname;
+            matData->displacement_texname = mat.displacement_texname;
+            matData->alpha_texname = mat.alpha_texname;
+            matData->reflection_texname = mat.reflection_texname;
 
-        matData->ambient = float3ToGLM(mat.ambient);
-        matData->diffuse = float3ToGLM(mat.diffuse);
-        matData->specular = float3ToGLM(mat.specular);
-        matData->transmittance = float3ToGLM(mat.transmittance);
-        matData->emission = float3ToGLM(mat.emission);
+            matData->ambient = float3ToGLM(mat.ambient);
+            matData->diffuse = float3ToGLM(mat.diffuse);
+            matData->specular = float3ToGLM(mat.specular);
+            matData->transmittance = float3ToGLM(mat.transmittance);
+            matData->emission = float3ToGLM(mat.emission);
 
-        matData->shininess = mat.shininess;
-        matData->ior = mat.ior;
-        matData->dissolve = mat.dissolve;
-        matData->illum = mat.illum;
-        std::shared_ptr<Shape> s(new Shape(verts, indices, "triangle.glsl", matData));
-        m_Shapes.push_back(s);
+            matData->shininess = mat.shininess;
+            matData->ior = mat.ior;
+            matData->dissolve = mat.dissolve;
+            matData->illum = mat.illum;
+
+            std::shared_ptr<Shape> s(new Shape(verts, indices, "triangle.glsl", matData));
+            m_Shapes.push_back(s);
+        }
+        else {
+            std::shared_ptr<Shape> s(new Shape(verts, indices, "triangle.glsl", nullptr));
+            m_Shapes.push_back(s);
+        }
     }
 }
 
@@ -98,8 +104,8 @@ void Model::SetTransform(std::shared_ptr<Transform> t) {
 }
 
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
-    for (auto& shape : m_Shapes)
-    {
+    for (auto& shape : m_Shapes) {
+        UpdateTransform();
         shape->Draw(GL_TRIANGLES, m_TransformMatrix, cameraView, cameraProj);
     }
 }

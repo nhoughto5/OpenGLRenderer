@@ -1,0 +1,5 @@
+# Blender MTL File: 'cottage_blender.blend'
+# Material Count: 1
+
+newmtl chalet_material
+map_Kd chalet/chalet.jpg
