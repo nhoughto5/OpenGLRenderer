@@ -46,6 +46,6 @@ void Material::UploadUniforms() {
 }
 
 void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
-    if (!matData->diffuse_texname.empty()) AddTexture(matData->diffuse_texname, "t_Diffuse"); // Farm
-    if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "t_Ambient"); // Wall
+    if (!matData->diffuse_texname.empty()) AddTexture(matData->diffuse_texname, "t_Diffuse");
+    if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "t_Ambient");
 }

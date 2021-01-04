@@ -1,9 +1,10 @@
 #pragma once
 #include "glm/glm.hpp"
 
-class AmbientLight {
+class Light {
 public:
     float strength;
     glm::vec3 color;
+    glm::vec3 position;
 private:
 };

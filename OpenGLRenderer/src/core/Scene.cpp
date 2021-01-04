@@ -71,6 +71,20 @@ void Scene::loadLight(pugi::xml_node node) {
         if (childName.compare(AMBIENT) == 0) {
             m_LightService->SetAmbientLight(ReadVector(child), std::stof(ReadAttributeByName(child, "strength")));
         }
+        else if (childName.compare(POINTLIGHT) == 0) {
+            std::shared_ptr<Light> light(new Light());
+            for (const auto& child2 : child.children()) {
+                std::string childName2 = child2.name();
+                if (childName2.compare(TRANSFORM_POS) == 0) {
+                    light->position = ReadVector(child2);
+                }
+                else if (childName2.compare(COLOR) == 0) {
+                    light->color = ReadVector(child2);
+                    light->strength = std::stof(ReadAttributeByName(child2, STRENGTH));
+                }
+            }
+            m_LightService->AddLight(light);
+        }
     }
 }
 

@@ -5,13 +5,13 @@
       <rotation x="-90" y="180" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
-    <material>
-      <shader>default.glsl</shader>
-      <texture>chalet/chalet.jpg</texture>
-    </material>
   </model>
   <grid size="30"></grid>
   <light>
     <ambient strength="0.5" r="1.0" g="1.0" b="1.0"></ambient>
+    <pointlight>
+      <position x="2" y="10" z="2"></position>
+      <color strength="0.9" r="1.0" g="1.0" b="1.0"></color>
+    </pointlight>
   </light>
 </scene>

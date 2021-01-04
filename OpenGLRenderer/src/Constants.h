@@ -4,7 +4,7 @@
 const uint32_t INIT_WIDTH = 1024;
 const uint32_t INIT_HEIGHT = 768;
 
-
+const std::string UNIFORM_TEXTURE_VALID = "Valid";
 
 // XML parse IDs
 const std::string MODEL_ATTRIBUTE_NAME = "model";
@@ -47,7 +47,10 @@ const std::string VECTOR_W = "w";
 
 // Light
 const std::string LIGHT = "light";
+const std::string COLOR = "color";
+const std::string STRENGTH = "strength";
 const std::string AMBIENT = "ambient";
+const std::string POINTLIGHT = "pointlight";
 const std::string VECTOR_R = "r";
 const std::string VECTOR_G = "g";
 const std::string VECTOR_B = "b";

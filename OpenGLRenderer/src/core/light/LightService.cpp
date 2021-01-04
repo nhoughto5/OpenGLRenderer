@@ -10,11 +10,15 @@ LightService* LightService::GetInstance() {
     return s_Instance;
 }
 
-AmbientLight LightService::GetAmbientLight() {
+Light LightService::GetAmbientLight() {
     return m_AmbienLight;
 }
 
 void LightService::SetAmbientLight(glm::vec3 color, float strength) {
     m_AmbienLight.color = color;
     m_AmbienLight.strength = strength;
+}
+
+void LightService::AddLight(std::shared_ptr<Light> light) {
+    m_Lights.push_back(light);
 }

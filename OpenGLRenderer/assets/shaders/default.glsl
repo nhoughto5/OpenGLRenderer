@@ -27,9 +27,14 @@ out vec4 color;
 in vec3 outNormal;
 in vec2 outTexCoord;
 
-uniform sampler2D t_Ambient;
-uniform sampler2D t_Diffuse;
+uniform vec3 uAmbientLight;
+
+uniform bool u_AmbientTextureValid;
+uniform sampler2D u_AmbientTexture;
+
+uniform bool u_DiffuseTextureValid;
+uniform sampler2D u_DiffuseTexture;
 
 void main() {
-	color = texture(t_Diffuse, outTexCoord);
+	color = vec4(uAmbientLight, 1.0) * texture(u_DiffuseTexture, outTexCoord);
 }

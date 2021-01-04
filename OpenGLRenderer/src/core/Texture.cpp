@@ -19,6 +19,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
 
     if (texData)
     {
+        glUniform1i(glGetUniformLocation(programId, (uniformId + UNIFORM_TEXTURE_VALID).c_str()), true);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, texData);
         glGenerateMipmap(GL_TEXTURE_2D);
     }

@@ -5,7 +5,7 @@
 #include "core/Camera.h"
 #include "Constants.h"
 #include "utils/Grid.h"
-#include "core/light/AmbientLight.h"
+#include "core/light/Light.h"
 #include "core/util/Transform.h"
 #include "core/light/LightService.h"
 
