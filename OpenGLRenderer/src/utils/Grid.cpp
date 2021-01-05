@@ -5,7 +5,7 @@ Grid::Grid(size_t size) {
     std::vector<Vertex> verts;
     std::vector<uint32_t> indices;
     size_t numVert = size + 1;
-    float gridSize = 0.50f;
+    float gridSize = 1.0f;
     int id = 0;
     float shift = (gridSize * size) / 2;
     for (uint32_t i = 0; i < numVert; ++i) {

@@ -3,7 +3,14 @@
     <transform>
       <position x="0" y="0" z="0"></position>
       <rotation x="-90" y="180" z="0"></rotation>
-      <scale x="1" y="1" z="1"></scale>
+      <scale x="5" y="5" z="5"></scale>
+    </transform>
+  </model>
+  <model name="skull" mesh="skull/skull.obj">
+    <transform>
+      <position x="5" y="1" z="0"></position>
+      <rotation x="-90" y="0" z="0"></rotation>
+      <scale x="0.01" y="0.01" z="0.01"></scale>
     </transform>
   </model>
   <grid size="30"></grid>

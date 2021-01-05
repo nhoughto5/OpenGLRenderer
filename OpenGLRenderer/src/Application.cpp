@@ -32,7 +32,6 @@ Application::Application() :
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     assert(status, "Failed to load glad");
     SetVSync(true);
-    spdlog::info("Welcome to OGLR!");
 
     glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
         glViewport(0, 0, width, height);

@@ -3,7 +3,7 @@
 #include "Application.h"
 
 Camera::Camera() :
-    m_CameraPosition(0.0f, 1.0f, 2.0f),
+    m_CameraPosition(0.0f, 1.0f, 5.0f),
     m_View(1.0),
     m_CameraFront(0.0f, 0.0f, -1.0f),
     firstMouse(true),
@@ -58,12 +58,25 @@ bool Camera::ProcessKeyEvent(KeyPressedEvent& e) {
         m_CameraPosition -= m_CameraTranslationSpeed * m_CameraFront;
     }
 
-    if (e.GetKeyCode() == GLFW_KEY_E) {
-        m_CameraPosition -= m_CameraUp * m_CameraTranslationSpeed;
-    }
-    else if (e.GetKeyCode() == GLFW_KEY_Q) {
+    if (e.GetKeyCode() == GLFW_KEY_X) {
         m_CameraPosition += m_CameraUp * m_CameraTranslationSpeed;
     }
+    else if (e.GetKeyCode() == GLFW_KEY_Z) {
+        m_CameraPosition -= m_CameraUp * m_CameraTranslationSpeed;
+    }
+
+    if (e.GetKeyCode() == GLFW_KEY_Q) {
+        m_Yaw -= m_CameraRotationSpeed;
+    }
+    else if (e.GetKeyCode() == GLFW_KEY_E) {
+        m_Yaw += m_CameraRotationSpeed;
+    }
+
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+    direction.y = sin(glm::radians(m_Pitch));
+    direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+    m_CameraFront = glm::normalize(direction);
 
     return true;
 }

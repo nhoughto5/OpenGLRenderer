@@ -24,7 +24,7 @@ private:
     glm::mat4 m_View, m_Projection;
     glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f }, m_CameraUp;
     float m_CameraRotation = 0.0f; //In degrees, in the anti-clockwise direction
-    float m_CameraTranslationSpeed = 0.20f, m_CameraRotationSpeed = 180.0f;
+    float m_CameraTranslationSpeed = 0.20f, m_CameraRotationSpeed = 2.0f;
     TimeStep m_DeltaTime;
     glm::vec3 m_CameraFront;
     bool firstMouse;

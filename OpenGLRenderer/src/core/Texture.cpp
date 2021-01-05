@@ -8,7 +8,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
     unsigned char* texData = stbi_load(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
 
     m_ProgramId = programId;
-    glUseProgram(m_ProgramId);
+    //glUseProgram(m_ProgramId);
     
     glUniform1i(glGetUniformLocation(programId, uniformId.c_str()), unitId);
     glGenTextures(1, &m_TextureId);
@@ -36,7 +36,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
 
     stbi_image_free(texData);
     Disable();
-    glUseProgram(0);
+    //glUseProgram(0);
 }
 
 void Texture::Enable()
