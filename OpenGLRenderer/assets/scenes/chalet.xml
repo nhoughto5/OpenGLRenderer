@@ -17,8 +17,8 @@
   <light>
     <ambient strength="0.5" r="1.0" g="1.0" b="1.0"></ambient>
     <pointlight>
-      <position x="2" y="10" z="2"></position>
-      <color strength="0.9" r="1.0" g="1.0" b="1.0"></color>
+      <position x="6" y="2" z="0"></position>
+      <color strength="5" r="1.0" g="1.0" b="1.0"></color>
     </pointlight>
   </light>
 </scene>

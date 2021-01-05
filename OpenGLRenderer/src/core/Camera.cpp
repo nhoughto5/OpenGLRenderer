@@ -3,9 +3,9 @@
 #include "Application.h"
 
 Camera::Camera() :
-    m_CameraPosition(0.0f, 1.0f, 5.0f),
+    m_CameraPosition(6.0f, 1.50f, 5.0f),
     m_View(1.0),
-    m_CameraFront(0.0f, 0.0f, -1.0f),
+    m_CameraFront(-0.5f, 0.0f, -1.0f),
     firstMouse(true),
     m_Projection(1.0),
     m_CameraUp(0.0f, 1.0f, 0.0f),

@@ -14,6 +14,10 @@ Light LightService::GetAmbientLight() {
     return m_AmbienLight;
 }
 
+std::vector<std::shared_ptr<Light>>& LightService::GetLights() {
+    return m_Lights;
+}
+
 void LightService::SetAmbientLight(glm::vec3 color, float strength) {
     m_AmbienLight.color = color;
     m_AmbienLight.strength = strength;
