@@ -70,7 +70,7 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
             tinyobj::material_t mat = materials[shape.mesh.material_ids[0]];
             std::shared_ptr<MaterialData> matData(new MaterialData());
             matData->ambient_texname = mat.ambient_texname;
-            matData->diffuse_texname = mat.diffuse_texname;
+            matData->diffuse_texname = m_OverrideDiffuse.empty() ? mat.diffuse_texname : m_OverrideDiffuse;
             matData->specular_texname = mat.specular_texname;
             matData->specular_highlight_texname = mat.specular_highlight_texname;
             matData->bump_texname = mat.bump_texname;
@@ -101,6 +101,16 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
 
 void Model::SetTransform(std::shared_ptr<Transform> t) {
     m_Transform = t;
+}
+
+void Model::SetOverrideDiffuse(std::string t)
+{
+    m_OverrideDiffuse = t;
+}
+
+void Model::SetOverrideNormal(std::string t)
+{
+    m_OverrideNormal = t;
 }
 
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {

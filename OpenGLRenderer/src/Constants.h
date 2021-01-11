@@ -16,6 +16,8 @@ const std::string SHADER_NAME = "shader";
 const std::string TEXTURE_NAME = "texture";
 const std::string GRID_NAME = "grid";
 const std::string MESH_ATTRIBUTE_NAME = "mesh";
+const std::string DIFFUSE_ATTRIBUTE_NAME = "diffuse";
+const std::string NORMAL_ATTRIBUTE_NAME = "normal";
 
 // Directory Structure
 const std::string ASSET_FOLDER = "assets/";

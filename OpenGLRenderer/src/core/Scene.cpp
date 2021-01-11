@@ -48,6 +48,12 @@ void Scene::loadModel(pugi::xml_node modelNode) {
         if (name.compare(MESH_ATTRIBUTE_NAME) == 0) {
             meshPath = attr->value();
         }
+        else if (name.compare(DIFFUSE_ATTRIBUTE_NAME) == 0) {
+            m->SetOverrideDiffuse(attr->value());
+        }
+        else if (name.compare(NORMAL_ATTRIBUTE_NAME) == 0) {
+            m->SetOverrideNormal(attr->value());
+        }
         else if (name.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
             hasMTLFile = true;
         }
