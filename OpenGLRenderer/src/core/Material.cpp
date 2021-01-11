@@ -50,8 +50,10 @@ void Material::UpdateTransform(glm::mat4& model, glm::mat4& view, glm::mat4& pro
 
 void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
     m_Shader.Bind();
-    if (!matData->diffuse_texname.empty()) AddTexture(matData->diffuse_texname, "u_Diffuse");
-    if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "u_Ambient");
+    if (!matData->diffuse_texname.empty()) AddTexture(matData->diffuse_texname, "u_DiffuseTexture");
+    if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "u_AmbientTexture");
     m_Shader.UploadUniformFloat3("u_DiffuseColour", matData->diffuse);
+    m_Shader.UploadUniformFloat4("u_Specular", glm::vec4(matData->specular, matData->shininess));
+    m_Shader.UploadUniformFloat("u_MaterialAlpha", matData->dissolve);
     m_Shader.Unbind();
 }

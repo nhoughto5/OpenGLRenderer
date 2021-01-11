@@ -5,9 +5,10 @@
 Shape::Shape() {
 }
 
-Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::shared_ptr<MaterialData> matData) {
+Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::string shapeName, std::shared_ptr<MaterialData> matData) {
     SetData(v, i, shader);
-
+    m_Name = shapeName;
+    OGLR_CORE_INFO("Creating Shape: {0}", m_Name);
     if (matData != nullptr) {
         m_Material.SetMaterialData(matData);
     }

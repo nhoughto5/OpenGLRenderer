@@ -89,11 +89,11 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
             matData->dissolve = mat.dissolve;
             matData->illum = mat.illum;
 
-            std::shared_ptr<Shape> s(new Shape(verts, indices, "default.glsl", matData));
+            std::shared_ptr<Shape> s(new Shape(verts, indices, "default.glsl", shape.name,  matData));
             m_Shapes.push_back(s);
         }
         else {
-            std::shared_ptr<Shape> s(new Shape(verts, indices, "default.glsl", nullptr));
+            std::shared_ptr<Shape> s(new Shape(verts, indices, "default.glsl", shape.name, nullptr));
             m_Shapes.push_back(s);
         }
     }

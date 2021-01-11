@@ -1,4 +1,4 @@
-#type vertex
+ #type vertex
 #version 330 core
 
 layout (location = 0) in vec3 a_Position;
@@ -42,9 +42,34 @@ uniform vec4 uAmbientLight;
 uniform bool u_AmbientTextureValid;
 uniform sampler2D u_AmbientTexture;
 
+uniform vec4 u_Specular;
+uniform float u_MaterialAlpha;
+
 void main() {
+    const float kGamma = 0.4545454;
+    const float kInverseGamma = 2.2;
+
 	vec3 norm = normalize(outNormal);
 	vec3 lightDir = normalize(u_LightPosition - outPos);  
 	vec3 diffuse = u_LightParams.w * u_DiffuseColour * max(dot(norm, lightDir), 0.0) * u_LightParams.xyz;
-	color = vec4((uAmbientLight.w * uAmbientLight.xyz) + diffuse, 1.0) * (texture(u_DiffuseTexture, outTexCoord));
+	vec3 viewFragmentDirection = normalize(outPos);
+	vec3 viewNormal = normalize(outNormal);
+	vec3 reflectedLightDirection = reflect(-lightDir, viewNormal);
+	float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
+	vec3 specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+
+	vec4 objectColor;
+	if (u_DiffuseTextureValid) {
+        objectColor = texture(u_DiffuseTexture, outTexCoord);
+    } else {
+        objectColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+    objectColor.rgb = pow(objectColor.rgb, vec3(kInverseGamma));
+
+	color.a = objectColor.a * u_MaterialAlpha;
+    if (u_DiffuseTextureValid) {
+        color.rgb = pow(objectColor.rgb + uAmbientLight.rgb + diffuse + specular, vec3(kGamma));
+    } else {
+        color.rgb = pow(objectColor.rgb * (uAmbientLight.rgb + diffuse) + specular, vec3(kGamma));
+    }
 }
