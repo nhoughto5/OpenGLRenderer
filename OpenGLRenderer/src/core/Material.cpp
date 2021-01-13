@@ -25,7 +25,8 @@ void Material::UploadUniforms() {
         m_Shader.UploadUniformFloat4("uAmbientLight", glm::vec4(ambient.color, ambient.strength));
 
         for (const auto& light : m_LightService->GetLights()) {
-            m_Shader.UploadUniformFloat3("u_LightPosition", light->GetPosition());
+            m_Shader.UploadUniformFloat3("u_LightPosition", light->position);
+            //m_Shader.UploadUniformFloat3("u_LightPosition", light->GetPosition());
             m_Shader.UploadUniformFloat4("u_LightParams", glm::vec4(light->color, light->strength));
         }
     }

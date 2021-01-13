@@ -82,14 +82,24 @@ void Scene::loadLight(pugi::xml_node node) {
             for (const auto& child2 : child.children()) {
                 std::string childName2 = child2.name();
                 if (childName2.compare(TRANSFORM_POS) == 0) {
-                    light->SetPosition(ReadVector(child2));
+                    light->position = ReadVector(child2);
                 }
                 else if (childName2.compare(COLOR) == 0) {
                     light->color = ReadVector(child2);
                     light->strength = std::stof(ReadAttributeByName(child2, STRENGTH));
                 }
             }
+
             m_LightService->AddLight(light);
+
+            std::shared_ptr<Model> m(new Model("PointLight"));
+            m->SetMesh("light/light.obj", true);
+            std::shared_ptr<Transform> transform(new Transform());
+            transform->Position = light->position;
+            transform->Scale = glm::vec3(0.05, 0.05, 0.05);
+            transform->Rotation = glm::vec3(180, 0, 0);
+            m->SetTransform(transform);
+            AddModel(m);
         }
     }
 }
