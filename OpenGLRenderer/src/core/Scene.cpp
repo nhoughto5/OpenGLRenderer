@@ -82,7 +82,7 @@ void Scene::loadLight(pugi::xml_node node) {
             for (const auto& child2 : child.children()) {
                 std::string childName2 = child2.name();
                 if (childName2.compare(TRANSFORM_POS) == 0) {
-                    light->position = ReadVector(child2);
+                    light->SetPosition(ReadVector(child2));
                 }
                 else if (childName2.compare(COLOR) == 0) {
                     light->color = ReadVector(child2);

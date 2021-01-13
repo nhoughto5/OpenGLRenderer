@@ -1,4 +1,4 @@
- #type vertex
+#type vertex
 #version 330 core
 
 layout (location = 0) in vec3 a_Position;
@@ -67,9 +67,10 @@ void main() {
     objectColor.rgb = pow(objectColor.rgb, vec3(kInverseGamma));
 
 	color.a = objectColor.a * u_MaterialAlpha;
+	vec3 ambient = uAmbientLight.a * uAmbientLight.rgb;
     if (u_DiffuseTextureValid) {
-        color.rgb = pow(objectColor.rgb + uAmbientLight.rgb + diffuse + specular, vec3(kGamma));
+        color.rgb = pow(objectColor.rgb + ambient + diffuse + specular, vec3(kGamma));
     } else {
-        color.rgb = pow(objectColor.rgb * (uAmbientLight.rgb + diffuse) + specular, vec3(kGamma));
+        color.rgb = pow(objectColor.rgb * (ambient + diffuse) + specular, vec3(kGamma));
     }
 }
