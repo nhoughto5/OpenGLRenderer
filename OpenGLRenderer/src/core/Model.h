@@ -10,7 +10,8 @@ public:
     Model(std::string name);
     virtual void Render(glm::mat4 cameraView, glm::mat4 cameraProj);
     void SetMesh(std::string meshName, bool hasMTLFile);
-    void SetTransform(std::shared_ptr<Transform> t);
+    //void SetTransform(std::shared_ptr<Transform> t);
+    void AddTransform(std::shared_ptr<Transform> t);
     void SetOverrideDiffuse(std::string t);
     void SetOverrideNormal(std::string t);
 protected:
@@ -19,8 +20,8 @@ protected:
 
     void UpdateTransform();
 
-    std::shared_ptr<Transform> m_Transform;
-    glm::mat4 m_TransformMatrix;
+    std::vector<std::shared_ptr<Transform>> m_Transforms;
+    std::vector<glm::mat4> m_TransformMatrices;
 private:
     glm::vec3 float3ToGLM(float* realt);
     std::string m_OverrideDiffuse, m_OverrideNormal;

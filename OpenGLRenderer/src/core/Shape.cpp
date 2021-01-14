@@ -2,7 +2,7 @@
 #include "Shape.h"
 
 
-Shape::Shape() {
+Shape::Shape(): m_NumVerts(0), m_VAO(-1) {
 }
 
 Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::string shapeName, std::shared_ptr<MaterialData> matData) {
@@ -23,15 +23,25 @@ void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::strin
     Upload();
 }
 
-void Shape::Draw(GLenum mode, glm::mat4& model, glm::mat4& view, glm::mat4& proj) {
+void Shape::Draw(GLenum mode, glm::mat4& view, glm::mat4& proj) {
     m_Material.Enable();
-    m_Material.UpdateTransform(model, view, proj);
+    m_Material.UpdateTransform(view, proj);
     glBindVertexArray(m_VAO);
-    glDrawElements(mode, m_NumVerts, GL_UNSIGNED_INT, 0);
+    glDrawElementsInstanced(mode, m_NumVerts, GL_UNSIGNED_INT, 0, m_InstanceModelMatrices.size());
+    //glDrawElements(mode, m_NumVerts, GL_UNSIGNED_INT, 0);
     m_Material.Disable();
+    glBindVertexArray(0);
+}
+
+void Shape::AddInstance(glm::mat4 mat)
+{
+    m_InstanceModelMatrices.push_back(mat);
+    glBindBuffer(GL_ARRAY_BUFFER, m_ModelMatrixBuffer);
+    glBufferData(GL_ARRAY_BUFFER, m_InstanceModelMatrices.size() * sizeof(glm::mat4), m_InstanceModelMatrices.data(), GL_STATIC_DRAW);
 }
 
 void Shape::Upload() {
+    glGenBuffers(1, &m_ModelMatrixBuffer);
     glGenVertexArrays(1, &m_VAO);
     glBindVertexArray(m_VAO);
 
@@ -55,4 +65,20 @@ void Shape::Upload() {
 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
     glEnableVertexAttribArray(2);
+
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+    glVertexAttribDivisor(3, 1);
+    glVertexAttribDivisor(4, 1);
+    glVertexAttribDivisor(5, 1);
+    glVertexAttribDivisor(6, 1);
+
+    glBindVertexArray(0);
 }

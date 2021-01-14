@@ -2,15 +2,13 @@
 #include "Model.h"
 #include <tiny_obj_loader.h>
 
-Model::Model() :
-    m_TransformMatrix(1.0) {
-    m_Transform = std::make_shared<Transform>();
+Model::Model()
+{
 }
 
 Model::Model(std::string name) :
-    m_Name(name),
-    m_TransformMatrix(1.0) {
-    m_Transform = std::make_shared<Transform>();
+    m_Name(name)
+{
 }
 
 void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
@@ -99,8 +97,12 @@ void Model::SetMesh(std::string meshPath, bool hasMTLFile = false) {
     }
 }
 
-void Model::SetTransform(std::shared_ptr<Transform> t) {
-    m_Transform = t;
+void Model::AddTransform(std::shared_ptr<Transform> t) {
+    m_Transforms.push_back(t);
+    auto transformMatrix = glm::mat4(1.0);
+    transformMatrix = glm::translate(transformMatrix, t->Position);
+    transformMatrix = glm::scale(transformMatrix * t->GetRotationMatrix(), t->Scale);
+    m_TransformMatrices.push_back(transformMatrix);
 }
 
 void Model::SetOverrideDiffuse(std::string t)
@@ -116,14 +118,14 @@ void Model::SetOverrideNormal(std::string t)
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     for (auto& shape : m_Shapes) {
         UpdateTransform();
-        shape->Draw(GL_TRIANGLES, m_TransformMatrix, cameraView, cameraProj);
+        shape->Draw(GL_TRIANGLES, cameraView, cameraProj);
     }
 }
 
 void Model::UpdateTransform() {
-    m_TransformMatrix = glm::mat4(1.0);
-    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Transform->Position);
-    m_TransformMatrix = glm::scale(m_TransformMatrix * m_Transform->GetRotationMatrix(), m_Transform->Scale);
+    //m_TransformMatrix = glm::mat4(1.0);
+    //m_TransformMatrix = glm::translate(m_TransformMatrix, m_Transform->Position);
+    //m_TransformMatrix = glm::scale(m_TransformMatrix * m_Transform->GetRotationMatrix(), m_Transform->Scale);
 }
 
 glm::vec3 Model::float3ToGLM(float* realt) {

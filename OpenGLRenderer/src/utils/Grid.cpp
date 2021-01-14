@@ -26,12 +26,18 @@ Grid::Grid(size_t size) {
         }
     }
 
+    auto t = std::make_shared<Transform>();
+    t->Position = glm::vec3(0.0, 0.0, 0.0);
+    t->Rotation = glm::vec3(0.0, 0.0, 0.0);
+    t->Scale = glm::vec3(0.0, 0.0, 0.0);
+    AddTransform(t);
+
     m_Shape.SetData(verts, indices, "grid.glsl");
 }
 
 void Grid::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     UpdateTransform();
-    m_Shape.Draw(GL_QUADS, m_TransformMatrix, cameraView, cameraProj);
+    m_Shape.Draw(GL_QUADS, cameraView, cameraProj);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

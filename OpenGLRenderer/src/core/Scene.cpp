@@ -31,44 +31,31 @@ Scene::Scene(std::string scenePath) {
 }
 
 void Scene::loadGrid(pugi::xml_node node) {
-    for (auto attr = node.attributes_begin(); attr != node.attributes_end(); attr++) {
-        std::string name = attr->name();
-        if (name.compare(ATTR_SIZE) == 0) {
-            AddModel(std::make_shared<Grid>(std::stoi(attr->value())));
-        }
-    }
+    auto gridName = node.attribute(ATTR_SIZE.c_str()).value();
+    AddModel(gridName, std::make_shared<Grid>(std::stoi(gridName)));
 }
 
 void Scene::loadModel(pugi::xml_node modelNode) {
     std::shared_ptr<Model> m(new Model(modelNode.name()));
     bool hasMTLFile = false;
-    std::string meshPath = "";
-    for (auto attr = modelNode.attributes_begin(); attr != modelNode.attributes_end(); attr++) {
-        std::string name = attr->name();
-        if (name.compare(MESH_ATTRIBUTE_NAME) == 0) {
-            meshPath = attr->value();
-        }
-        else if (name.compare(DIFFUSE_ATTRIBUTE_NAME) == 0) {
-            m->SetOverrideDiffuse(attr->value());
-        }
-        else if (name.compare(NORMAL_ATTRIBUTE_NAME) == 0) {
-            m->SetOverrideNormal(attr->value());
-        }
-        else if (name.compare(MATERIAL_ATTRIBUTE_NAME) == 0) {
-            hasMTLFile = true;
-        }
+    std::string meshPath = modelNode.attribute(MESH_ATTRIBUTE_NAME.c_str()).value();
+    
+    if (m_Models.find(meshPath) != m_Models.end())
+    {
+        // Increment instance count
     }
+    else
+    {
+        m->SetOverrideDiffuse(modelNode.attribute(DIFFUSE_ATTRIBUTE_NAME.c_str()).value());
+        m->SetOverrideNormal(modelNode.attribute(NORMAL_ATTRIBUTE_NAME.c_str()).value());
+        hasMTLFile = modelNode.attribute(MATERIAL_ATTRIBUTE_NAME.c_str()).as_bool();
 
-    m->SetMesh(meshPath, hasMTLFile);
+        m->SetMesh(meshPath, hasMTLFile);
 
-    for (const auto& child : modelNode.children()) {
-        std::string childName = child.name();
-        if (childName.compare(TRANSFORM) == 0) {
-            m->SetTransform(ReadTransform(child));
-        }
+        m->AddTransform(ReadTransform(modelNode.child(TRANSFORM.c_str())));
+
+        AddModel(meshPath, m);
     }
-
-    AddModel(m);
 }
 
 void Scene::loadLight(pugi::xml_node node) {
@@ -98,8 +85,8 @@ void Scene::loadLight(pugi::xml_node node) {
             transform->Position = light->position;
             transform->Scale = glm::vec3(0.05, 0.05, 0.05);
             transform->Rotation = glm::vec3(180, 0, 0);
-            m->SetTransform(transform);
-            AddModel(m);
+            m->AddTransform(transform);
+            AddModel("light/light.obj", m);
         }
     }
 }
@@ -140,18 +127,11 @@ glm::vec3 Scene::ReadVector(pugi::xml_node matData) {
 }
 
 std::string Scene::ReadAttributeByName(pugi::xml_node node, std::string attrName) {
-    for (auto attr = node.attributes_begin(); attr != node.attributes_end(); attr++) {
-        std::string name = attr->name();
-        if (name.compare(attrName) == 0) {
-            return attr->value();
-        }
-    }
-
-    return "";
+    return node.attribute(attrName.c_str()).value();
 }
 
-void Scene::AddModel(std::shared_ptr<Model> m) {
-    m_Models.push_back(m);
+void Scene::AddModel(std::string modelName, std::shared_ptr<Model> m) {
+    m_Models[modelName] = m;
 }
 
 void Scene::Activate() {
@@ -168,9 +148,7 @@ bool Scene::IsActive() {
 
 void Scene::Update() {
     if (!m_Loaded) return;
-    for (std::shared_ptr<Model> model : m_Models) {
-        model->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
+    for (const auto item : m_Models) {
+        item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
 }
-
-

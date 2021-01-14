@@ -11,7 +11,7 @@ public:
     void SetShader(std::string fileName);
     void Enable();
     void Disable();
-    void UpdateTransform(glm::mat4& model, glm::mat4& view, glm::mat4& proj);
+    void UpdateTransform(glm::mat4& view, glm::mat4& proj);
     void UploadUniforms();
     void SetMaterialData(std::shared_ptr<MaterialData> matData);
 private:
