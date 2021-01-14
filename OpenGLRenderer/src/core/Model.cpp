@@ -103,6 +103,11 @@ void Model::AddTransform(std::shared_ptr<Transform> t) {
     transformMatrix = glm::translate(transformMatrix, t->Position);
     transformMatrix = glm::scale(transformMatrix * t->GetRotationMatrix(), t->Scale);
     m_TransformMatrices.push_back(transformMatrix);
+
+    for (const auto shape : m_Shapes)
+    {
+        shape->AddInstance(transformMatrix);
+    }
 }
 
 void Model::SetOverrideDiffuse(std::string t)
@@ -117,15 +122,8 @@ void Model::SetOverrideNormal(std::string t)
 
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     for (auto& shape : m_Shapes) {
-        UpdateTransform();
         shape->Draw(GL_TRIANGLES, cameraView, cameraProj);
     }
-}
-
-void Model::UpdateTransform() {
-    //m_TransformMatrix = glm::mat4(1.0);
-    //m_TransformMatrix = glm::translate(m_TransformMatrix, m_Transform->Position);
-    //m_TransformMatrix = glm::scale(m_TransformMatrix * m_Transform->GetRotationMatrix(), m_Transform->Scale);
 }
 
 glm::vec3 Model::float3ToGLM(float* realt) {

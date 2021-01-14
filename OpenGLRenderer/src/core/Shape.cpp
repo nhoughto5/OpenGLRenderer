@@ -28,16 +28,17 @@ void Shape::Draw(GLenum mode, glm::mat4& view, glm::mat4& proj) {
     m_Material.UpdateTransform(view, proj);
     glBindVertexArray(m_VAO);
     glDrawElementsInstanced(mode, m_NumVerts, GL_UNSIGNED_INT, 0, m_InstanceModelMatrices.size());
-    //glDrawElements(mode, m_NumVerts, GL_UNSIGNED_INT, 0);
     m_Material.Disable();
     glBindVertexArray(0);
 }
 
 void Shape::AddInstance(glm::mat4 mat)
 {
+    glBindVertexArray(m_VAO);
     m_InstanceModelMatrices.push_back(mat);
     glBindBuffer(GL_ARRAY_BUFFER, m_ModelMatrixBuffer);
     glBufferData(GL_ARRAY_BUFFER, m_InstanceModelMatrices.size() * sizeof(glm::mat4), m_InstanceModelMatrices.data(), GL_STATIC_DRAW);
+    glBindVertexArray(0);
 }
 
 void Shape::Upload() {
@@ -65,6 +66,8 @@ void Shape::Upload() {
 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
     glEnableVertexAttribArray(2);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_ModelMatrixBuffer);
 
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);

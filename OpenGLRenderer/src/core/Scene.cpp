@@ -40,9 +40,10 @@ void Scene::loadModel(pugi::xml_node modelNode) {
     bool hasMTLFile = false;
     std::string meshPath = modelNode.attribute(MESH_ATTRIBUTE_NAME.c_str()).value();
     
-    if (m_Models.find(meshPath) != m_Models.end())
+    auto fromMap = m_Models.find(meshPath);
+    if (fromMap != m_Models.end())
     {
-        // Increment instance count
+        fromMap->second->AddTransform(ReadTransform(modelNode.child(TRANSFORM.c_str())));
     }
     else
     {

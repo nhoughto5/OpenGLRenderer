@@ -13,26 +13,11 @@
       <scale x="0.01" y="0.01" z="0.01"></scale>
     </transform>
   </model>-->
-
-  <!--<model name="light" mesh="light/light.obj">
-    <transform>
-      <position x="0" y="4" z="0"></position>
-      <rotation x="0" y="0" z="0"></rotation>
-      <scale x="1" y="1" z="1"></scale>
-    </transform>
-  </model>-->
-  <model name="blackSmith" mesh="black_smith/black_smith.obj">
-    <transform>
-      <position x="5" y="1" z="0"></position>
-      <rotation x="0" y="0" z="0"></rotation>
-      <scale x="1" y="1" z="1"></scale>
-    </transform>
-  </model>
   <grid size="30"></grid>
   <light>
     <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
     <pointlight>
-      <position x="6" y="2" z="0"></position>
+      <position x="0" y="5" z="0"></position>
       <color strength="0.75" r="0.984" g="0.984" b="0.758"></color>
     </pointlight>
   </light>

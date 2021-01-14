@@ -10,15 +10,12 @@ public:
     Model(std::string name);
     virtual void Render(glm::mat4 cameraView, glm::mat4 cameraProj);
     void SetMesh(std::string meshName, bool hasMTLFile);
-    //void SetTransform(std::shared_ptr<Transform> t);
     void AddTransform(std::shared_ptr<Transform> t);
     void SetOverrideDiffuse(std::string t);
     void SetOverrideNormal(std::string t);
 protected:
     std::vector<std::shared_ptr<Shape>> m_Shapes;
     std::string m_Name;
-
-    void UpdateTransform();
 
     std::vector<std::shared_ptr<Transform>> m_Transforms;
     std::vector<glm::mat4> m_TransformMatrices;

@@ -12,10 +12,10 @@ out vec3 outPos;
 
 uniform mat4 u_Projection;
 uniform mat4 u_View;
-//uniform mat4 u_Model;
 
 void main() {
 	vec4 worldPosition = aInstanceModelMatrix * vec4(a_Position,1.0);
+	//vec4 worldPosition = vec4(a_Position,1.0);
 	gl_Position = u_Projection * u_View * worldPosition;
 	outPos = vec3(aInstanceModelMatrix * vec4(a_Position, 1.0));
 	outNormal = aNormal;
