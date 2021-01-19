@@ -28,4 +28,5 @@
       <color strength="0.25" r="0.984" g="0.984" b="0.758"></color>
     </pointlight>
   </light>
+  <skybox srcFolder="skybox/"></skybox>
 </scene>

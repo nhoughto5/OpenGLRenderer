@@ -4,7 +4,7 @@
 #include "core/Model.h"
 #include "core/Camera.h"
 #include "Constants.h"
-#include "utils/Grid.h"
+#include "core/staticModels/Grid.h"
 #include "core/light/Light.h"
 #include "core/util/Transform.h"
 #include "core/light/LightService.h"

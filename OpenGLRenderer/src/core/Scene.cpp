@@ -23,6 +23,9 @@ Scene::Scene(std::string scenePath) {
             else if (name.compare(LIGHT) == 0) {
                 loadLight(child);
             }
+            else if (name.compare(SKYBOX_NAME) == 0) {
+
+            }
         }
     }
 
@@ -39,14 +42,12 @@ void Scene::loadModel(pugi::xml_node modelNode) {
     std::shared_ptr<Model> m(new Model(modelNode.name()));
     bool hasMTLFile = false;
     std::string meshPath = modelNode.attribute(MESH_ATTRIBUTE_NAME.c_str()).value();
-    
+
     auto fromMap = m_Models.find(meshPath);
-    if (fromMap != m_Models.end())
-    {
+    if (fromMap != m_Models.end()) {
         fromMap->second->AddTransform(ReadTransform(modelNode.child(TRANSFORM.c_str())));
     }
-    else
-    {
+    else {
         m->SetOverrideDiffuse(modelNode.attribute(DIFFUSE_ATTRIBUTE_NAME.c_str()).value());
         m->SetOverrideNormal(modelNode.attribute(NORMAL_ATTRIBUTE_NAME.c_str()).value());
         hasMTLFile = modelNode.attribute(MATERIAL_ATTRIBUTE_NAME.c_str()).as_bool();

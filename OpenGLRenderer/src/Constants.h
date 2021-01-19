@@ -18,6 +18,8 @@ const std::string GRID_NAME = "grid";
 const std::string MESH_ATTRIBUTE_NAME = "mesh";
 const std::string DIFFUSE_ATTRIBUTE_NAME = "diffuse";
 const std::string NORMAL_ATTRIBUTE_NAME = "normal";
+const std::string SKYBOX_NAME = "skybox";
+const std::string SRC_FOLDER = "srcFolder";
 
 // Directory Structure
 const std::string ASSET_FOLDER = "assets/";
