@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "Texture.h"
-#include <stb_image.h>
 
 Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId, uint16_t unitId)
 {
     m_FileName = ASSET_FOLDER + fileName;
-    unsigned char* texData = stbi_load(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
+    // char* texData = stbi_load(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels, 0);
+    unsigned char* texData = ImageLoader::loadImage(m_FileName.c_str(), &m_Width, &m_Height, &m_NrChannels);
 
     m_ProgramId = programId;
     
@@ -34,7 +34,7 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    stbi_image_free(texData);
+    ImageLoader::Clear(texData);
     Disable();
 }
 

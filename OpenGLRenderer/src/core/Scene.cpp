@@ -24,7 +24,7 @@ Scene::Scene(std::string scenePath) {
                 loadLight(child);
             }
             else if (name.compare(SKYBOX_NAME) == 0) {
-
+                m_Skybox = std::make_shared<Skybox>(ReadAttributeByName(child, SRC_FOLDER));
             }
         }
     }
@@ -152,5 +152,9 @@ void Scene::Update() {
     if (!m_Loaded) return;
     for (const auto item : m_Models) {
         item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
+    }
+
+    if (m_Skybox != nullptr) {
+        m_Skybox->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
 }

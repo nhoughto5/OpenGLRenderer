@@ -8,6 +8,7 @@
 #include "core/light/Light.h"
 #include "core/util/Transform.h"
 #include "core/light/LightService.h"
+#include "core/staticModels/Skybox.h"
 
 class Scene
 {
@@ -33,5 +34,6 @@ private:
     Camera m_Camera;
     LightService* m_LightService;
     bool m_Loaded{false};
+    std::shared_ptr<Skybox> m_Skybox;
 };
 

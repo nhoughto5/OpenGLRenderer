@@ -12,7 +12,6 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define STB_IMAGE_IMPLEMENTATION
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -41,5 +40,6 @@
 #include "Constants.h"
 #include "core/Core.h"
 #include "Log.h"
+#include "core/util/ImageLoader.h"
 
 #endif //PCH_H

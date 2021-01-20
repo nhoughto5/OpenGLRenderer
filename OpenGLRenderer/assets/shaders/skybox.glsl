@@ -7,12 +7,10 @@ out vec3 TexCoord;
 
 uniform mat4 u_Projection;
 uniform mat4 u_View;
-uniform mat4 u_Model;
 
 void main() {
-	vec4 worldPosition = u_Model * vec4(a_Position, 1.0);
-	gl_Position = u_Projection * u_View * worldPosition;
-	TexCoord = aTexCoord;
+	TexCoord = a_Position;
+    gl_Position = u_Projection * u_View * vec4(a_Position, 1.0);
 }
 
 #type fragment
@@ -20,10 +18,11 @@ void main() {
 
 out vec4 color;
 
-in vec2 TexCoord;
+in vec3 TexCoord;
 
 uniform samplerCube skybox;
 
 void main() {
-	color = texture(skybox, TexCoords);
+	//color = vec4(1.0, 0.0, 1.0, 1.0);
+	color = texture(skybox, TexCoord);
 }
