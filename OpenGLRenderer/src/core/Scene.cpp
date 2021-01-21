@@ -25,6 +25,7 @@ Scene::Scene(std::string scenePath) {
             }
             else if (name.compare(SKYBOX_NAME) == 0) {
                 m_Skybox = std::make_shared<Skybox>(ReadAttributeByName(child, SRC_FOLDER));
+                m_Skybox->SetTransform(ReadTransform(child.child(TRANSFORM.c_str())));
             }
         }
     }
@@ -150,11 +151,12 @@ bool Scene::IsActive() {
 
 void Scene::Update() {
     if (!m_Loaded) return;
-    for (const auto item : m_Models) {
-        item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
-    }
 
     if (m_Skybox != nullptr) {
         m_Skybox->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
+    }
+
+    for (const auto item : m_Models) {
+        item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
 }

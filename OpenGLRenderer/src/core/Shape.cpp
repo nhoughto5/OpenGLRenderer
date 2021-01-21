@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Shape.h"
 
-
 Shape::Shape(): m_NumVerts(0), m_VAO(-1) {
 }
 
@@ -24,9 +23,9 @@ void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::strin
 }
 
 void Shape::Draw(GLenum mode, glm::mat4& view, glm::mat4& proj) {
+    glBindVertexArray(m_VAO);
     m_Material.Enable();
     m_Material.UpdateTransform(view, proj);
-    glBindVertexArray(m_VAO);
     glDrawElementsInstanced(mode, m_NumVerts, GL_UNSIGNED_INT, 0, m_InstanceModelMatrices.size());
     m_Material.Disable();
     glBindVertexArray(0);

@@ -2,11 +2,11 @@
 #include "core/Model.h"
 #include "core/TextureCube.h"
 
-class Skybox : public Model {
+class Skybox {
 public:
     Skybox(std::string src);
-    //void SetTexture(std::string src);
-    virtual void Render(glm::mat4 cameraView, glm::mat4 cameraProj) override;
+    void Render(glm::mat4 cameraView, glm::mat4 cameraProj);
+    void SetTransform(std::shared_ptr<Transform> t);
 private:
     unsigned int m_VAO;
     size_t m_NumVerts;

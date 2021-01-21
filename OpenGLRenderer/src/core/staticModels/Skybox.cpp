@@ -4,34 +4,51 @@
 Skybox::Skybox(std::string src) :
     m_Shader("skybox.glsl")
 {
-    std::vector<Vertex> skyboxVertices =
-    {
-        Vertex(-1.0f,  1.0f, -1.0f), // 0
-        Vertex(-1.0f, -1.0f, -1.0f), // 1
-        Vertex(1.0f, -1.0f, -1.0f), // 2
-        Vertex(1.0f,  1.0f, -1.0f), // 3
-        Vertex(-1.0f, -1.0f,  1.0f), // 4
-        Vertex(-1.0f,  1.0f,  1.0f), // 5
-        Vertex(1.0f, -1.0f,  1.0f), // 6
-        Vertex(1.0f,  1.0f,  1.0f), // 7
+    float skyboxVertices[] = {
+        // positions          
+        -1.0f,  1.0f, -1.0f,
+        -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+
+        -1.0f, -1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,
+
+        -1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f,  1.0f,
+        -1.0f,  1.0f, -1.0f,
+
+        -1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,
+        -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f,  1.0f
     };
 
-    std::vector<uint32_t> indicies = {
-        0,1,2,
-        2,3,0,
-        4,1,0,
-        0,5,4,
-        2,6,7,
-        7,3,2,
-        4,5,7,
-        7,6,4,
-        0,3,7,
-        7,5,0,
-        1,4,2,
-        2,4,6
-    };
-
-    m_NumVerts = skyboxVertices.size();
     m_Shader.Bind();
 
     m_TextureCube.loadTexture(src);
@@ -42,31 +59,34 @@ Skybox::Skybox(std::string src) :
     unsigned int VBO;
     glGenBuffers(1, &VBO);
 
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * skyboxVertices.size(), skyboxVertices.data(), GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies[0]) * indicies.size(), indicies.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
     m_Shader.Unbind();
+    glBindVertexArray(0);
 }
 
 void Skybox::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
-    glDepthMask(GL_FALSE);
+    glDepthFunc(GL_LEQUAL);
     m_Shader.Bind();
     m_Shader.UploadUniformMat4("u_Projection", cameraProj);
     m_Shader.UploadUniformMat4("u_View", cameraView);
     m_TextureCube.Enable();
     glBindVertexArray(m_VAO);
-    glDrawElements(GL_TRIANGLES, m_NumVerts, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
     m_TextureCube.Disable();
     m_Shader.Unbind();
     glBindVertexArray(0);
-    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LESS);
+}
+
+void Skybox::SetTransform(std::shared_ptr<Transform> t) {
+    m_Shader.Bind();
+    auto transformMatrix = glm::mat4(1.0);
+    transformMatrix = glm::translate(transformMatrix, t->Position);
+    transformMatrix = glm::scale(transformMatrix * t->GetRotationMatrix(), t->Scale);
+    m_Shader.UploadUniformMat4("u_Model", transformMatrix);
+    m_Shader.Unbind();
 }

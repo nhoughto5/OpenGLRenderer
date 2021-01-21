@@ -38,7 +38,7 @@ void TextureCube::loadTexture(std::string src) {
 }
 
 void TextureCube::Enable() {
-    //glActiveTexture(m_TextureUnit);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureId);
 }
 
