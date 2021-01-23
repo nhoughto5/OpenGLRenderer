@@ -1,6 +1,7 @@
 #pragma once
-#include "core/Model.h"
 #include "core/TextureCube.h"
+#include "core/util/Transform.h"
+#include "core/Shader.h"
 
 class Skybox {
 public:

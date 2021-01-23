@@ -43,7 +43,10 @@ uniform vec4 uAmbientLight;
 uniform bool u_AmbientTextureValid;
 uniform sampler2D u_AmbientTexture;
 
+uniform bool u_SpecularTextureValid;
+uniform sampler2D u_SpecularTexture;
 uniform vec4 u_Specular;
+
 uniform float u_MaterialAlpha;
 
 void main() {
@@ -56,8 +59,18 @@ void main() {
 	vec3 viewFragmentDirection = normalize(outPos);
 	vec3 viewNormal = normalize(outNormal);
 	vec3 reflectedLightDirection = reflect(-lightDir, viewNormal);
-	float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
-	vec3 specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+
+	vec3 specular;
+	if (u_SpecularTextureValid)
+	{
+		float spec = pow(max(dot(viewNormal, reflectedLightDirection), 0.0), u_Specular.w);
+		specular = u_LightParams.xyz * spec * vec3(texture(u_SpecularTexture, outTexCoord));
+	}
+	else
+	{
+		float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
+		specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+	}
 
 	vec4 objectColor;
 	if (u_DiffuseTextureValid) {
