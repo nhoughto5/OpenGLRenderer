@@ -12,4 +12,5 @@ newmtl terrainMain
 	Kd 1.0000 1.0000 1.0000
 	Ks 0.1170 0.1170 0.1170
 	Ke 0.0000 0.0000 0.0000
-	map_Kd terrain/TerrainDiffuse.png
+	map_Ka terrain/TerrainDiffuse.jpg
+	map_Kd terrain/TerrainDiffuse.jpg

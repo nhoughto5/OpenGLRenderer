@@ -28,7 +28,7 @@
     </transform>
   </model>
   <grid size="30"></grid>
-  <light>
+  <!--<light>
     <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
     <pointlight>
       <position x="0" y="3" z="0"></position>
@@ -41,5 +41,5 @@
       <rotation x="0" y="10" z="0"></rotation>
       <scale x="20" y="20" z="20"></scale>
     </transform>
-  </skybox>
+  </skybox>-->
 </scene>

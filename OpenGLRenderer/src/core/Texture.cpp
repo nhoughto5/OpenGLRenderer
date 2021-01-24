@@ -18,7 +18,9 @@ Texture::Texture(std::string fileName, uint32_t programId, std::string uniformId
     if (texData)
     {
         glUniform1i(glGetUniformLocation(programId, (uniformId + UNIFORM_TEXTURE_VALID).c_str()), true);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, texData);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // default
         glGenerateMipmap(GL_TEXTURE_2D);
         OGLR_CORE_INFO("Loaded Texture: {0}", m_FileName);
     }
