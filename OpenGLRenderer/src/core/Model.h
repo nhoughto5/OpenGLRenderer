@@ -22,5 +22,6 @@ protected:
 private:
     glm::vec3 float3ToGLM(float* realt);
     std::string m_OverrideDiffuse, m_OverrideNormal;
+    std::mutex m_Lock;
 };
 

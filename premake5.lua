@@ -10,20 +10,19 @@ workspace "OpenGLRenderer"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
-IncludeDir["GLFW"] = "OpenGLRenderer/vendor/GLFW/include"
-IncludeDir["GLM"] = "OpenGLRenderer/vendor/glm"
-IncludeDir["STB"] = "OpenGLRenderer/vendor/stb"
-IncludeDir["VULKAN"] = "OpenGLRenderer/vendor/Vulkan/Include"
-IncludeDir["TOL"] = "OpenGLRenderer/vendor/tinyobjloader"
-IncludeDir["Glad"] = "OpenGLRenderer/vendor/Glad/include"
-IncludeDir["PugIXml"] = "OpenGLRenderer/vendor/pugixml/src"
+IncludeDir["GLFW"] = "vendor/GLFW/include"
+IncludeDir["GLM"] = "vendor/glm"
+IncludeDir["STB"] = "vendor/stb"
+IncludeDir["VULKAN"] = "vendor/Vulkan/Include"
+IncludeDir["TOL"] = "vendor/tinyobjloader"
+IncludeDir["Glad"] = "vendor/Glad/include"
+IncludeDir["PugIXml"] = "vendor/pugixml/src"
 
 group "Dependencies"
-	include "OpenGLRenderer/vendor/GLFW"
-	include "OpenGLRenderer/vendor/Glad"
-	include "OpenGLRenderer/vendor/pugixml"
+	include "vendor/GLFW"
+	include "vendor/Glad"
+	include "vendor/pugixml"
 
-group ""
 project "OpenGLRenderer"
 	location "OpenGLRenderer"
 	kind "ConsoleApp"
@@ -65,12 +64,12 @@ project "OpenGLRenderer"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.VULKAN}",
 		"%{IncludeDir.TOL}",
-		"%{prj.name}/vendor/spdlog/include",
+		"vendor/spdlog/include",
 		"%{IncludeDir.PugIXml}"
 	}
 	libdirs  
 	{ 
-		"OpenGLRenderer/vendor/Vulkan/Lib"
+		"vendor/Vulkan/Lib"
 	}
 	links
 	{
@@ -102,3 +101,31 @@ project "OpenGLRenderer"
 		defines "NVR_DIST"
 		runtime "Release"
 		optimize "On"
+		
+project "OBJConverter"
+	location "OBJConverter"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	pchheader "pch.h"
+	pchsource "OBJConverter/src/pch.cpp"
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+	}
+	
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp",
+	}
+	includedirs
+	{
+		"%{prj.name}/src",
+		"%{IncludeDir.TOL}",
+		"vendor/spdlog/include"
+	}

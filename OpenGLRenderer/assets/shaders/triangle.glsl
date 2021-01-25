@@ -28,8 +28,15 @@ in vec3 outNormal;
 in vec2 TexCoord;
 
 uniform sampler2D t_Ambient;
-uniform sampler2D u_DiffuseTexture;
+uniform sampler2D t_Diffuse;
 
 void main() {
-	color = texture(u_DiffuseTexture, TexCoord);
+	if (TexCoord.x > 0.50)
+	{
+		color = texture(t_Diffuse, TexCoord);
+	}
+	else
+	{
+		color = texture(t_Ambient, TexCoord);
+	}
 }

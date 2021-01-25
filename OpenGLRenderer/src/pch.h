@@ -30,6 +30,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/hash.hpp>
+#include <mutex>
 
 #include <chrono>
 #include <fstream>
