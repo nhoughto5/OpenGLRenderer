@@ -20,13 +20,13 @@
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
-  <!--<model name="terrain" mesh="terrain/terrain.obj">
+  <model name="terrain" mesh="terrain/terrain.obj">
     <transform>
       <position x="-100" y="0" z="-100"></position>
       <rotation x="90" y="0" z="0"></rotation>
       <scale x="100" y="100" z="100"></scale>
     </transform>
-  </model>-->
+  </model>
   <grid size="30"></grid>
   <light>
     <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
@@ -35,11 +35,11 @@
       <color strength="0.25" r="0.984" g="0.984" b="0.758"></color>
     </pointlight>
   </light>
-  <!--<skybox srcFolder="skybox/">
+  <skybox srcFolder="skybox/">
     <transform>
       <position x="0" y="0" z="0"></position>
       <rotation x="0" y="10" z="0"></rotation>
       <scale x="20" y="20" z="20"></scale>
     </transform>
-  </skybox>-->
+  </skybox>
 </scene>
