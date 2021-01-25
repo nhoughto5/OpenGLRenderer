@@ -1,0 +1,6 @@
+# Blender MTL File: 'cottage_blender.blend'
+# Material Count: 1
+
+newmtl triangle_material
+map_Kd triangle/farm.png
+map_Ka triangle/wall.jpg

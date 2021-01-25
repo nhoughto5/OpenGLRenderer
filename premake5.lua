@@ -31,8 +31,8 @@ project "OpenGLRenderer"
 	staticruntime "on"
 	pchheader "pch.h"
 	pchsource "OpenGLRenderer/src/pch.cpp"
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("%{prj.name}/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("%{prj.name}/bin-int/" .. outputdir .. "/%{prj.name}")
 	
 	prebuildcommands 
 	{
@@ -110,12 +110,27 @@ project "OBJConverter"
 	staticruntime "on"
 	pchheader "pch.h"
 	pchsource "OBJConverter/src/pch.cpp"
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("%{prj.name}/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("%{prj.name}/bin-int/" .. outputdir .. "/%{prj.name}")
 	
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
+	}
+	
+	prebuildcommands 
+	{
+		"RD /S /Q \"$(TargetDir)assets\\\""
+	}
+	
+	postbuildcommands 
+	{
+	  "XCOPY \"$(SolutionDir)$(ProjectName)\\assets\" \"$(TargetDir)\\assets\\\" /S"
+	}
+	
+	links
+	{
+		"pugixml"
 	}
 	
 	files
@@ -127,5 +142,26 @@ project "OBJConverter"
 	{
 		"%{prj.name}/src",
 		"%{IncludeDir.TOL}",
-		"vendor/spdlog/include"
+		"vendor/spdlog/include",
+		"%{IncludeDir.PugIXml}"
 	}
+	
+	filter "system:windows"
+	cppdialect "C++17"
+	systemversion "latest"
+		defines
+		{
+			"GLFW_INCLUDE_NONE"
+		}
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "On"
+
+	filter "configurations:Dist"
+		runtime "Release"
+		optimize "On"
