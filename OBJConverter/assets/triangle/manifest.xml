@@ -15,8 +15,8 @@
 		<transmittance x="0" y="0" z="0" />
 		<emission x="0" y="0" z="0" />
 		<shininess value="1" />
-		<shininess ior="1" />
-		<shininess dissolve="1" />
-		<shininess illum="0" />
+		<ior value="1" />
+		<dissolve value="1" />
+		<illum value="0" />
 	</shape>
 </mesh>

@@ -118,9 +118,9 @@ void Loader::WriteShape(std::vector<Vertex> verts, std::vector<uint32_t> indices
     WriteVec3(shape.append_child("emission"), matData->emission);
 
     shape.append_child("shininess").append_attribute("value").set_value(matData->shininess);
-    shape.append_child("shininess").append_attribute("ior").set_value(matData->ior);
-    shape.append_child("shininess").append_attribute("dissolve").set_value(matData->dissolve);
-    shape.append_child("shininess").append_attribute("illum").set_value(matData->illum);
+    shape.append_child("ior").append_attribute("value").set_value(matData->ior);
+    shape.append_child("dissolve").append_attribute("value").set_value(matData->dissolve);
+    shape.append_child("illum").append_attribute("value").set_value(matData->illum);
 }
 
 void Loader::WriteVec3(pugi::xml_node node, glm::vec3 vec) {
