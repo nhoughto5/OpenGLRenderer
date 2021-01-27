@@ -1,1 +1,2 @@
+#define TINYOBJLOADER_IMPLEMENTATION
 #include "pch.h"

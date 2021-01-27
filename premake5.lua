@@ -143,7 +143,9 @@ project "OBJConverter"
 		"%{prj.name}/src",
 		"%{IncludeDir.TOL}",
 		"vendor/spdlog/include",
-		"%{IncludeDir.PugIXml}"
+		"%{IncludeDir.PugIXml}",
+		"%{IncludeDir.STB}",
+		"%{IncludeDir.GLM}"
 	}
 	
 	filter "system:windows"
