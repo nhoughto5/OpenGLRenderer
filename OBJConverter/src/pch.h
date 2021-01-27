@@ -13,6 +13,7 @@
 #include <vector>
 #include <unordered_map>
 #include <functional>
+#include <pugixml.hpp>
 #include <glm/gtx/hash.hpp>
 #include "util/Log.h"
 #include "util/MaterialData.h"

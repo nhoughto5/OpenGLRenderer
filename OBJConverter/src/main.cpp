@@ -18,7 +18,8 @@ void main() {
     std::vector<std::thread> threads;
     for (int i = 0; i < objFiles.size(); ++i) {
         threads.push_back(std::thread([&, i] {
-            Loader::LoadMesh(objFiles[i]);
+            Loader l;
+            l.LoadMesh(objFiles[i]);
         }));
     }
 

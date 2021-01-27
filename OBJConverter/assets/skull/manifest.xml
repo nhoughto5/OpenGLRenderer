@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<mesh meshname="skull.obj">
+	<shape name="12140_Skull_v3_jaw">
+		<ambient_texname src="skull/skull.jpg" />
+		<diffuse_texname src="skull/skull.jpg" />
+		<specular_texname src="" />
+		<specular_highlight_texname src="" />
+		<bump_texname src="" />
+		<displacement_texname src="" />
+		<alpha_texname src="" />
+		<reflection_texname src="" />
+		<ambient x="1" y="1" z="1" />
+		<diffuse x="1" y="1" z="1" />
+		<specular x="0.116999999" y="0.116999999" z="0.116999999" />
+		<transmittance x="1" y="1" z="1" />
+		<emission x="0" y="0" z="0" />
+		<shininess value="24" />
+		<shininess ior="1.5" />
+		<shininess dissolve="1" />
+		<shininess illum="2" />
+	</shape>
+	<shape name="12140_Skull_v3_teeth">
+		<ambient_texname src="skull/skull.jpg" />
+		<diffuse_texname src="skull/skull.jpg" />
+		<specular_texname src="" />
+		<specular_highlight_texname src="" />
+		<bump_texname src="" />
+		<displacement_texname src="" />
+		<alpha_texname src="" />
+		<reflection_texname src="" />
+		<ambient x="1" y="1" z="1" />
+		<diffuse x="1" y="1" z="1" />
+		<specular x="0.116999999" y="0.116999999" z="0.116999999" />
+		<transmittance x="1" y="1" z="1" />
+		<emission x="0" y="0" z="0" />
+		<shininess value="24" />
+		<shininess ior="1.5" />
+		<shininess dissolve="1" />
+		<shininess illum="2" />
+	</shape>
+	<shape name="12140_Skull_v3_teeth_lower">
+		<ambient_texname src="skull/skull.jpg" />
+		<diffuse_texname src="skull/skull.jpg" />
+		<specular_texname src="" />
+		<specular_highlight_texname src="" />
+		<bump_texname src="" />
+		<displacement_texname src="" />
+		<alpha_texname src="" />
+		<reflection_texname src="" />
+		<ambient x="1" y="1" z="1" />
+		<diffuse x="1" y="1" z="1" />
+		<specular x="0.116999999" y="0.116999999" z="0.116999999" />
+		<transmittance x="1" y="1" z="1" />
+		<emission x="0" y="0" z="0" />
+		<shininess value="24" />
+		<shininess ior="1.5" />
+		<shininess dissolve="1" />
+		<shininess illum="2" />
+	</shape>
+	<shape name="12140_Skull_v3">
+		<ambient_texname src="skull/skull.jpg" />
+		<diffuse_texname src="skull/skull.jpg" />
+		<specular_texname src="" />
+		<specular_highlight_texname src="" />
+		<bump_texname src="" />
+		<displacement_texname src="" />
+		<alpha_texname src="" />
+		<reflection_texname src="" />
+		<ambient x="1" y="1" z="1" />
+		<diffuse x="1" y="1" z="1" />
+		<specular x="0.116999999" y="0.116999999" z="0.116999999" />
+		<transmittance x="1" y="1" z="1" />
+		<emission x="0" y="0" z="0" />
+		<shininess value="24" />
+		<shininess ior="1.5" />
+		<shininess dissolve="1" />
+		<shininess illum="2" />
+	</shape>
+</mesh>

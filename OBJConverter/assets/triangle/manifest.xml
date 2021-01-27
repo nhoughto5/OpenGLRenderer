@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<mesh meshname="triangle.obj">
+	<shape name="triangle">
+		<ambient_texname src="triangle/wall.jpg" />
+		<diffuse_texname src="triangle/farm.png" />
+		<specular_texname src="" />
+		<specular_highlight_texname src="" />
+		<bump_texname src="" />
+		<displacement_texname src="" />
+		<alpha_texname src="" />
+		<reflection_texname src="" />
+		<ambient x="0" y="0" z="0" />
+		<diffuse x="0" y="0" z="0" />
+		<specular x="0" y="0" z="0" />
+		<transmittance x="0" y="0" z="0" />
+		<emission x="0" y="0" z="0" />
+		<shininess value="1" />
+		<shininess ior="1" />
+		<shininess dissolve="1" />
+		<shininess illum="0" />
+	</shape>
+</mesh>

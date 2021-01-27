@@ -13,10 +13,12 @@ void Loader::LoadMesh(std::filesystem::path path) {
     std::string warn, err;
 
     std::string meshPath{ path.u8string() };
+    std::string fileName{ path.filename().u8string() };
 
-    std::string directory{ path.parent_path().u8string() };
+    m_Doc.append_child("mesh").append_attribute("meshname").set_value(fileName.c_str());
 
-    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, meshPath.c_str(), directory.c_str())) {
+    m_Directory = std::string(path.parent_path().u8string());
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, meshPath.c_str(), m_Directory.c_str())) {
         throw std::runtime_error(warn + err);
     }
 
@@ -78,22 +80,51 @@ void Loader::LoadMesh(std::filesystem::path path) {
             matData->dissolve = mat.dissolve;
             matData->illum = mat.illum;
 
-            WriteShape(verts, indices, shape.name, matData, directory);
+            WriteShape(verts, indices, shape.name, matData);
         }
         else {
-            WriteShape(verts, indices, shape.name, NULL, directory);
+            WriteShape(verts, indices, shape.name, NULL);
         }
     }
 
-    OBJC_CORE_INFO("MADE IT");
+    m_Doc.save_file((m_Directory + "/manifest.xml").c_str());
+    OBJC_CORE_INFO("Succesfully Loaded " + fileName);
 }
 
-void Loader::WriteShape(std::vector<Vertex> verts, std::vector<uint32_t> indices, std::string name, std::shared_ptr<MaterialData> matData, std::string directory) {
-    std::ofstream vertexFile(directory + "/" + name + ".mv", std::ios::out | std::ios::binary);
+void Loader::WriteShape(std::vector<Vertex> verts, std::vector<uint32_t> indices, std::string name, std::shared_ptr<MaterialData> matData) {
+    std::ofstream vertexFile(m_Directory + "/" + name + ".mv", std::ios::out | std::ios::binary);
     for (int i = 0; i < 3; i++)
         vertexFile.write((char*)&verts[i], sizeof(Vertex));
 
-    std::ofstream indexFile(directory + "/" + name + ".mi", std::ios::out | std::ios::binary);
+    std::ofstream indexFile(m_Directory + "/" + name + ".mi", std::ios::out | std::ios::binary);
     for (int i = 0; i < 3; i++)
         indexFile.write((char*)&verts[i], sizeof(Vertex));
+
+    auto shape = m_Doc.child("mesh").append_child("shape");
+    shape.append_attribute("name").set_value(name.c_str());
+    shape.append_child("ambient_texname").append_attribute("src").set_value(matData->ambient_texname.c_str());
+    shape.append_child("diffuse_texname").append_attribute("src").set_value(matData->diffuse_texname.c_str());
+    shape.append_child("specular_texname").append_attribute("src").set_value(matData->specular_texname.c_str());
+    shape.append_child("specular_highlight_texname").append_attribute("src").set_value(matData->specular_highlight_texname.c_str());
+    shape.append_child("bump_texname").append_attribute("src").set_value(matData->bump_texname.c_str());
+    shape.append_child("displacement_texname").append_attribute("src").set_value(matData->displacement_texname.c_str());
+    shape.append_child("alpha_texname").append_attribute("src").set_value(matData->alpha_texname.c_str());
+    shape.append_child("reflection_texname").append_attribute("src").set_value(matData->reflection_texname.c_str());
+    
+    WriteVec3(shape.append_child("ambient"), matData->ambient);
+    WriteVec3(shape.append_child("diffuse"), matData->diffuse);
+    WriteVec3(shape.append_child("specular"), matData->specular);
+    WriteVec3(shape.append_child("transmittance"), matData->transmittance);
+    WriteVec3(shape.append_child("emission"), matData->emission);
+
+    shape.append_child("shininess").append_attribute("value").set_value(matData->shininess);
+    shape.append_child("shininess").append_attribute("ior").set_value(matData->ior);
+    shape.append_child("shininess").append_attribute("dissolve").set_value(matData->dissolve);
+    shape.append_child("shininess").append_attribute("illum").set_value(matData->illum);
+}
+
+void Loader::WriteVec3(pugi::xml_node node, glm::vec3 vec) {
+    node.append_attribute("x").set_value(vec.x);
+    node.append_attribute("y").set_value(vec.y);
+    node.append_attribute("z").set_value(vec.z);
 }
