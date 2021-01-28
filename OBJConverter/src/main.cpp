@@ -2,10 +2,13 @@
 #include "Loader.h"
 
 void main() {
-    std::string path("assets\\");
+    std::string path;
     std::string ext(".obj");
 
     Log::Init();
+
+    std::ifstream config("config.ini");
+    getline(config, path);
 
     std::vector<std::filesystem::path> objFiles;
     for (auto& p : std::filesystem::recursive_directory_iterator(path)) {
