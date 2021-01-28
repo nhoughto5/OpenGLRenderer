@@ -88,7 +88,7 @@ void Loader::LoadMesh(std::filesystem::path path) {
     }
 
     m_Doc.save_file((m_Directory + "/manifest.xml").c_str());
-    OBJC_CORE_INFO("Succesfully Loaded " + fileName);
+    OBJC_CORE_INFO("Succesfully Converted " + fileName);
 }
 
 void Loader::WriteShape(std::vector<Vertex> verts, std::vector<uint32_t> indices, std::string name, std::shared_ptr<MaterialData> matData) {

@@ -20,7 +20,6 @@ void main() {
     std::vector<std::filesystem::path> objFiles;
     for (auto& p : std::filesystem::recursive_directory_iterator(path)) {
         if (p.path().extension() == ext) {
-            std::cout << p.path() << '\n';
             objFiles.push_back(p.path());
         }
     }
