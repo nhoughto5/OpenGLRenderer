@@ -120,15 +120,14 @@ project "OBJConverter"
 	
 	prebuildcommands 
 	{
-		"RD /S /Q \"$(TargetDir)assets\\\"",
-		"RD /S /Q \"$(SolutionDir)assetBuild\\\""
+		"RD /S /Q \"$(TargetDir)assets\\\""
 	}
 	
 	postbuildcommands 
 	{
 	  "XCOPY \"$(SolutionDir)$(ProjectName)\\assets\" \"$(TargetDir)\\assets\\\" /S",
-	  "XCOPY \"$(TargetDir)$(ProjectName).exe\" \"$(SolutionDir)\\assetBuild\"",
-	  "XCOPY \"$(SolutionDir)$(ProjectName)\\config.ini\" \"$(SolutionDir)\\assetBuild\""
+	  "XCOPY \"$(TargetDir)$(ProjectName).exe\" \"$(SolutionDir)\\assetBuild\\\"",
+	  "XCOPY \"$(SolutionDir)$(ProjectName)\\config.ini\" \"$(SolutionDir)\\assetBuild\\\""
 	}
 	
 	links
