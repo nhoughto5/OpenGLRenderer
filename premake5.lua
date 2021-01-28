@@ -125,9 +125,9 @@ project "OBJConverter"
 	
 	postbuildcommands 
 	{
-	  "XCOPY \"$(SolutionDir)$(ProjectName)\\assets\" \"$(TargetDir)\\assets\\\" /S",
-	  "XCOPY \"$(TargetDir)$(ProjectName).exe\" \"$(SolutionDir)\\assetBuild\\\"",
-	  "XCOPY \"$(SolutionDir)$(ProjectName)\\config.ini\" \"$(SolutionDir)\\assetBuild\\\""
+	  "XCOPY \"$(SolutionDir)$(ProjectName)\\assets\" \"$(TargetDir)\\assets\\\" /S /Y",
+	  "XCOPY \"$(TargetDir)$(ProjectName).exe\" \"$(SolutionDir)\\assetBuild\\\" /S /Y",
+	  "XCOPY \"$(SolutionDir)$(ProjectName)\\config.ini\" \"$(SolutionDir)\\assetBuild\\\" /S /Y"
 	}
 	
 	links
