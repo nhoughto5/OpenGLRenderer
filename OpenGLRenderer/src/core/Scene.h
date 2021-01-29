@@ -1,6 +1,4 @@
 #pragma once
-
-#include <pugixml.hpp>
 #include "core/Model.h"
 #include "core/Camera.h"
 #include "Constants.h"

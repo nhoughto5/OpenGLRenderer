@@ -1,5 +1,5 @@
 <scene sceneName="triangleScene">
-  <model name="triangle" mesh="triangle/triangle.obj" material="triangle/">
+  <model name="triangle" mesh="triangle/">
     <transform>
       <position x="0" y="0" z="0"></position>
       <rotation x="0" y="0" z="0"></rotation>

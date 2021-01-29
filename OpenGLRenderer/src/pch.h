@@ -32,6 +32,8 @@
 #include <glm/gtx/hash.hpp>
 #include <mutex>
 
+#include <pugixml.hpp>
+
 #include <chrono>
 #include <fstream>
 #include "core/util/Vertex.h"

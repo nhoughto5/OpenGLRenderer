@@ -9,7 +9,7 @@ public:
     Model();
     Model(std::string name);
     virtual void Render(glm::mat4 cameraView, glm::mat4 cameraProj);
-    void SetMesh(std::string meshName, bool hasMTLFile);
+    void SetMesh(std::string meshName);
     void AddTransform(std::shared_ptr<Transform> t);
     void SetOverrideDiffuse(std::string t);
     void SetOverrideNormal(std::string t);

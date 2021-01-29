@@ -41,7 +41,6 @@ void Scene::loadGrid(pugi::xml_node node) {
 
 void Scene::loadModel(pugi::xml_node modelNode) {
     std::shared_ptr<Model> m(new Model(modelNode.name()));
-    bool hasMTLFile = false;
     std::string meshPath = modelNode.attribute(MESH_ATTRIBUTE_NAME.c_str()).value();
 
     auto fromMap = m_Models.find(meshPath);
@@ -51,9 +50,8 @@ void Scene::loadModel(pugi::xml_node modelNode) {
     else {
         m->SetOverrideDiffuse(modelNode.attribute(DIFFUSE_ATTRIBUTE_NAME.c_str()).value());
         m->SetOverrideNormal(modelNode.attribute(NORMAL_ATTRIBUTE_NAME.c_str()).value());
-        hasMTLFile = modelNode.attribute(MATERIAL_ATTRIBUTE_NAME.c_str()).as_bool();
 
-        m->SetMesh(meshPath, hasMTLFile);
+        m->SetMesh(meshPath);
 
         m->AddTransform(ReadTransform(modelNode.child(TRANSFORM.c_str())));
 
@@ -83,7 +81,7 @@ void Scene::loadLight(pugi::xml_node node) {
             m_LightService->AddLight(light);
 
             std::shared_ptr<Model> m(new Model("PointLight"));
-            m->SetMesh("light/light.obj", true);
+            m->SetMesh("light/light.obj");
             std::shared_ptr<Transform> transform(new Transform());
             transform->Position = light->position;
             transform->Scale = glm::vec3(0.05, 0.05, 0.05);
