@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "Vertex.h"
 
-Vertex::Vertex(glm::vec3 p,int i) {
+Vertex::Vertex(glm::vec3 p) {
     pos = p;
-    id = i;
 }
 
 Vertex::Vertex(float x, float y, float z) {

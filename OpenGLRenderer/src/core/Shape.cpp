@@ -4,15 +4,6 @@
 Shape::Shape(): m_NumVerts(0), m_VAO(-1) {
 }
 
-Shape::Shape(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader, std::string shapeName, std::shared_ptr<MaterialData> matData) {
-    SetData(v, i, shader);
-    m_Name = shapeName;
-    OGLR_CORE_INFO("Creating Shape: {0}", m_Name);
-    if (matData != nullptr) {
-        m_Material.SetMaterialData(matData);
-    }
-}
-
 void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::string shader) {
     m_Material.SetShader(shader.c_str());
     m_Vertices = v;
@@ -20,6 +11,13 @@ void Shape::SetData(std::vector<Vertex>& v, std::vector<uint32_t>& i, std::strin
     m_NumVerts = m_Indices.size();
 
     Upload();
+}
+
+void Shape::SetMaterial(std::shared_ptr<MaterialData> data)
+{
+    if (data != nullptr) {
+        m_Material.SetMaterialData(data);
+    }
 }
 
 void Shape::Draw(GLenum mode, glm::mat4& view, glm::mat4& proj) {

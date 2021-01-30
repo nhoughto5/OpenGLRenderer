@@ -1,26 +1,26 @@
 <scene sceneName="townScene">
-  <model name="skull" mesh="skull/skull.obj">
+  <model name="skull" mesh="skull/">
     <transform>
       <position x="0" y="1" z="-1"></position>
       <rotation x="-90" y="0" z="0"></rotation>
       <scale x="0.01" y="0.01" z="0.01"></scale>
     </transform>
   </model>
-  <model name="blackSmith" mesh="black_smith/black_smith.obj">
+  <model name="blackSmith" mesh="black_smith/">
     <transform>
       <position x="2" y="1" z="0"></position>
       <rotation x="0" y="-90" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
-  <model name="blackSmith2" mesh="black_smith/black_smith.obj">
+  <model name="blackSmith2" mesh="black_smith/">
     <transform>
       <position x="-2" y="1" z="0"></position>
       <rotation x="0" y="90" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
-  <model name="terrain" mesh="terrain/terrain.obj">
+  <model name="terrain" mesh="terrain/">
     <transform>
       <position x="-200" y="0" z="-200"></position>
       <rotation x="90" y="0" z="0"></rotation>

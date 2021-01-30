@@ -92,13 +92,18 @@ void Loader::LoadMesh(std::filesystem::path path) {
 }
 
 void Loader::WriteShape(std::vector<Vertex> verts, std::vector<uint32_t> indices, std::string name, std::shared_ptr<MaterialData> matData) {
+    
+    float vertexSize = sizeof(Vertex);
     std::ofstream vertexFile(m_Directory + "/" + name + ".mv", std::ios::out | std::ios::binary);
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < verts.size(); i++)
         vertexFile.write((char*)&verts[i], sizeof(Vertex));
 
     std::ofstream indexFile(m_Directory + "/" + name + ".mi", std::ios::out | std::ios::binary);
-    for (int i = 0; i < 3; i++)
-        indexFile.write((char*)&verts[i], sizeof(Vertex));
+    for (int i = 0; i < indices.size(); i++)
+        indexFile.write((char*)&indices[i], sizeof(uint32_t));
+
+    indexFile.close();
+    vertexFile.close();
 
     auto shape = m_Doc.child("mesh").append_child("shape");
     shape.append_attribute("name").set_value(name.c_str());

@@ -11,9 +11,8 @@ Grid::Grid(size_t size) {
     for (uint32_t i = 0; i < numVert; ++i) {
         std::string str;
         for (uint32_t j = 0; j < numVert; ++j) {
-            Vertex m = Vertex(glm::vec3((gridSize * i) - shift, 0, shift - (gridSize * j)), id);
+            Vertex m = Vertex(glm::vec3((gridSize * i) - shift, 0, shift - (gridSize * j)));
             verts.push_back(m);
-            id++;
         }
     }
 

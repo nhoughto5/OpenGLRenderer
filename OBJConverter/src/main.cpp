@@ -35,4 +35,7 @@ void main() {
     for (auto it = threads.begin(); it != threads.end(); ++it) {
         it->join();
     }
+
+    OBJC_CORE_INFO("Finished. Press Any Key to close");
+    std::getchar();
 }

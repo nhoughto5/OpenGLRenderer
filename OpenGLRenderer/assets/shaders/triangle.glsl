@@ -31,12 +31,5 @@ uniform sampler2D t_Ambient;
 uniform sampler2D t_Diffuse;
 
 void main() {
-	if (TexCoord.x > 0.50)
-	{
-		color = texture(t_Diffuse, TexCoord);
-	}
-	else
-	{
-		color = texture(t_Ambient, TexCoord);
-	}
+	color = vec4(1.0, 0.0, 0.0, 1.0);
 }

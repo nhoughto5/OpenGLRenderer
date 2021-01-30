@@ -48,9 +48,6 @@ void Scene::loadModel(pugi::xml_node modelNode) {
         fromMap->second->AddTransform(ReadTransform(modelNode.child(TRANSFORM.c_str())));
     }
     else {
-        m->SetOverrideDiffuse(modelNode.attribute(DIFFUSE_ATTRIBUTE_NAME.c_str()).value());
-        m->SetOverrideNormal(modelNode.attribute(NORMAL_ATTRIBUTE_NAME.c_str()).value());
-
         m->SetMesh(meshPath);
 
         m->AddTransform(ReadTransform(modelNode.child(TRANSFORM.c_str())));
@@ -81,7 +78,7 @@ void Scene::loadLight(pugi::xml_node node) {
             m_LightService->AddLight(light);
 
             std::shared_ptr<Model> m(new Model("PointLight"));
-            m->SetMesh("light/light.obj");
+            m->SetMesh("light/");
             std::shared_ptr<Transform> transform(new Transform());
             transform->Position = light->position;
             transform->Scale = glm::vec3(0.05, 0.05, 0.05);
