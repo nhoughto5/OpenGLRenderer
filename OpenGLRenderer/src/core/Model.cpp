@@ -102,8 +102,8 @@ glm::vec3 Model::readVec3(pugi::xml_node node)
 {
     glm::vec3 ret;
     ret.x = node.attribute("x").as_float();
-    ret.x = node.attribute("y").as_float();
-    ret.x = node.attribute("z").as_float();
+    ret.y = node.attribute("y").as_float();
+    ret.z = node.attribute("z").as_float();
     return ret;
 }
 

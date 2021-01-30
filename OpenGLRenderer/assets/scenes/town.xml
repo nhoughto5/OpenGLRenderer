@@ -22,9 +22,9 @@
   </model>
   <model name="terrain" mesh="terrain/">
     <transform>
-      <position x="-200" y="0" z="-200"></position>
+      <position x="0" y="0" z="0"></position>
       <rotation x="90" y="0" z="0"></rotation>
-      <scale x="100" y="100" z="100"></scale>
+      <scale x="10" y="10" z="10"></scale>
     </transform>
   </model>
   <grid size="30"></grid>
