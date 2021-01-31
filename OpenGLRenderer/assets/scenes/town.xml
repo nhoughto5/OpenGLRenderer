@@ -8,26 +8,26 @@
   </model>
   <model name="blackSmith" mesh="black_smith/">
     <transform>
-      <position x="2" y="1" z="0"></position>
+      <position x="2" y="1" z="-2"></position>
       <rotation x="0" y="-90" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
   <model name="blackSmith2" mesh="black_smith/">
     <transform>
-      <position x="-2" y="1" z="0"></position>
-      <rotation x="0" y="90" z="0"></rotation>
+      <position x="-2" y="1" z="-2.5"></position>
+      <rotation x="-2" y="90" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
   <model name="terrain" mesh="terrain/">
     <transform>
-      <position x="0" y="0" z="0"></position>
+      <position x="-60" y="2.5" z="-43"></position>
       <rotation x="90" y="0" z="0"></rotation>
-      <scale x="10" y="10" z="10"></scale>
+      <scale x="100" y="100" z="100"></scale>
     </transform>
   </model>
-  <grid size="30"></grid>
+  <!--<grid size="30"></grid>-->
   <light>
     <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
     <pointlight>
@@ -39,7 +39,7 @@
     <transform>
       <position x="0" y="0" z="0"></position>
       <rotation x="0" y="10" z="0"></rotation>
-      <scale x="20" y="20" z="20"></scale>
+      <scale x="50" y="50" z="50"></scale>
     </transform>
   </skybox>
 </scene>
