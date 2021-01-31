@@ -16,7 +16,7 @@ Camera::Camera() :
     m_Dragging(false)
 {
     m_AspectRatio = (float)m_ScreenWidth / (float)m_ScreenHeight;
-    m_Projection = glm::perspective(glm::radians(45.0f), m_AspectRatio, 0.1f, 100.0f);
+    m_Projection = glm::perspective(glm::radians(45.0f), m_AspectRatio, 0.1f, 200.0f);
 }
 
 glm::mat4 Camera::GetViewMatrix() {
@@ -147,6 +147,6 @@ bool Camera::OnWindowResized(WindowResizeEvent& e) {
     m_ScreenWidth = e.GetWidth();
     m_ScreenHeight = e.GetHeight();
     m_AspectRatio = (float)m_ScreenWidth / (float)m_ScreenHeight;
-    m_Projection = glm::perspective(glm::radians(45.0f), m_AspectRatio, 0.1f, 100.0f);
+    m_Projection = glm::perspective(glm::radians(45.0f), m_AspectRatio, 0.1f, 200.0f);
     return true;
 }
