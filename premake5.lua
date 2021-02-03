@@ -13,15 +13,16 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "vendor/GLFW/include"
 IncludeDir["GLM"] = "vendor/glm"
 IncludeDir["STB"] = "vendor/stb"
-IncludeDir["VULKAN"] = "vendor/Vulkan/Include"
 IncludeDir["TOL"] = "vendor/tinyobjloader"
 IncludeDir["Glad"] = "vendor/Glad/include"
 IncludeDir["PugIXml"] = "vendor/pugixml/src"
+IncludeDir["ImGui"] = "vendor/imgui"
 
 group "Dependencies"
 	include "vendor/GLFW"
 	include "vendor/Glad"
 	include "vendor/pugixml"
+	include "vendor/imgui"
 
 project "OpenGLRenderer"
 	location "OpenGLRenderer"
@@ -62,7 +63,7 @@ project "OpenGLRenderer"
 		"%{IncludeDir.GLM}",
 		"%{IncludeDir.STB}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.VULKAN}",
+		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.TOL}",
 		"vendor/spdlog/include",
 		"%{IncludeDir.PugIXml}"
@@ -76,7 +77,8 @@ project "OpenGLRenderer"
 		"Glad",
 		"GLFW",
 		"opengl32.lib",
-		"pugixml"
+		"pugixml",
+		"ImGui"
 	}
 
 	filter "system:windows"

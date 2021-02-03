@@ -26,6 +26,9 @@ Application::Application() :
         throw std::runtime_error("Failed to create GLFW window");
     }
 
+    m_ImGuiLayer = new ImGuiLayer();
+    PushOverlay(m_ImGuiLayer);
+
     glfwSetWindowUserPointer(m_Window, &m_Data);
 
     glfwMakeContextCurrent(m_Window);
@@ -157,11 +160,17 @@ void Application::Run() {
         if (!m_Minimized) {
             glfwSwapBuffers(m_Window);
             glfwPollEvents();
+
             for (auto it = m_Listeners.end(); it != m_Listeners.begin(); ) {
                 (*--it)->OnUpdate(timestep);
             }
-        }
 
+            m_ImGuiLayer->Begin();
+            for (Layer* layer : m_LayerStack) {
+                layer->OnImGuiRender();
+            }
+            m_ImGuiLayer->End(m_Width, m_Height);
+        }
     }
 }
 
@@ -204,3 +213,12 @@ void Application::SetVSync(bool enabled) {
     m_Data.VSync = enabled;
 }
 
+void Application::PushLayer(Layer* layer) {
+    m_LayerStack.PushLayer(layer);
+    layer->OnAttach(m_Window);
+}
+
+void Application::PushOverlay(Layer* layer) {
+    m_LayerStack.PushOverlay(layer);
+    layer->OnAttach(m_Window);
+}

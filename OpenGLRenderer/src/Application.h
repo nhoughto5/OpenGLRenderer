@@ -2,6 +2,8 @@
 #include "core/Renderer.h"
 #include "Events/Event.h"
 #include "Events/ApplicationEvent.h"
+#include "imgui/ImGuiLayer.h"
+#include "LayerStack.h"
 
 class Application {
 public:
@@ -20,9 +22,10 @@ private:
     void SetVSync(bool enabled);
     bool OnWindowClose(WindowCloseEvent& e);
     bool OnWindowResize(WindowResizeEvent& e);
+    void PushLayer(Layer* layer);
+    void PushOverlay(Layer* layer);
 
-    struct WindowData
-    {
+    struct WindowData {
         std::string Title;
         uint32_t Width, Height;
         bool VSync;
@@ -39,5 +42,7 @@ private:
     bool m_Minimized = false;
     static Application* s_Instance;
     std::vector<IListener*> m_Listeners;
+    ImGuiLayer* m_ImGuiLayer;
+    LayerStack m_LayerStack;
 };
 
