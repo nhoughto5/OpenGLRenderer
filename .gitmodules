@@ -12,3 +12,6 @@
 [submodule "OpenGLRenderer/vendor/pugixml"]
 	path = OpenGLRenderer/vendor/pugixml
 	url = https://github.com/nhoughto5/pugixml.git
+[submodule "vendor/imgui"]
+	path = vendor/imgui
+	url = https://github.com/nhoughto5/imgui.git
