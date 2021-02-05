@@ -50,8 +50,14 @@ const std::string VECTOR_Z = "z";
 const std::string VECTOR_W = "w";
 
 // Light
+const std::string LIGHTS = "lights";
 const std::string LIGHT = "light";
 const std::string COLOR = "color";
+const std::string DIRECTION = "direction";
+const std::string ATTENUATION = "attenuation";
+const std::string INNERANGLE = "innerAngle";
+const std::string OUTERANGLE = "outerAngle";
+const std::string CUTOFF = "cutoffAngle";
 const std::string STRENGTH = "strength";
 const std::string AMBIENT = "ambient";
 const std::string POINTLIGHT = "pointlight";

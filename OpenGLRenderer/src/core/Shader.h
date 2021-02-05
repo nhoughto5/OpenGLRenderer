@@ -13,6 +13,7 @@ public:
     void SetShaderFileName(std::string fileName);
     void Bind() const;
     void Unbind() const;
+    void UploadUniformBool(const std::string& name, bool value);
     void UploadUniformInt(const std::string& name, int value);
     void UploadUniformFloat(const std::string& name, float value);
     void UploadUniformFloat2(const std::string& name, const glm::vec2& values);

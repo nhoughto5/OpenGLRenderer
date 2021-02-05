@@ -171,6 +171,10 @@ void Shader::Unbind() const {
 	glUseProgram(0);
 }
 
+void Shader::UploadUniformBool(const std::string& name, bool value) {
+	UploadUniformInt(name, value);
+}
+
 void Shader::UploadUniformInt(const std::string& name, int value) {
 	GLint location = glGetUniformLocation(m_ProgramId, name.c_str());
 	glUniform1i(location, value);

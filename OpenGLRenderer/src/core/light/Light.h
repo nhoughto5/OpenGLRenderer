@@ -2,6 +2,8 @@
 #include "glm/glm.hpp"
 
 struct Light {
-    float strength;
-    glm::vec3 color, position;
+    float strength, innerAngle, outerAngle;
+    glm::vec3 color, position, attenuation, direction;
+    bool isSpotLight = false;
+    float tempAngle = 0.0f;
 };

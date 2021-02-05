@@ -36,7 +36,12 @@ uniform sampler2D u_DiffuseTexture;
 uniform vec3 u_DiffuseColour;
 
 uniform vec3 u_LightPosition;
+uniform vec3 u_LightAttenuation;
 uniform vec4 u_LightParams;
+uniform vec3 u_SpotDirection;
+uniform bool u_isSpotLight;
+uniform float u_SpotInnerAngle;
+uniform float u_SpotOuterAngle;
 
 uniform vec4 uAmbientLight;
 
@@ -53,23 +58,32 @@ void main() {
     const float kGamma = 0.4545454;
     const float kInverseGamma = 2.2;
 
+	float lightDistance = length(u_LightPosition - outPos);
 	vec3 norm = normalize(outNormal);
 	vec3 lightDir = normalize(u_LightPosition - outPos);  
-	vec3 diffuse = u_LightParams.w * u_DiffuseColour * max(dot(norm, lightDir), 0.0) * u_LightParams.xyz;
 	vec3 viewFragmentDirection = normalize(outPos);
 	vec3 viewNormal = normalize(outNormal);
 	vec3 reflectedLightDirection = reflect(-lightDir, viewNormal);
+	float spotlightTheta = dot(lightDir, normalize(u_SpotDirection));
+	float attenuation = 1.0 / (u_LightAttenuation.x + (lightDistance * u_LightAttenuation.y) + (lightDistance * lightDistance * u_LightAttenuation.z));
 
-	vec3 specular;
-	if (u_SpecularTextureValid)
+	vec3 specular, diffuse;
+	float spotFade = 1.0;
+	if (u_isSpotLight && spotlightTheta > u_SpotInnerAngle)
 	{
-		float spec = pow(max(dot(viewNormal, reflectedLightDirection), 0.0), u_Specular.w);
-		specular = u_LightParams.xyz * spec * vec3(texture(u_SpecularTexture, outTexCoord));
-	}
-	else
-	{
-		float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
-		specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+		spotFade = (u_SpotInnerAngle - spotlightTheta) / (u_SpotOuterAngle - u_SpotInnerAngle);
+		
+		diffuse = u_LightParams.w * u_DiffuseColour * max(dot(norm, lightDir), 0.0) * u_LightParams.xyz;
+		if (u_SpecularTextureValid)
+		{
+			float spec = pow(max(dot(viewNormal, reflectedLightDirection), 0.0), u_Specular.w);
+			specular = u_LightParams.xyz * spec * vec3(texture(u_SpecularTexture, outTexCoord));
+		}
+		else
+		{
+			float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
+			specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+		}
 	}
 
 	vec4 objectColor;
@@ -82,6 +96,11 @@ void main() {
 
 	color.a = objectColor.a * u_MaterialAlpha;
 	vec3 ambient = uAmbientLight.a * uAmbientLight.rgb;
+
+	ambient  *= attenuation; 
+	diffuse  *= attenuation * spotFade;
+	specular *= attenuation * spotFade;
+
     if (u_DiffuseTextureValid) {
         color.rgb = pow(objectColor.rgb + ambient + diffuse + specular, vec3(kGamma));
     } else {

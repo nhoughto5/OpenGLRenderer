@@ -20,7 +20,7 @@ Scene::Scene(std::string scenePath) {
             else if (name.compare(GRID_NAME) == 0) {
                 loadGrid(child);
             }
-            else if (name.compare(LIGHT) == 0) {
+            else if (name.compare(LIGHTS) == 0) {
                 loadLight(child);
             }
             else if (name.compare(SKYBOX_NAME) == 0) {
@@ -62,12 +62,24 @@ void Scene::loadLight(pugi::xml_node node) {
         if (childName.compare(AMBIENT) == 0) {
             m_LightService->SetAmbientLight(ReadVector(child), std::stof(ReadAttributeByName(child, "strength")));
         }
-        else if (childName.compare(POINTLIGHT) == 0) {
+        else if (childName.compare(LIGHT) == 0) {
             std::shared_ptr<Light> light(new Light());
             for (const auto& child2 : child.children()) {
                 std::string childName2 = child2.name();
                 if (childName2.compare(TRANSFORM_POS) == 0) {
                     light->position = ReadVector(child2);
+                }
+                else if (childName2.compare(ATTENUATION) == 0) {
+                    light->attenuation = ReadVector(child2);
+                }
+                else if (childName2.compare(DIRECTION) == 0) {
+                    light->direction = ReadVector(child2);
+                    light->isSpotLight = true;
+                }
+                else if (childName2.compare(CUTOFF) == 0) {
+                    light->innerAngle = child2.attribute(INNERANGLE.c_str()).as_float();
+                    light->outerAngle = child2.attribute(OUTERANGLE.c_str()).as_float();
+                    light->isSpotLight = true;
                 }
                 else if (childName2.compare(COLOR) == 0) {
                     light->color = ReadVector(child2);
