@@ -45,7 +45,7 @@ void Model::SetMesh(std::string meshPath) {
             float vertCount = vertexFileSize / sizeof(Vertex);
             float indexCount = indexFileSize / sizeof(uint32_t);
             std::vector<Vertex> verts(vertexFileSize / sizeof(Vertex));
-            vertexData.read(reinterpret_cast<char*>(verts.data()), vertexFileSize); 
+            vertexData.read(reinterpret_cast<char*>(verts.data()), vertexFileSize);
 
             std::vector<uint32_t> indices(indexFileSize / sizeof(uint32_t));
             indexData.read(reinterpret_cast<char*>(indices.data()), indexFileSize);
@@ -70,6 +70,11 @@ void Model::AddTransform(std::shared_ptr<Transform> t) {
     }
 }
 
+void Model::RenderShadows(glm::mat4 cameraView, glm::mat4 cameraProj) {
+    for (auto& shape : m_Shapes) {
+        shape->DrawShadow(GL_TRIANGLES, cameraView, cameraProj);
+    }
+}
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {
     for (auto& shape : m_Shapes) {
         shape->Draw(GL_TRIANGLES, cameraView, cameraProj);

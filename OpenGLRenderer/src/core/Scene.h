@@ -19,7 +19,6 @@ public:
     void Deactivate();
     bool IsActive();
     void Update();
-    void AddInstance();
 private:
     void loadModel(pugi::xml_node modelNode);
     void loadLight(pugi::xml_node node);

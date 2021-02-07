@@ -31,6 +31,7 @@ Scene::Scene(std::string scenePath) {
     }
 
     Application::Get().Subscribe(&m_Camera);
+    m_LightService->CreateShadowmaps();
     m_Loaded = true;
 }
 
@@ -81,6 +82,9 @@ void Scene::loadLight(pugi::xml_node node) {
                     light->innerAngle = child2.attribute(INNERANGLE.c_str()).as_float();
                     light->outerAngle = child2.attribute(OUTERANGLE.c_str()).as_float();
                     light->isSpotLight = true;
+                }
+                else if (childName2.compare(SHADOWS) == 0) {
+                    light->generatesShadows = true;
                 }
                 else if (childName2.compare(COLOR) == 0) {
                     light->color = ReadVector(child2);
@@ -166,6 +170,8 @@ void Scene::Update() {
     if (m_Skybox != nullptr) {
         m_Skybox->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
+
+    m_LightService->RenderShadowMaps();
 
     for (const auto item : m_Models) {
         item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());

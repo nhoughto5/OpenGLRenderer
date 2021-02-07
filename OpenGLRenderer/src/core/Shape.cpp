@@ -29,6 +29,13 @@ void Shape::Draw(GLenum mode, glm::mat4& view, glm::mat4& proj) {
     glBindVertexArray(0);
 }
 
+void Shape::DrawShadow(GLenum mode, glm::mat4& view, glm::mat4& proj)
+{
+    glBindVertexArray(m_VAO);
+    glDrawElementsInstanced(mode, m_NumVerts, GL_UNSIGNED_INT, 0, m_InstanceModelMatrices.size());
+    glBindVertexArray(0);
+}
+
 void Shape::AddInstance(glm::mat4 mat)
 {
     glBindVertexArray(m_VAO);

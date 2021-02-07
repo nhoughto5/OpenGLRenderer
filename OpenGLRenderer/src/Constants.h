@@ -50,6 +50,7 @@ const std::string VECTOR_Z = "z";
 const std::string VECTOR_W = "w";
 
 // Light
+const std::string SHADOWS = "shadows";
 const std::string LIGHTS = "lights";
 const std::string LIGHT = "light";
 const std::string COLOR = "color";
