@@ -15,8 +15,6 @@ void Loader::LoadMesh(std::filesystem::path path) {
     std::string meshPath{ path.u8string() };
     std::string fileName{ path.filename().u8string() };
 
-    m_Doc.append_child("mesh").append_attribute("meshname").set_value(fileName.c_str());
-
     m_Directory = std::string(path.parent_path().u8string());
     if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, meshPath.c_str(), m_Directory.c_str())) {
         throw std::runtime_error(warn + err);
@@ -80,14 +78,15 @@ void Loader::LoadMesh(std::filesystem::path path) {
             matData->dissolve = mat.dissolve;
             matData->illum = mat.illum;
 
+            m_Doc.append_child("mesh").append_attribute("meshname").set_value(fileName.c_str());
             WriteShape(verts, indices, shape.name, matData);
+            m_Doc.save_file((m_Directory + "/manifest.xml").c_str());
         }
         else {
             WriteShape(verts, indices, shape.name, NULL);
         }
     }
 
-    m_Doc.save_file((m_Directory + "/manifest.xml").c_str());
     OBJC_CORE_INFO("Succesfully Converted " + fileName);
 }
 
@@ -105,27 +104,30 @@ void Loader::WriteShape(std::vector<Vertex> verts, std::vector<uint32_t> indices
     indexFile.close();
     vertexFile.close();
 
-    auto shape = m_Doc.child("mesh").append_child("shape");
-    shape.append_attribute("name").set_value(name.c_str());
-    shape.append_child("ambient_texname").append_attribute("src").set_value(matData->ambient_texname.c_str());
-    shape.append_child("diffuse_texname").append_attribute("src").set_value(matData->diffuse_texname.c_str());
-    shape.append_child("specular_texname").append_attribute("src").set_value(matData->specular_texname.c_str());
-    shape.append_child("specular_highlight_texname").append_attribute("src").set_value(matData->specular_highlight_texname.c_str());
-    shape.append_child("bump_texname").append_attribute("src").set_value(matData->bump_texname.c_str());
-    shape.append_child("displacement_texname").append_attribute("src").set_value(matData->displacement_texname.c_str());
-    shape.append_child("alpha_texname").append_attribute("src").set_value(matData->alpha_texname.c_str());
-    shape.append_child("reflection_texname").append_attribute("src").set_value(matData->reflection_texname.c_str());
-    
-    WriteVec3(shape.append_child("ambient"), matData->ambient);
-    WriteVec3(shape.append_child("diffuse"), matData->diffuse);
-    WriteVec3(shape.append_child("specular"), matData->specular);
-    WriteVec3(shape.append_child("transmittance"), matData->transmittance);
-    WriteVec3(shape.append_child("emission"), matData->emission);
+    if (matData != nullptr)
+    {
+        auto shape = m_Doc.child("mesh").append_child("shape");
+        shape.append_attribute("name").set_value(name.c_str());
+        shape.append_child("ambient_texname").append_attribute("src").set_value(matData->ambient_texname.c_str());
+        shape.append_child("diffuse_texname").append_attribute("src").set_value(matData->diffuse_texname.c_str());
+        shape.append_child("specular_texname").append_attribute("src").set_value(matData->specular_texname.c_str());
+        shape.append_child("specular_highlight_texname").append_attribute("src").set_value(matData->specular_highlight_texname.c_str());
+        shape.append_child("bump_texname").append_attribute("src").set_value(matData->bump_texname.c_str());
+        shape.append_child("displacement_texname").append_attribute("src").set_value(matData->displacement_texname.c_str());
+        shape.append_child("alpha_texname").append_attribute("src").set_value(matData->alpha_texname.c_str());
+        shape.append_child("reflection_texname").append_attribute("src").set_value(matData->reflection_texname.c_str());
 
-    shape.append_child("shininess").append_attribute("value").set_value(matData->shininess);
-    shape.append_child("ior").append_attribute("value").set_value(matData->ior);
-    shape.append_child("dissolve").append_attribute("value").set_value(matData->dissolve);
-    shape.append_child("illum").append_attribute("value").set_value(matData->illum);
+        WriteVec3(shape.append_child("ambient"), matData->ambient);
+        WriteVec3(shape.append_child("diffuse"), matData->diffuse);
+        WriteVec3(shape.append_child("specular"), matData->specular);
+        WriteVec3(shape.append_child("transmittance"), matData->transmittance);
+        WriteVec3(shape.append_child("emission"), matData->emission);
+
+        shape.append_child("shininess").append_attribute("value").set_value(matData->shininess);
+        shape.append_child("ior").append_attribute("value").set_value(matData->ior);
+        shape.append_child("dissolve").append_attribute("value").set_value(matData->dissolve);
+        shape.append_child("illum").append_attribute("value").set_value(matData->illum);
+    }
 }
 
 void Loader::WriteVec3(pugi::xml_node node, glm::vec3 vec) {
