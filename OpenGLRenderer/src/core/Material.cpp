@@ -24,9 +24,9 @@ void Material::UploadUniforms() {
         auto ambient = m_LightService->GetAmbientLight();
         m_Shader.UploadUniformFloat4("uAmbientLight", glm::vec4(ambient.color, ambient.strength));
         for (const auto& light : m_LightService->GetLights()) {
-            light->direction.x = glm::cos(light->tempAngle);
-            light->direction.z = glm::sin(light->tempAngle);
-            light->tempAngle += 0.01;
+            //light->direction.x = glm::cos(light->tempAngle);
+            //light->direction.z = glm::sin(light->tempAngle);
+            //light->tempAngle += 0.01;
             m_Shader.UploadUniformFloat3("u_LightPosition", light->position);
             m_Shader.UploadUniformFloat3("u_LightAttenuation", light->attenuation);
             m_Shader.UploadUniformFloat3("u_SpotDirection", light->direction);

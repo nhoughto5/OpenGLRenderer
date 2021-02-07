@@ -78,6 +78,8 @@ bool Camera::ProcessKeyEvent(KeyPressedEvent& e) {
     direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
     m_CameraFront = glm::normalize(direction);
 
+    OGLR_CORE_INFO("Camera Position: {0}, {1}, {2}", m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z);
+
     return true;
 }
 

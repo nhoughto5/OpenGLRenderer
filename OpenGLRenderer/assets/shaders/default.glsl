@@ -26,9 +26,7 @@ void main() {
 
 out vec4 color;
 
-in vec3 outNormal; 
-in vec2 outTexCoord; 
-in vec3 outPos;
+in vec3 outNormal; in vec2 outTexCoord; in vec3 outPos;
 
 uniform bool u_DiffuseTextureValid;
 uniform sampler2D u_DiffuseTexture;
@@ -78,18 +76,24 @@ void main() {
         attenuation = 1.0 / (u_LightAttenuation.x + (lightDistance * u_LightAttenuation.y) + (lightDistance * lightDistance * u_LightAttenuation.z));
     }
 
-    vec3 specular, diffuse;
+    vec3 specular;
+
+    vec3 diffuse = u_LightParams.w * u_DiffuseColour * max(dot(norm, lightDir), 0.0) * u_LightParams.xyz;
+    if (u_SpecularTextureValid) {
+        float spec = pow(max(dot(viewNormal, reflectedLightDirection), 0.0), u_Specular.w);
+        specular = u_LightParams.xyz * spec * vec3(texture(u_SpecularTexture, outTexCoord));
+    } else {
+        float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
+        specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+    }
+
     float spotFade = 1.0;
-    if (u_isSpotLight && spotlightTheta > u_SpotInnerAngle) {
+    if (u_isSpotLight) {
         spotFade = (u_SpotInnerAngle - spotlightTheta) / (u_SpotOuterAngle - u_SpotInnerAngle);
 
-        diffuse = u_LightParams.w * u_DiffuseColour * max(dot(norm, lightDir), 0.0) * u_LightParams.xyz;
-        if (u_SpecularTextureValid) {
-            float spec = pow(max(dot(viewNormal, reflectedLightDirection), 0.0), u_Specular.w);
-            specular = u_LightParams.xyz * spec * vec3(texture(u_SpecularTexture, outTexCoord));
-        } else {
-            float specularStrength = max(0.0, dot(viewFragmentDirection, reflectedLightDirection));
-            specular = u_LightParams.w * u_Specular.rgb * pow(u_LightParams.w, u_Specular.w);
+        if (spotlightTheta < u_SpotInnerAngle) {
+            specular = vec3(0, 0, 0);
+            diffuse = vec3(0, 0, 0);
         }
     }
 
