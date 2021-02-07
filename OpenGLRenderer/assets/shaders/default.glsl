@@ -50,6 +50,9 @@ uniform bool u_SpecularTextureValid;
 uniform sampler2D u_SpecularTexture;
 uniform vec4 u_Specular;
 
+uniform sampler2D u_BumpTexture;
+uniform bool u_BumpTextureValid;
+
 uniform float u_MaterialAlpha;
 
 void main() {
@@ -57,7 +60,16 @@ void main() {
     const float kInverseGamma = 2.2;
 
     float lightDistance = length(u_LightPosition - outPos);
-    vec3 norm = normalize(outNormal);
+
+	vec3 norm;
+	if (u_BumpTextureValid)
+	{
+		norm = normalize(texture(u_BumpTexture, outTexCoord).xyz);
+	}
+	else
+	{
+		norm = normalize(outNormal);
+	}
 
     vec3 lightDir;
     if (u_isPointLight) {

@@ -60,6 +60,10 @@ void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
     if (!matData->diffuse_texname.empty()) AddTexture(matData->diffuse_texname, "u_DiffuseTexture");
     if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "u_AmbientTexture");
     if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "u_SpecularTexture");
+    if (!matData->bump_texname.empty())
+    {
+        AddTexture(matData->bump_texname, "u_BumpTexture");
+    }
     m_Shader.UploadUniformFloat3("u_DiffuseColour", matData->diffuse);
     m_Shader.UploadUniformFloat4("u_Specular", glm::vec4(matData->specular, matData->shininess));
     m_Shader.UploadUniformFloat("u_MaterialAlpha", matData->dissolve);
