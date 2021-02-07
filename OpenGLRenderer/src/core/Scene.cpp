@@ -68,6 +68,7 @@ void Scene::loadLight(pugi::xml_node node) {
                 std::string childName2 = child2.name();
                 if (childName2.compare(TRANSFORM_POS) == 0) {
                     light->position = ReadVector(child2);
+                    light->isPointLight = true;
                 }
                 else if (childName2.compare(ATTENUATION) == 0) {
                     light->attenuation = ReadVector(child2);
@@ -89,14 +90,17 @@ void Scene::loadLight(pugi::xml_node node) {
 
             m_LightService->AddLight(light);
 
-            std::shared_ptr<Model> m(new Model("PointLight"));
-            m->SetMesh("light/");
-            std::shared_ptr<Transform> transform(new Transform());
-            transform->Position = light->position;
-            transform->Scale = glm::vec3(0.05, 0.05, 0.05);
-            transform->Rotation = glm::vec3(180, 0, 0);
-            m->AddTransform(transform);
-            AddModel("light/light.obj", m);
+            if (light->isPointLight)
+            {
+                std::shared_ptr<Model> m(new Model("PointLight"));
+                m->SetMesh("light/");
+                std::shared_ptr<Transform> transform(new Transform());
+                transform->Position = light->position;
+                transform->Scale = glm::vec3(0.05, 0.05, 0.05);
+                transform->Rotation = glm::vec3(180, 0, 0);
+                m->AddTransform(transform);
+                AddModel("light/light.obj", m);
+            }
         }
     }
 }

@@ -37,6 +37,10 @@
       <color strength="2.0" r="0.984" g="0.984" b="0.758"></color>
       <attenuation x="1.0" y="0.09" z="0.032"></attenuation>
     </light>
+    <!--<light>
+      <direction x="-1" y="-0.5" z="0"></direction>
+      <color strength="200.0" r="0.984" g="0.984" b="0.758"></color>
+    </light>-->
   </lights>
   <skybox srcFolder="skybox/">
     <transform>
