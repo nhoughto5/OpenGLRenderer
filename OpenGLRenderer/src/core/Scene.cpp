@@ -171,7 +171,8 @@ void Scene::Update() {
         m_Skybox->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
 
-    m_LightService->RenderShadowMaps();
+    m_LightService->StartShadowRender();
+    m_LightService->EndShadowRender();
 
     for (const auto item : m_Models) {
         item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());

@@ -1,5 +1,6 @@
 #pragma once
 #include "core/light/Light.h"
+#include "core/Shader.h"
 
 class LightService {
 public:
