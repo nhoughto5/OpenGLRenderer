@@ -73,3 +73,19 @@ void LightService::EndShadowRender()
 
     m_ShadowShader.Unbind();
 }
+
+void LightService::SetShadowModelMatrix(glm::mat4 modelMat)
+{
+    if(m_ShadowShader.isLoaded())
+    {
+        m_ShadowShader.UploadUniformMat4("u_Model", modelMat);
+    }
+}
+
+void LightService::SetShadowLightTransport(glm::mat4 lightTransport)
+{
+    if (m_ShadowShader.isLoaded())
+    {
+        m_ShadowShader.UploadUniformMat4("u_LightSpaceMatrix", lightTransport);
+    }
+}

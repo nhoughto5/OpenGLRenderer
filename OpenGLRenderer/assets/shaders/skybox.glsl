@@ -21,8 +21,10 @@ out vec4 color;
 
 in vec3 TexCoord;
 
+uniform vec4 uAmbientLight;
+
 uniform samplerCube skybox;
 
 void main() {
-	color = texture(skybox, TexCoord);
+	color = vec4((uAmbientLight.rgb * texture(skybox, TexCoord).rgb), 1.0);
 }

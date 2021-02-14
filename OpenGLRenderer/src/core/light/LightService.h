@@ -13,6 +13,8 @@ public:
     void CreateShadowmaps();
     void StartShadowRender();
     void EndShadowRender();
+    void SetShadowModelMatrix(glm::mat4 modelMat);
+    void SetShadowLightTransport(glm::mat4 lightTransport);
 private:
     static LightService* s_Instance;
     Light m_AmbienLight;

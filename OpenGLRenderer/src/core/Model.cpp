@@ -70,9 +70,14 @@ void Model::AddTransform(std::shared_ptr<Transform> t) {
     }
 }
 
-void Model::RenderShadows(glm::mat4 cameraView, glm::mat4 cameraProj) {
+std::vector<glm::mat4> Model::GetModelMatrices()
+{
+    return m_TransformMatrices;
+}
+
+void Model::RenderShadows() {
     for (auto& shape : m_Shapes) {
-        shape->DrawShadow(GL_TRIANGLES, cameraView, cameraProj);
+        shape->DrawShadow(GL_TRIANGLES);
     }
 }
 void Model::Render(glm::mat4 cameraView, glm::mat4 cameraProj) {

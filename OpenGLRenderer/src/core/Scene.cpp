@@ -65,23 +65,24 @@ void Scene::loadLight(pugi::xml_node node) {
         }
         else if (childName.compare(LIGHT) == 0) {
             std::shared_ptr<Light> light(new Light());
+            bool dirSet = false, posSet = false, cutoffSet = false;
             for (const auto& child2 : child.children()) {
                 std::string childName2 = child2.name();
                 if (childName2.compare(TRANSFORM_POS) == 0) {
                     light->position = ReadVector(child2);
-                    light->isPointLight = true;
+                    posSet = true;
                 }
                 else if (childName2.compare(ATTENUATION) == 0) {
                     light->attenuation = ReadVector(child2);
                 }
                 else if (childName2.compare(DIRECTION) == 0) {
                     light->direction = ReadVector(child2);
-                    light->isSpotLight = true;
+                    dirSet = true;
                 }
                 else if (childName2.compare(CUTOFF) == 0) {
                     light->innerAngle = child2.attribute(INNERANGLE.c_str()).as_float();
                     light->outerAngle = child2.attribute(OUTERANGLE.c_str()).as_float();
-                    light->isSpotLight = true;
+                    cutoffSet = true;
                 }
                 else if (childName2.compare(SHADOWS) == 0) {
                     light->generatesShadows = true;
@@ -90,6 +91,22 @@ void Scene::loadLight(pugi::xml_node node) {
                     light->color = ReadVector(child2);
                     light->strength = std::stof(ReadAttributeByName(child2, STRENGTH));
                 }
+            }
+
+            if (cutoffSet && posSet && dirSet)
+            {
+                light->isSpotLight = true;
+                light->isPointLight = true;
+            }
+            else if (posSet && !dirSet)
+            {
+                light->isSpotLight = false;
+                light->isPointLight = true;
+            }
+            else
+            {
+                light->isSpotLight = false;
+                light->isPointLight = false;
             }
 
             m_LightService->AddLight(light);
@@ -172,6 +189,20 @@ void Scene::Update() {
     }
 
     m_LightService->StartShadowRender();
+    for (const auto& light : m_LightService->GetLights())
+    {
+        if (light->generatesShadows)
+        {
+            for (const auto& item : m_Models) {
+                for (const auto& instance : item.second->GetModelMatrices())
+                {
+                    //m_LightService->SetShadowModelMatrix(instance);
+                    //m_LightService->SetShadowLightTransport(light->GetViewMatrix() * light->GetProjectionMatrix());
+                    //item.second->RenderShadows();
+                }
+            }
+        }
+    }
     m_LightService->EndShadowRender();
 
     for (const auto item : m_Models) {

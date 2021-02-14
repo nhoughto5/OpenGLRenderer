@@ -24,9 +24,6 @@ void Material::UploadUniforms() {
         auto ambient = m_LightService->GetAmbientLight();
         m_Shader.UploadUniformFloat4("uAmbientLight", glm::vec4(ambient.color, ambient.strength));
         for (const auto& light : m_LightService->GetLights()) {
-            //light->direction.x = glm::cos(light->tempAngle);
-            //light->direction.z = glm::sin(light->tempAngle);
-            //light->tempAngle += 0.01;
             m_Shader.UploadUniformFloat3("u_LightPosition", light->position);
             m_Shader.UploadUniformFloat3("u_LightAttenuation", light->attenuation);
             m_Shader.UploadUniformFloat3("u_SpotDirection", light->direction);
@@ -60,10 +57,7 @@ void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
     if (!matData->diffuse_texname.empty()) AddTexture(matData->diffuse_texname, "u_DiffuseTexture");
     if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "u_AmbientTexture");
     if (!matData->ambient_texname.empty()) AddTexture(matData->ambient_texname, "u_SpecularTexture");
-    if (!matData->bump_texname.empty())
-    {
-        AddTexture(matData->bump_texname, "u_BumpTexture");
-    }
+    if (!matData->bump_texname.empty()) AddTexture(matData->bump_texname, "u_BumpTexture");
     m_Shader.UploadUniformFloat3("u_DiffuseColour", matData->diffuse);
     m_Shader.UploadUniformFloat4("u_Specular", glm::vec4(matData->specular, matData->shininess));
     m_Shader.UploadUniformFloat("u_MaterialAlpha", matData->dissolve);

@@ -8,10 +8,11 @@ class Model
 public:
     Model();
     Model(std::string name);
-    void RenderShadows(glm::mat4 cameraView, glm::mat4 cameraProj);
+    void RenderShadows();
     virtual void Render(glm::mat4 cameraView, glm::mat4 cameraProj);
     void SetMesh(std::string meshName);
     void AddTransform(std::shared_ptr<Transform> t);
+    std::vector<glm::mat4> GetModelMatrices();
 protected:
     std::vector<std::shared_ptr<Shape>> m_Shapes;
     std::string m_Name;

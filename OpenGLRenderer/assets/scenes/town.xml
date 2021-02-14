@@ -2,7 +2,8 @@
   <model name="skull" mesh="skull/">
     <transform>
       <position x="0" y="1" z="-1"></position>
-      <rotation x="-90" y="0" z="0"></rotation>
+      <!--<rotation x="-90" y="0" z="0"></rotation>-->
+      <rotation x="0" y="0" z="0"></rotation>
       <scale x="0.01" y="0.01" z="0.01"></scale>
     </transform>
   </model>
@@ -10,12 +11,14 @@
     <transform>
       <position x="2" y="1" z="-2"></position>
       <rotation x="0" y="-90" z="0"></rotation>
+      <!--<rotation x="0" y="0" z="0"></rotation>-->
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
   <model name="blackSmith2" mesh="black_smith/">
     <transform>
       <position x="-2" y="1" z="-2.5"></position>
+      <!--<rotation x="0" y="0" z="0"></rotation>-->
       <rotation x="-2" y="90" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
@@ -30,19 +33,19 @@
   <!--<grid size="30"></grid>-->
   <lights>
     <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
-    <!--<light name="spotlight">
+    <light name="spotlight">
       <cutoffAngle innerAngle="30" outerAngle="45"></cutoffAngle>
-      <position x="0" y="1" z="-2.2"></position>
-      <direction x="1" y="0" z="0"></direction>
+      <position x="0" y="3" z="-2.2"></position>
+      <direction x="0" y="-1" z="0"></direction>
       <color strength="2.0" r="0.984" g="0.984" b="0.758"></color>
       <attenuation x="1.0" y="0.09" z="0.032"></attenuation>
       <generatesShadows></generatesShadows>
-    </light>-->
-    <light name="direction light">
+    </light>
+    <!--<light name="direction light">
       <direction x="-1" y="-0.5" z="0"></direction>
       <color strength=".1" r="0.984" g="0.984" b="0.758"></color>
       <shadows></shadows>
-    </light>
+    </light>-->
   </lights>
   <skybox srcFolder="skybox/">
     <transform>

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Skybox.h"
+#include "core/light/LightService.h"
 
 Skybox::Skybox(std::string src) :
     m_Shader("skybox.glsl")
@@ -87,6 +88,10 @@ void Skybox::SetTransform(std::shared_ptr<Transform> t) {
     auto transformMatrix = glm::mat4(1.0);
     transformMatrix = glm::translate(transformMatrix, t->Position);
     transformMatrix = glm::scale(transformMatrix * t->GetRotationMatrix(), t->Scale);
+
+    const auto m_LightService = LightService::GetInstance();
+    const auto amb = m_LightService->GetAmbientLight();
+    m_Shader.UploadUniformFloat4("uAmbientLight", glm::vec4(amb.color, amb.strength));
     m_Shader.UploadUniformMat4("u_Model", transformMatrix);
     m_Shader.Unbind();
 }
