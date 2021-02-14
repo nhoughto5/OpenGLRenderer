@@ -62,7 +62,6 @@ void main() {
     const float kGamma = 0.4545454;
     const float kInverseGamma = 2.2;
 
-	//vec3 lightPosition = (transpose(inverse(outMat)) * vec4(u_LightPosition, 1.0)).xyz;
 	vec3 lightPosition = u_LightPosition;
 
     vec3 norm;
