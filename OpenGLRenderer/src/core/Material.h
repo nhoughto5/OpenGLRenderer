@@ -14,6 +14,7 @@ public:
     void UpdateTransform(glm::mat4& view, glm::mat4& proj);
     void UploadUniforms();
     void SetMaterialData(std::shared_ptr<MaterialData> matData);
+    void SetShadowMap();
 private:
     void AddTexture(std::string src, std::string typeName);
 

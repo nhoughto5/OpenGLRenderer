@@ -1,9 +1,8 @@
 <scene sceneName="townScene">
   <model name="skull" mesh="skull/">
     <transform>
-      <position x="0" y="1" z="-1"></position>
-      <!--<rotation x="-90" y="0" z="0"></rotation>-->
-      <rotation x="0" y="0" z="0"></rotation>
+      <position x="0" y="1" z="-2.2"></position>
+      <rotation x="-90" y="0" z="0"></rotation>
       <scale x="0.01" y="0.01" z="0.01"></scale>
     </transform>
   </model>
@@ -11,14 +10,12 @@
     <transform>
       <position x="2" y="1" z="-2"></position>
       <rotation x="0" y="-90" z="0"></rotation>
-      <!--<rotation x="0" y="0" z="0"></rotation>-->
       <scale x="1" y="1" z="1"></scale>
     </transform>
   </model>
   <model name="blackSmith2" mesh="black_smith/">
     <transform>
       <position x="-2" y="1" z="-2.5"></position>
-      <!--<rotation x="0" y="0" z="0"></rotation>-->
       <rotation x="-2" y="90" z="0"></rotation>
       <scale x="1" y="1" z="1"></scale>
     </transform>
@@ -34,7 +31,7 @@
   <lights>
     <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
     <light name="spotlight">
-      <cutoffAngle innerAngle="30" outerAngle="45"></cutoffAngle>
+      <cutoffAngle innerAngle="50" outerAngle="70"></cutoffAngle>
       <position x="0" y="3" z="-2.2"></position>
       <direction x="0" y="-1" z="0"></direction>
       <color strength="2.0" r="0.984" g="0.984" b="0.758"></color>

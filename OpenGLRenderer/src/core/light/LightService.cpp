@@ -33,8 +33,8 @@ void LightService::CreateShadowmaps()
     for (const auto light : m_Lights)
     {
         glGenFramebuffers(1, &light->depthMapFBO);
-        glGenTextures(1, &light->depthMap);
-        glBindTexture(GL_TEXTURE_2D, light->depthMap);
+        glGenTextures(1, &light->depthMapTexture);
+        glBindTexture(GL_TEXTURE_2D, light->depthMapTexture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
             light->shadowMapWidth, light->shadowMapHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -43,7 +43,7 @@ void LightService::CreateShadowmaps()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
         glBindFramebuffer(GL_FRAMEBUFFER, light->depthMapFBO);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, light->depthMap, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, light->depthMapTexture, 0);
         glDrawBuffer(GL_NONE);
         glReadBuffer(GL_NONE);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

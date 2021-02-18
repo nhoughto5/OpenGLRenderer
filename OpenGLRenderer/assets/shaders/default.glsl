@@ -10,9 +10,11 @@ out vec3 outNormal;
 out vec2 outTexCoord;
 out vec3 outPos;
 out vec3 cameraPos;
+out vec4 fragPosLightSpace;
 
 uniform mat4 u_Projection;
 uniform mat4 u_View;
+uniform mat4 u_LightSpaceMatrix;
 
 void main() {
     vec4 worldPosition = aInstanceModelMatrix * vec4(a_Position, 1.0);
@@ -21,6 +23,7 @@ void main() {
     outNormal = transpose(inverse(mat3(aInstanceModelMatrix))) * aNormal;
     outTexCoord = aTexCoord;
 	cameraPos = vec3(inverse(u_View)[3]);
+    fragPosLightSpace = u_LightSpaceMatrix * worldPosition;
 }
 
 #type fragment
@@ -30,6 +33,7 @@ out vec4 color;
 
 in vec3 outNormal; in vec2 outTexCoord; in vec3 outPos;
 in vec3 cameraPos;
+in vec4 fragPosLightSpace;
 
 uniform bool u_DiffuseTextureValid;
 uniform sampler2D u_DiffuseTexture;
@@ -58,11 +62,19 @@ uniform bool u_BumpTextureValid;
 
 uniform float u_MaterialAlpha;
 
+uniform sampler2D shadowMap;
+
+float shadowCalc(vec4 fragLightSpace)
+{
+    vec3 projCoords = fragLightSpace.xyz / fragLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    return projCoords.z > closestDepth ? 1.0 : 0.0;
+}
+
 void main() {
     const float kGamma = 0.4545454;
     const float kInverseGamma = 2.2;
-
-	vec3 lightPosition = u_LightPosition;
 
     vec3 norm;
     if (u_BumpTextureValid) {
@@ -73,7 +85,7 @@ void main() {
 
     vec3 lightDir;
     if (u_isPointLight || u_isSpotLight) {
-        lightDir = normalize(lightPosition - outPos);
+        lightDir = normalize(u_LightPosition - outPos);
     } else {
         lightDir = normalize(-u_SpotDirection);
     }
@@ -81,7 +93,7 @@ void main() {
     vec3 viewFragmentDirection = normalize(cameraPos - outPos);
     vec3 viewNormal = normalize(outNormal);
 
-    float lightDistance = length(lightPosition - outPos);
+    float lightDistance = length(u_LightPosition - outPos);
     float attenuation = 1.0;
     if (u_isPointLight) {
         attenuation = 1.0 / (u_LightAttenuation.x + (lightDistance * u_LightAttenuation.y) + (lightDistance * lightDistance * u_LightAttenuation.z));
@@ -125,7 +137,7 @@ void main() {
     specular *= attenuation * spotFade;
 
     if (u_DiffuseTextureValid) {
-        color.rgb = pow(objectColor.rgb + ambient + diffuse + specular, vec3(kGamma));
+        color.rgb = pow(objectColor.rgb + ambient + ((1.0 - shadowCalc(fragPosLightSpace))*(diffuse + specular)), vec3(kGamma));
     } else {
         color.rgb = pow(objectColor.rgb * (ambient + diffuse) + specular, vec3(kGamma));
     }

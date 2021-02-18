@@ -14,7 +14,6 @@ static GLenum ShaderTypeFromString(const std::string& type) {
 
 Shader::Shader()
 {
-	OGLR_CORE_INFO("CREATING SHADER");
 }
 
 Shader::Shader(const std::string& filePath) {
@@ -45,8 +44,8 @@ void Shader::SetShaderFileName(std::string fileName)
 {
     std::string source = ReadFile(SHADER_FOLDER + fileName);
     auto shaderSources = PreProcess(source);
-    Compile(shaderSources);
 	m_Name = fileName;
+    Compile(shaderSources);
 }
 
 void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {
@@ -122,6 +121,7 @@ void Shader::Compile(std::unordered_map<GLenum, std::string>& shaderSources) {
 
 	m_ProgramId = program;
 	m_IsLoaded = true;
+	OGLR_CORE_INFO("Sucesfully Compiled Shader: {0}", m_Name);
 }
 
 std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source) {

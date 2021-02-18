@@ -32,8 +32,21 @@ void Material::UploadUniforms() {
             m_Shader.UploadUniformFloat4("u_LightParams", glm::vec4(light->color, light->strength));
             m_Shader.UploadUniformFloat("u_SpotInnerAngle", glm::cos(glm::radians(light->innerAngle)));
             m_Shader.UploadUniformFloat("u_SpotOuterAngle", glm::cos(glm::radians(light->outerAngle)));
+            SetShadowMap();
+
+            auto light = m_LightService->GetLights()[0];
+            m_Shader.UploadUniformMat4("u_LightSpaceMatrix", light->GetProjectionMatrix() * light->GetViewMatrix());
         }
     }
+}
+
+void Material::SetShadowMap() {
+
+    glUniform1i(glGetUniformLocation(m_Shader.ShaderId(), "shadowMap"), m_Textures.size());
+
+    auto light = m_LightService->GetLights()[0];
+    glActiveTexture(GL_TEXTURE0 + m_Textures.size());
+    glBindTexture(GL_TEXTURE_2D, light->depthMapTexture);
 }
 
 void Material::Disable() {
@@ -61,5 +74,6 @@ void Material::SetMaterialData(std::shared_ptr<MaterialData> matData) {
     m_Shader.UploadUniformFloat3("u_DiffuseColour", matData->diffuse);
     m_Shader.UploadUniformFloat4("u_Specular", glm::vec4(matData->specular, matData->shininess));
     m_Shader.UploadUniformFloat("u_MaterialAlpha", matData->dissolve);
+
     m_Shader.Unbind();
 }

@@ -196,9 +196,9 @@ void Scene::Update() {
             for (const auto& item : m_Models) {
                 for (const auto& instance : item.second->GetModelMatrices())
                 {
-                    //m_LightService->SetShadowModelMatrix(instance);
-                    //m_LightService->SetShadowLightTransport(light->GetViewMatrix() * light->GetProjectionMatrix());
-                    //item.second->RenderShadows();
+                    m_LightService->SetShadowModelMatrix(instance);
+                    m_LightService->SetShadowLightTransport(light->GetViewMatrix() * light->GetProjectionMatrix());
+                    item.second->RenderShadows();
                 }
             }
         }
