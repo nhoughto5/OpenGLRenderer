@@ -3,8 +3,26 @@
     <transform>
       <position x="0" y="0" z="0"></position>
       <rotation x="0" y="0" z="0"></rotation>
-      <scale x="1" y="1" z="1"></scale>
+      <scale x="10" y="10" z="10"></scale>
+    </transform>
+  </model>
+  <model name="skull" mesh="skull/">
+    <transform>
+      <position x="0" y="1" z="-2.2"></position>
+      <rotation x="-90" y="0" z="0"></rotation>
+      <scale x="0.01" y="0.01" z="0.01"></scale>
     </transform>
   </model>
   <grid size="30"></grid>
+  <lights>
+    <ambient strength="0.01" r="1.0" g="1.0" b="1.0"></ambient>
+    <light name="spotlight">
+      <cutoffAngle innerAngle="50" outerAngle="70"></cutoffAngle>
+      <position x="0" y="3" z="-2.2"></position>
+      <direction x="0" y="-1" z="0"></direction>
+      <color strength="2.0" r="0.984" g="0.984" b="0.758"></color>
+      <attenuation x="1.0" y="0.09" z="0.032"></attenuation>
+      <generatesShadows></generatesShadows>
+    </light>
+  </lights>
 </scene>

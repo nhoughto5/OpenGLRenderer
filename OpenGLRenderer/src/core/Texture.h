@@ -6,6 +6,8 @@ public:
 
     void Enable();
     void Disable();
+
+    GLuint Id() { return m_TextureId; }
 private:
     uint32_t m_ProgramId;
     std::string m_FileName;

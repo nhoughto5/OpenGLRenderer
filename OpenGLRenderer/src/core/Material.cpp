@@ -41,12 +41,13 @@ void Material::UploadUniforms() {
 }
 
 void Material::SetShadowMap() {
-
+    if (m_Textures.size() == 0) return;
     glUniform1i(glGetUniformLocation(m_Shader.ShaderId(), "shadowMap"), m_Textures.size());
 
     auto light = m_LightService->GetLights()[0];
     glActiveTexture(GL_TEXTURE0 + m_Textures.size());
     glBindTexture(GL_TEXTURE_2D, light->depthMapTexture);
+    //glBindTexture(GL_TEXTURE_2D, m_Textures[0]->Id());
 }
 
 void Material::Disable() {

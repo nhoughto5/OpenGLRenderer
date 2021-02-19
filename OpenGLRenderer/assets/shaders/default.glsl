@@ -136,9 +136,10 @@ void main() {
     diffuse *= attenuation * spotFade;
     specular *= attenuation * spotFade;
 
+    float shadow = (1.0 - shadowCalc(fragPosLightSpace));
     if (u_DiffuseTextureValid) {
-        color.rgb = pow(objectColor.rgb + ambient + ((1.0 - shadowCalc(fragPosLightSpace))*(diffuse + specular)), vec3(kGamma));
+        color.rgb = pow(objectColor.rgb + ambient + (shadow * (diffuse + specular)), vec3(kGamma));
     } else {
-        color.rgb = pow(objectColor.rgb * (ambient + diffuse) + specular, vec3(kGamma));
+        color.rgb = pow(objectColor.rgb * (ambient + shadow * diffuse) + shadow * specular, vec3(kGamma));
     }
 }
