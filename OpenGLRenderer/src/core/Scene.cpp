@@ -205,7 +205,14 @@ void Scene::Update() {
     }
     m_LightService->EndShadowRender();
 
+
+    auto l = m_LightService->GetLights();
     for (const auto item : m_Models) {
-        item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
+        //item.second->Render(l[0]->GetViewMatrix(), m_Camera.GetProjectionMatrix());
+        auto m = l[0]->GetProjectionMatrix();
+        auto p = l[0]->GetViewMatrix();
+        item.second->Render(l[0]->GetViewMatrix(), l[0]->GetProjectionMatrix());
+        //item.second->Render(m_Camera.GetViewMatrix(), l[0]->GetProjectionMatrix());
+        //item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
     }
 }
