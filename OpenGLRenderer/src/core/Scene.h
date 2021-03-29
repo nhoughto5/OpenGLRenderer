@@ -32,5 +32,12 @@ private:
     LightService* m_LightService;
     bool m_Loaded{false};
     std::shared_ptr<Skybox> m_Skybox;
+
+    // Debug
+    GLuint d_VAO, d_VBO;
+    Shader d_Shader;
+    void setupDebugTexture();
+    void renderDebugTexture();
+    std::shared_ptr<Texture> d_Texture;
 };
 

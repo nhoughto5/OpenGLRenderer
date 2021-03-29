@@ -15,6 +15,7 @@ public:
     void UploadUniforms();
     void SetMaterialData(std::shared_ptr<MaterialData> matData);
     void SetShadowMap();
+    std::vector<std::shared_ptr<Texture>> Textures() { return m_Textures; }
 private:
     void AddTexture(std::string src, std::string typeName);
 

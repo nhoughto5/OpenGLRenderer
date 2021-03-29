@@ -33,6 +33,9 @@ Scene::Scene(std::string scenePath) {
     Application::Get().Subscribe(&m_Camera);
     m_LightService->CreateShadowmaps();
     m_Loaded = true;
+
+    d_Shader.SetShaderFileName("debug.glsl");
+    setupDebugTexture();
 }
 
 void Scene::loadGrid(pugi::xml_node node) {
@@ -93,26 +96,22 @@ void Scene::loadLight(pugi::xml_node node) {
                 }
             }
 
-            if (cutoffSet && posSet && dirSet)
-            {
+            if (cutoffSet && posSet && dirSet) {
                 light->isSpotLight = true;
                 light->isPointLight = true;
             }
-            else if (posSet && !dirSet)
-            {
+            else if (posSet && !dirSet) {
                 light->isSpotLight = false;
                 light->isPointLight = true;
             }
-            else
-            {
+            else {
                 light->isSpotLight = false;
                 light->isPointLight = false;
             }
 
             m_LightService->AddLight(light);
 
-            if (light->isPointLight)
-            {
+            if (light->isPointLight) {
                 std::shared_ptr<Model> m(new Model("PointLight"));
                 m->SetMesh("light/");
                 std::shared_ptr<Transform> transform(new Transform());
@@ -206,10 +205,49 @@ void Scene::Update() {
     m_LightService->EndShadowRender();
 
 
-    auto l = m_LightService->GetLights();
-    for (const auto item : m_Models) {
-        //item.second->Render(l[0]->GetViewMatrix(), m_Camera.GetProjectionMatrix());
-        //item.second->Render(l[0]->GetViewMatrix(), l[0]->GetProjectionMatrix());
-        item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
-    }
+    //auto l = m_LightService->GetLights();
+    //for (const auto item : m_Models) {
+    //    //item.second->Render(l[0]->GetViewMatrix(), m_Camera.GetProjectionMatrix());
+    //    //item.second->Render(l[0]->GetViewMatrix(), l[0]->GetProjectionMatrix());
+    //    item.second->Render(m_Camera.GetViewMatrix(), m_Camera.GetProjectionMatrix());
+    //}
+
+    renderDebugTexture();
+}
+
+void Scene::setupDebugTexture() {
+    glGenVertexArrays(1, &d_VAO);
+    glBindVertexArray(d_VAO);
+
+    static const GLfloat g_quad_vertex_buffer_data[] = {
+    -0.5f, -0.5f, 0.0, 0.0,
+     0.5f, -0.5f, 1.0, 0.0,
+     0.5f,  0.5f, 1.0, 1.0,
+
+     -0.5f, -0.5f, 0.0, 0.0,
+     0.5f,  0.5f, 1.0, 1.0,
+     -0.5f, 0.5, 0.0, 1.0
+    };
+
+    glGenBuffers(1, &d_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, d_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(g_quad_vertex_buffer_data), g_quad_vertex_buffer_data, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    d_Shader.Bind();
+    d_Texture = std::make_shared<Texture>("skull/skull.jpg", d_Shader.ShaderId(), "debugTexture", 0);
+}
+
+void Scene::renderDebugTexture() {
+    d_Shader.Bind();
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, d_Texture->Id());
+    glBindVertexArray(d_VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }

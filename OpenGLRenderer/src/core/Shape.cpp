@@ -32,6 +32,7 @@ void Shape::Draw(GLenum mode, glm::mat4& view, glm::mat4& proj) {
 void Shape::DrawShadow(GLenum mode)
 {
     glBindVertexArray(m_VAO);
+    m_Material.SetShadowMap();
     glDrawElementsInstanced(mode, m_NumVerts, GL_UNSIGNED_INT, 0, m_InstanceModelMatrices.size());
     glBindVertexArray(0);
 }
